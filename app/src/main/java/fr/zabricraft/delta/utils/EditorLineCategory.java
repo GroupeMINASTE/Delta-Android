@@ -16,7 +16,7 @@ public enum EditorLineCategory {
     variable("variable"), structure("structure"), output("output"), settings("settings"), add("add");
 
     // Properties
-    String rawValue;
+    public final String rawValue;
 
     // Constructor
     EditorLineCategory(String rawValue) {

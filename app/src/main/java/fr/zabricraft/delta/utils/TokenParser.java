@@ -3,6 +3,7 @@ package fr.zabricraft.delta.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.zabricraft.delta.tokens.SyntaxError;
 import fr.zabricraft.delta.tokens.Token;
 
 public class TokenParser {

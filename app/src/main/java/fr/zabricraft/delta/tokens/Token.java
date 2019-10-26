@@ -20,6 +20,6 @@ public interface Token {
 
     Token inverse();
 
-    double asDouble();
+    Double asDouble();
 
 }

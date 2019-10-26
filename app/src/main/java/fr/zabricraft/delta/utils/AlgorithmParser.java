@@ -86,7 +86,7 @@ public class AlgorithmParser {
                 }
 
                 // Parse block
-                List<Action> block = new AlgorithmParser(0, null, false, "", null, content.toString()).execute().getRoot().actions;
+                List<Action> block = new AlgorithmParser(0, null, false, "", null, content.toString()).execute().getRoot().getActions();
 
                 // Create an action from the line
                 Action action = createAction();

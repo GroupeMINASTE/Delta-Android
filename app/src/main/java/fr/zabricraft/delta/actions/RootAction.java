@@ -23,6 +23,10 @@ public class RootAction implements ActionBlock {
         this.actions = actions;
     }
 
+    public List<Action> getActions() {
+        return actions;
+    }
+
     public void append(List<Action> actions) {
         this.actions.addAll(actions);
     }

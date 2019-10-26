@@ -9,6 +9,7 @@ import java.util.List;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.ArrayExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
+import fr.zabricraft.delta.tokens.Equation;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;

@@ -2,6 +2,7 @@ package fr.zabricraft.delta.utils;
 
 import java.util.HashMap;
 
+import fr.zabricraft.delta.tokens.Equation;
 import fr.zabricraft.delta.tokens.Token;
 
 public enum Operation {
@@ -10,7 +11,7 @@ public enum Operation {
     addition("+"), subtraction("-"), multiplication("*"), division("/"), modulo("%"), power("^"), root("√"), equals("="), unequals("!="), greaterThan(">"), lessThan("<"), greaterThanOrEquals(">="), lessThanOrEquals("<="), list(","), vector(";");
 
     // Properties
-    String rawValue;
+    public final String rawValue;
 
     // Constructor
     Operation(String rawValue) {

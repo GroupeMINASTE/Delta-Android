@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.tokens.FormattedToken;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
