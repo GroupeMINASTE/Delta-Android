@@ -40,8 +40,7 @@ public class Variable implements Token {
         if (operation == Operation.addition) {
             // Right is a sum
             if (right instanceof Sum) {
-                List<Token> values = new ArrayList<>();
-                values.addAll(((Sum) right).getValues());
+                List<Token> values = new ArrayList<>(((Sum) right).getValues());
                 values.add(this);
                 return new Sum(values);
             }
@@ -58,8 +57,7 @@ public class Variable implements Token {
         if (operation == Operation.multiplication) {
             // Right is a product
             if (right instanceof Product) {
-                List<Token> values = new ArrayList<>();
-                values.addAll(((Product) right).getValues());
+                List<Token> values = new ArrayList<>(((Product) right).getValues());
                 values.add(this);
                 return new Product(values);
             }

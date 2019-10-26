@@ -46,8 +46,7 @@ public class Number implements Token {
 
             // Right is a sum
             if (right instanceof Sum) {
-                List<Token> values = new ArrayList<>();
-                values.addAll(((Sum) right).getValues());
+                List<Token> values = new ArrayList<>(((Sum) right).getValues());
                 values.add(this);
                 return new Sum(values);
             }
@@ -94,8 +93,7 @@ public class Number implements Token {
 
             // Right is a product
             if (right instanceof Product) {
-                List<Token> values = new ArrayList<>();
-                values.addAll(((Product) right).getValues());
+                List<Token> values = new ArrayList<>(((Product) right).getValues());
                 values.add(this);
                 return new Product(values);
             }
