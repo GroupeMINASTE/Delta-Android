@@ -3,8 +3,10 @@ package fr.zabricraft.delta.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.zabricraft.delta.tokens.Number;
 import fr.zabricraft.delta.tokens.SyntaxError;
 import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.tokens.Variable;
 
 public class TokenParser {
 
@@ -216,7 +218,7 @@ public class TokenParser {
             if (!values.isEmpty()) {
                 return values.get(0);
             }
-        } catch (Exception e) {
+        } catch (SyntaxError e) {
             // We have a syntax error, do nothing
         }
 

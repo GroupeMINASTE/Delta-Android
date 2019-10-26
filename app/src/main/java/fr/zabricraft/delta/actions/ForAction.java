@@ -49,7 +49,7 @@ public class ForAction implements ActionBlock {
         // Get list
         if (token instanceof fr.zabricraft.delta.tokens.List) {
             // Iterate list
-            for (Token element : ((fr.zabricraft.delta.tokens.List) token).values) {
+            for (Token element : ((fr.zabricraft.delta.tokens.List) token).getValues()) {
                 // Set value
                 process.variables.put(identifier, element);
 
