@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name">Delta: Math helper</string>
+    <string name="myalgorithms">Mes algorithmes</string>
+    <string name="downloads">Téléchargements</string>
+    <string name="new_algorithm">Nouvel algorithme</string>
+    <string name="copy">%s (copie)</string>
+    <string name="last_update">Mis à jour le %s</string>
+    <string name="about">A propos</string>
+    <string name="help">Aide et documentation</string>
+    <string name="about_text">Application développé par Nathan Fallet\n\nCette application a été développée par des développeurs indépendants et est fournie gratuitement sans aucune garantie.\n\n© 2019 Groupe MINASTE</string>
+    <string name="ok">OK</string>
+    <string name="inputs">Entrées</string>
+    <string name="outputs">Sorties</string>
+    <string name="instructions">Instructions</string>
+    <string name="settings">Paramètres</string>
+    <string name="edit">Modifier</string>
+    <string name="delete">Supprimer</string>
+    <string name="save">Enregistrer</string>
+    <string name="cancel">Annuler</string>
+    <string name="error_calcul">Erreur de calcul</string>
+    <string name="error_syntax">Erreur de syntaxe</string>
+    <string name="error_constant">Impossible d\'attribuer la valeur : %s est une constante</string>
+    <string name="error_while_limit">Arrêt de la boucle : Plus de 1000 itérations</string>
+    <string name="editor">Editeur d\'algorithme</string>
+    <string name="action_selector">Selectionner une action</string>
+    <string name="action_input">Demander %s avec par défaut %s</string>
+    <string name="action_print">Afficher la variable %s</string>
+    <string name="action_print_text">Afficher le texte %s</string>
+    <string name="action_set">Définir %s à %s</string>
+    <string name="action_set_formatted">Définir %s à %s comme format</string>
+    <string name="action_if">Si %s</string>
+    <string name="action_else">Sinon</string>
+    <string name="action_end">Fin</string>
+    <string name="action_while">Tant que %s</string>
+    <string name="action_for">Pour tout %s de %s</string>
+    <string name="settings_name">Nom : %s</string>
+    <string name="category_variable">Variable</string>
+    <string name="category_structure">Structure</string>
+    <string name="category_output">Sortie</string>
+    <string name="category_settings">Paramètres</string>
+    <string name="category_add">Ajouter une action</string>
+    <string name="algo1_name">Equations du 2nd degré</string>
+</resources>

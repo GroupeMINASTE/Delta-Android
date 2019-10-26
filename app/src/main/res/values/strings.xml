@@ -1,3 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Delta</string>
+    <string name="name">Delta: Math helper</string>
+    <string name="myalgorithms">My algorithms</string>
+    <string name="downloads">Downloads</string>
+    <string name="new_algorithm">New algorithm</string>
+    <string name="copy">%s (copy)</string>
+    <string name="last_update">Updated on %s</string>
+    <string name="about">About</string>
+    <string name="help">Help and documentation</string>
+    <string name="about_text">Application developed by Nathan Fallet\n\nThis application has been developed by independent developers, and is provided for free without any warranty.\n\n© 2019 Groupe MINASTE</string>
+    <string name="ok">OK</string>
+    <string name="inputs">Inputs</string>
+    <string name="outputs">Outputs</string>
+    <string name="instructions">Instructions</string>
+    <string name="settings">Settings</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_calcul">Calcul error</string>
+    <string name="error_syntax">Syntax error</string>
+    <string name="error_constant">Cannot set value: %s is a constant</string>
+    <string name="error_while_limit">Stopped while statement: More than 1000 iterations</string>
+    <string name="editor">Algorithm editor</string>
+    <string name="action_selector">Select an action</string>
+    <string name="action_input">Ask for %s with default %s</string>
+    <string name="action_print">Print variable %s</string>
+    <string name="action_print_text">Print text %s</string>
+    <string name="action_set">Set %s to %s</string>
+    <string name="action_set_formatted">Set %s to %s as format</string>
+    <string name="action_if">If %s</string>
+    <string name="action_else">Else</string>
+    <string name="action_end">End</string>
+    <string name="action_while">While %s</string>
+    <string name="action_for">For %s in %s</string>
+    <string name="settings_name">Name: %s</string>
+    <string name="category_variable">Variable</string>
+    <string name="category_structure">Structure</string>
+    <string name="category_output">Output</string>
+    <string name="category_settings">Settings</string>
+    <string name="category_add">Add an action</string>
+    <string name="algo1_name">2nd degree equations</string>
 </resources>
