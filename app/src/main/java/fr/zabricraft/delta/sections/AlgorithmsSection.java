@@ -3,12 +3,13 @@ package fr.zabricraft.delta.sections;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
 import fr.zabricraft.delta.utils.Algorithm;
+import fr.zabricraft.delta.views.AlgorithmCell;
 import fr.zabricraft.delta.views.AlgorithmItemViewHolder;
+import fr.zabricraft.delta.views.HeaderCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
@@ -32,11 +33,11 @@ public class AlgorithmsSection extends Section {
     }
 
     public View getItemView(ViewGroup parent) {
-        return new TextView(parent.getContext());
+        return new AlgorithmCell(parent.getContext());
     }
 
     public View getHeaderView(ViewGroup parent) {
-        return new TextView(parent.getContext());
+        return new HeaderCell(parent.getContext());
     }
 
     public RecyclerView.ViewHolder getItemViewHolder(View view) {
@@ -49,15 +50,15 @@ public class AlgorithmsSection extends Section {
         Algorithm algorithm = algorithms.get(position);
 
         // bind your view here
-        if (itemHolder.itemView instanceof TextView) {
-            ((TextView) itemHolder.itemView).setText(algorithm.getName());
+        if (itemHolder.itemView instanceof AlgorithmCell) {
+            ((AlgorithmCell) itemHolder.itemView).with(algorithm);
         }
     }
 
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         // Check if it's a textView
-        if (view instanceof TextView) {
-            ((TextView) view).setText(title);
+        if (view instanceof HeaderCell) {
+            ((HeaderCell) view).with(title);
         }
 
         // return an empty instance of ViewHolder for the headers of this section

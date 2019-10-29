@@ -69,6 +69,7 @@ public class HomeFragment extends Fragment {
         // Create the view
         recyclerView = new RecyclerView(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
 
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
