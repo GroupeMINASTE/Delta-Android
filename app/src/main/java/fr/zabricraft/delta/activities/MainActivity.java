@@ -7,9 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;
 import fr.zabricraft.delta.fragments.HomeFragment;
-import fr.zabricraft.delta.views.HomeAdapter;
+import fr.zabricraft.delta.sections.AlgorithmsSection;
 
-public class MainActivity extends AppCompatActivity implements HomeAdapter.AlgorithmLoader {
+public class MainActivity extends AppCompatActivity implements AlgorithmsSection.AlgorithmLoader {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +27,14 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.Algor
             Intent intent = new Intent(this, AlgorithmActivity.class);
             intent.putExtra("id", algorithm);
             startActivity(intent);
+        }
+    }
+
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
         }
     }
 }

@@ -33,7 +33,7 @@ public class StringExtension {
             Log.e("DELTA", "Parsing ISO8601 datetime failed", e);
         }
 
-        return null;
+        return new Date();
     }
 
 }

@@ -7,7 +7,7 @@ import fr.zabricraft.delta.utils.AlgorithmParser;
 
 public class AlgorithmExtension {
 
-    static final Algorithm secondDegreeEquation = new AlgorithmParser(0, null, false, "2nd degree equations", new Date(),
+    public static final Algorithm secondDegreeEquation = new AlgorithmParser(0, null, false, "2nd degree equations", new Date(),
             "input \"a\" default \"1\"\n" +
                     "input \"b\" default \"7\"\n" +
                     "input \"c\" default \"12\"\n" +
@@ -34,5 +34,7 @@ public class AlgorithmExtension {
                     "        print \"f(x)\"\n" +
                     "    }\n" +
                     "}").execute();
+
+    public static final Algorithm[] defaults = new Algorithm[]{secondDegreeEquation};
 
 }
