@@ -25,6 +25,7 @@ public class AlgorithmCell extends LinearLayout {
         // Configure LinearLayout
         setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         setOrientation(LinearLayout.VERTICAL);
+        setBackgroundResource(android.R.color.white);
 
         // Init name
         name = new TextView(context);
@@ -32,6 +33,7 @@ public class AlgorithmCell extends LinearLayout {
         nameParams.setMargins(dp16, dp8, dp16, 0);
         name.setLayoutParams(nameParams);
         name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        name.setTextColor(getResources().getColor(android.R.color.black));
 
         // Init last update
         last_update = new TextView(context);

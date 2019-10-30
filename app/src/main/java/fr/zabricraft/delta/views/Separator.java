@@ -15,7 +15,7 @@ public class Separator extends View {
 
         // Configure view
         setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, IntExtension.dpToPixel(1, getResources())));
-        setBackgroundColor(getResources().getColor(R.color.divider_color));
+        setBackgroundResource(R.color.divider_color);
     }
 
 }

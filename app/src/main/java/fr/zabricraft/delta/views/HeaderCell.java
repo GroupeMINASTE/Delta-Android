@@ -5,7 +5,6 @@ import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.IntExtension;
 
 public class HeaderCell extends LinearLayout {
@@ -30,8 +29,7 @@ public class HeaderCell extends LinearLayout {
         LayoutParams nameParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         nameParams.setMargins(dp16, dp32, dp16, dp8);
         name.setLayoutParams(nameParams);
-        name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        name.setTextColor(getResources().getColor(R.color.colorPrimary));
+        name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 
         // Add them to layout
         addView(name);
@@ -39,7 +37,7 @@ public class HeaderCell extends LinearLayout {
     }
 
     public void with(int title) {
-        name.setText(title);
+        name.setText(getResources().getText(title).toString().toUpperCase());
     }
 
 }

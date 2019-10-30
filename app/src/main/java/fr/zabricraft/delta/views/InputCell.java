@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,12 +32,12 @@ public class InputCell extends LinearLayout implements TextWatcher {
 
         // Size of dp
         int dp4 = IntExtension.dpToPixel(4, getResources());
-        int dp8 = IntExtension.dpToPixel(8, getResources());
         int dp16 = IntExtension.dpToPixel(16, getResources());
 
         // Configure LinearLayout
         setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         setOrientation(LinearLayout.VERTICAL);
+        setBackgroundResource(android.R.color.white);
 
         // Create an horizontal LinearLayout
         LinearLayout horizontal = new LinearLayout(context);
@@ -46,15 +47,19 @@ public class InputCell extends LinearLayout implements TextWatcher {
         // Init name
         name = new TextView(context);
         LayoutParams nameParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        nameParams.setMargins(dp16, dp8, dp4, dp8);
+        nameParams.setMargins(dp16, dp16, dp4, dp16);
+        nameParams.gravity = Gravity.CENTER;
         name.setLayoutParams(nameParams);
         name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        name.setTextColor(getResources().getColor(android.R.color.black));
 
         // Init field
         field = new EditText(context);
         LayoutParams fieldParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         fieldParams.setMargins(0, 0, dp16, 0);
+        fieldParams.gravity = Gravity.CENTER;
         field.setLayoutParams(fieldParams);
+        field.setBackgroundResource(android.R.color.transparent);
         field.addTextChangedListener(this);
 
         // Add them to layout
