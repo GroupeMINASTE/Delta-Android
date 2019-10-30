@@ -1,0 +1,71 @@
+package fr.zabricraft.delta.sections;
+
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+
+import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.views.HeaderCell;
+import fr.zabricraft.delta.views.LabelCell;
+import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+
+public class AboutSection extends Section {
+
+    public AboutSection() {
+        super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().build());
+    }
+
+    public int getContentItemsTotal() {
+        return 2;
+    }
+
+    public View getItemView(ViewGroup parent) {
+        return new LabelCell(parent.getContext());
+    }
+
+    public View getHeaderView(ViewGroup parent) {
+        return new HeaderCell(parent.getContext());
+    }
+
+    public RecyclerView.ViewHolder getItemViewHolder(View view) {
+        // return a custom instance of ViewHolder for the items of this section
+        return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
+    }
+
+    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        final SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
+
+        // bind your view here
+        if (itemHolder.itemView instanceof LabelCell) {
+            ((LabelCell) itemHolder.itemView).with(position == 0 ? R.string.about : R.string.help);
+            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    if (position == 0) {
+                        // About
+                        new AlertDialog.Builder(itemHolder.itemView.getContext()).setTitle(R.string.about).setMessage(R.string.about_text).show();
+                    } else {
+                        // Help and documentation
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.delta-math-helper.com"));
+                        itemHolder.itemView.getContext().startActivity(browserIntent);
+                    }
+                }
+            });
+        }
+    }
+
+    public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
+        // Check if it's a textView
+        if (view instanceof HeaderCell) {
+            ((HeaderCell) view).with(R.string.about);
+        }
+
+        // return an empty instance of ViewHolder for the headers of this section
+        return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
+    }
+
+}

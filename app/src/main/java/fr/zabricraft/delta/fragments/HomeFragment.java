@@ -13,6 +13,7 @@ import java.util.List;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.AlgorithmExtension;
+import fr.zabricraft.delta.sections.AboutSection;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Database;
@@ -75,6 +76,7 @@ public class HomeFragment extends Fragment {
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new AlgorithmsSection(R.string.myalgorithms, myalgorithms, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
         sectionAdapter.addSection(new AlgorithmsSection(R.string.downloads, downloads, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
+        sectionAdapter.addSection(new AboutSection());
 
         // Bind adapter to recyclerView
         recyclerView.setAdapter(sectionAdapter);

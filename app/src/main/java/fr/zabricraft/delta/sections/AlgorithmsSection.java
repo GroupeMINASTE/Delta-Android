@@ -8,7 +8,6 @@ import java.util.List;
 
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.views.AlgorithmCell;
-import fr.zabricraft.delta.views.AlgorithmItemViewHolder;
 import fr.zabricraft.delta.views.HeaderCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
@@ -42,11 +41,11 @@ public class AlgorithmsSection extends Section {
 
     public RecyclerView.ViewHolder getItemViewHolder(View view) {
         // return a custom instance of ViewHolder for the items of this section
-        return new AlgorithmItemViewHolder(view);
+        return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
     }
 
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-        AlgorithmItemViewHolder itemHolder = (AlgorithmItemViewHolder) holder;
+        SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
         Algorithm algorithm = algorithms.get(position);
 
         // bind your view here
