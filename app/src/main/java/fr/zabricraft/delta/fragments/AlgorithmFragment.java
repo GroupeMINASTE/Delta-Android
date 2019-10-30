@@ -2,11 +2,31 @@ package fr.zabricraft.delta.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class AlgorithmFragment extends Fragment {
+import org.javatuples.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.zabricraft.delta.sections.InputsSection;
+import fr.zabricraft.delta.sections.OutputsSection;
+import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.utils.Algorithm;
+import fr.zabricraft.delta.utils.Database;
+import fr.zabricraft.delta.utils.Process;
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+
+public class AlgorithmFragment extends Fragment implements InputsSection.InputsContainer, OutputsSection.OutputsContainer {
+
+    private Algorithm algorithm;
+    private List<String> currentOutputs = new ArrayList<>();
+
+    private RecyclerView recyclerView;
 
     public static AlgorithmFragment create(int algorithm) {
         Bundle args = new Bundle();
@@ -17,7 +37,67 @@ public class AlgorithmFragment extends Fragment {
         return fragment;
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public void selectAlgorithm(int id) {
+        // Get algorithm from database
+        algorithm = Database.getInstance(getActivity()).getAlgorithm(id);
+
+        // Check if not null
+        if (algorithm != null) {
+            // Set name
+            getActivity().setTitle(algorithm.getName());
+
+            // Update inputs
+            algorithm.extractInputs();
+            recyclerView.getAdapter().notifyDataSetChanged();
+
+            // Update result shown on screen
+            updateResult();
+        }
     }
+
+    public void updateResult() {
+        if (algorithm != null) {
+            // Execute algorithm
+            Process process = algorithm.execute(getActivity());
+            currentOutputs = process.outputs;
+
+            // Refresh the output section
+            // TODO: Refresh only section 1
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Create the view
+        recyclerView = new RecyclerView(getActivity());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
+
+        // Initialize sections
+        SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        sectionAdapter.addSection(new InputsSection(this));
+        sectionAdapter.addSection(new OutputsSection(this));
+
+        // Bind adapter to recyclerView
+        recyclerView.setAdapter(sectionAdapter);
+
+        // Load algorithm
+        selectAlgorithm(getArguments().getInt("id"));
+
+        return recyclerView;
+    }
+
+    public List<Pair<String, Token>> getInputs() {
+        if (algorithm != null) {
+            // Return algorithms inputs
+            return algorithm.getInputs();
+        }
+
+        return new ArrayList<>();
+    }
+
+    public List<String> getOutputs() {
+        return currentOutputs;
+    }
+
 }

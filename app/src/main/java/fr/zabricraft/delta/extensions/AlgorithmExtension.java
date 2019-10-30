@@ -35,6 +35,8 @@ public class AlgorithmExtension {
                     "    }\n" +
                     "}").execute();
 
-    public static final Algorithm[] defaults = new Algorithm[]{secondDegreeEquation};
+    public static final Algorithm test = new AlgorithmParser(0, null, false, "Test", new Date(), "input \"a\" default \"0\"\nprint \"a\"").execute();
+
+    public static final Algorithm[] defaults = new Algorithm[]{secondDegreeEquation, test};
 
 }

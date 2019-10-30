@@ -19,7 +19,7 @@ import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Database;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements AlgorithmsSection.AlgorithmContainer {
 
     private List<Algorithm> myalgorithms;
     private List<Algorithm> downloads;
@@ -74,8 +74,8 @@ public class HomeFragment extends Fragment {
 
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
-        sectionAdapter.addSection(new AlgorithmsSection(R.string.myalgorithms, myalgorithms, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
-        sectionAdapter.addSection(new AlgorithmsSection(R.string.downloads, downloads, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
+        sectionAdapter.addSection(new AlgorithmsSection(R.string.myalgorithms, this, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
+        sectionAdapter.addSection(new AlgorithmsSection(R.string.downloads, this, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
         sectionAdapter.addSection(new AboutSection());
 
         // Bind adapter to recyclerView
@@ -85,6 +85,14 @@ public class HomeFragment extends Fragment {
         loadAlgorithms();
 
         return recyclerView;
+    }
+
+    public List<Algorithm> getAlgorithms(int title) {
+        if (title == R.string.myalgorithms) {
+            return myalgorithms;
+        } else {
+            return downloads;
+        }
     }
 
 }
