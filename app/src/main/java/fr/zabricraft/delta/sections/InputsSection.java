@@ -49,7 +49,7 @@ public class InputsSection extends Section {
 
         // bind your view here
         if (itemHolder.itemView instanceof InputCell) {
-            ((InputCell) itemHolder.itemView).with(input);
+            ((InputCell) itemHolder.itemView).with(input, container);
         }
     }
 
@@ -66,6 +66,8 @@ public class InputsSection extends Section {
     // Container interface
     public interface InputsContainer {
         List<Pair<String, Token>> getInputs();
+
+        void inputChanged(Pair<String, Token> input);
     }
 
 }

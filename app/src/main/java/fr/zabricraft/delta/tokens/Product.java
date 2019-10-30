@@ -249,7 +249,7 @@ public class Product implements Token, Comparator<Token> {
     }
 
     public int compare(Token t0, Token t1) {
-        return t0.getMultiplicationPriority() - t1.getMultiplicationPriority();
+        return t1.getMultiplicationPriority() - t0.getMultiplicationPriority();
     }
 
 }

@@ -27,6 +27,7 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
     private List<String> currentOutputs = new ArrayList<>();
 
     private RecyclerView recyclerView;
+    private OutputsSection outputsSection;
 
     public static AlgorithmFragment create(int algorithm) {
         Bundle args = new Bundle();
@@ -55,15 +56,36 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         }
     }
 
+    public void inputChanged(Pair<String, Token> input) {
+        // Get vars
+        if (algorithm != null && input != null) {
+            // Update the input
+            for (int i = 0; i < algorithm.getInputs().size(); i++) {
+                // Check key
+                if (algorithm.getInputs().get(i).getValue0().equals(input.getValue0())) {
+                    // Set value
+                    algorithm.getInputs().remove(i);
+                    algorithm.getInputs().add(i, input);
+                }
+            }
+
+            // Update result shown on screen
+            updateResult();
+        }
+    }
+
     public void updateResult() {
         if (algorithm != null) {
+            // Count outputs before
+            int before = currentOutputs.size();
+
             // Execute algorithm
             Process process = algorithm.execute(getActivity());
             currentOutputs = process.outputs;
 
             // Refresh the output section
-            // TODO: Refresh only section 1
-            recyclerView.getAdapter().notifyDataSetChanged();
+            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeRemovedFromSection(outputsSection, 0, before);
+            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeInsertedInSection(outputsSection, 0, currentOutputs.size());
         }
     }
 
@@ -76,7 +98,8 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new InputsSection(this));
-        sectionAdapter.addSection(new OutputsSection(this));
+        outputsSection = new OutputsSection(this);
+        sectionAdapter.addSection(outputsSection);
 
         // Bind adapter to recyclerView
         recyclerView.setAdapter(sectionAdapter);
