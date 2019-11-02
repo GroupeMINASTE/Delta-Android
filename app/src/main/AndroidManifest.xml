@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.AlgorithmActivity" />
+        <activity android:name=".activities.EditorActivity"></activity>
     </application>
 
 </manifest>

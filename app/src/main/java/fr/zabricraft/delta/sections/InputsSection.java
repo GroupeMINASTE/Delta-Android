@@ -54,7 +54,7 @@ public class InputsSection extends Section {
     }
 
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
-        // Check if it's a textView
+        // Check if it's a headerCell
         if (view instanceof HeaderCell) {
             ((HeaderCell) view).with(R.string.inputs);
         }

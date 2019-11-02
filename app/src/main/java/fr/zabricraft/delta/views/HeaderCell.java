@@ -12,6 +12,10 @@ public class HeaderCell extends LinearLayout {
     private TextView name;
 
     public HeaderCell(Context context) {
+        this(context, true);
+    }
+
+    public HeaderCell(Context context, boolean separator) {
         // Init linearLayout
         super(context);
 
@@ -33,7 +37,11 @@ public class HeaderCell extends LinearLayout {
 
         // Add them to layout
         addView(name);
-        addView(new Separator(context));
+
+        // Add separator if required
+        if (separator) {
+            addView(new Separator(context));
+        }
     }
 
     public void with(int title) {

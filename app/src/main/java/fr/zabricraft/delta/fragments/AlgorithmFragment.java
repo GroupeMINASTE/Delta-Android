@@ -111,12 +111,7 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
     }
 
     public List<Pair<String, Token>> getInputs() {
-        if (algorithm != null) {
-            // Return algorithms inputs
-            return algorithm.getInputs();
-        }
-
-        return new ArrayList<>();
+        return algorithm != null ? algorithm.getInputs() : new ArrayList<Pair<String, Token>>();
     }
 
     public List<String> getOutputs() {
