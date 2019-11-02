@@ -2,19 +2,19 @@ package fr.zabricraft.delta.utils;
 
 public class EditorLine {
 
-    private String format;
+    private int format;
     private EditorLineCategory category;
     private int indentation;
     private String[] values;
 
-    public EditorLine(String format, EditorLineCategory category, int indentation, String[] values) {
+    public EditorLine(int format, EditorLineCategory category, int indentation, String[] values) {
         this.format = format;
         this.category = category;
         this.indentation = indentation;
         this.values = values;
     }
 
-    public String getFormat() {
+    public int getFormat() {
         return format;
     }
 

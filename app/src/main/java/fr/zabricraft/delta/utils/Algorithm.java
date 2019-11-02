@@ -173,7 +173,7 @@ public class Algorithm {
 
     public List<EditorLine> getSettings() {
         List<EditorLine> list = new ArrayList<>();
-        list.add(new EditorLine("settings_name", EditorLineCategory.settings, 0, new String[]{name}));
+        list.add(new EditorLine(R.string.settings_name, EditorLineCategory.settings, 0, new String[]{name}));
         return list;
     }
 

@@ -6,6 +6,7 @@ import org.javatuples.Triplet;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.tokens.FormattedToken;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
@@ -43,7 +44,7 @@ public class PrintAction implements Action {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine("action_print", EditorLineCategory.output, 0, new String[]{identifier}));
+        lines.add(new EditorLine(R.string.action_print, EditorLineCategory.output, 0, new String[]{identifier}));
 
         return lines;
     }

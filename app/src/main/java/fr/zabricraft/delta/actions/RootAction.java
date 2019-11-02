@@ -6,6 +6,7 @@ import org.javatuples.Triplet;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
@@ -59,7 +60,7 @@ public class RootAction implements ActionBlock {
             lines.addAll(action.toEditorLines());
         }
 
-        lines.add(new EditorLine("", EditorLineCategory.add, 0, new String[]{}));
+        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 0, new String[]{}));
 
         return lines;
     }

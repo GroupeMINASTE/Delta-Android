@@ -45,9 +45,12 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         }
 
         // Check if null
-        if (algorithm != null) {
+        if (algorithm == null) {
             // Create a new algorithm
             algorithm = new Algorithm(0, null, true, getString(R.string.new_algorithm), new Date(), new RootAction());
+        } else {
+            // Clone for editing
+            algorithm = algorithm.clone(getActivity());
         }
     }
 

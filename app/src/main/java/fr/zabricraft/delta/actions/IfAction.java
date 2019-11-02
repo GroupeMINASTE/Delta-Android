@@ -6,6 +6,7 @@ import org.javatuples.Triplet;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.ArrayExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.tokens.Equation;
@@ -97,19 +98,19 @@ public class IfAction implements ActionBlock {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine("action_if", EditorLineCategory.structure, 0, new String[]{condition.toString()}));
+        lines.add(new EditorLine(R.string.action_if, EditorLineCategory.structure, 0, new String[]{condition.toString()}));
 
         for (Action action : actions) {
             lines.addAll(ArrayExtension.incrementIndentation(action.toEditorLines()));
         }
 
-        lines.add(new EditorLine("", EditorLineCategory.add, 1, new String[]{}));
+        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 1, new String[]{}));
 
         if (elseAction != null) {
             lines.addAll(elseAction.toEditorLines());
         }
 
-        lines.add(new EditorLine("action_end", EditorLineCategory.structure, 0, new String[]{}));
+        lines.add(new EditorLine(R.string.action_end, EditorLineCategory.structure, 0, new String[]{}));
 
         return lines;
     }

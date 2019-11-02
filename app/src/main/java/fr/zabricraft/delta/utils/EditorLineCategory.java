@@ -1,5 +1,6 @@
 package fr.zabricraft.delta.utils;
 
+import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.ElseAction;
 import fr.zabricraft.delta.actions.ForAction;
@@ -24,7 +25,7 @@ public enum EditorLineCategory {
     }
 
     // Catalog
-    Action[] catalog() {
+    public Action[] catalog() {
         switch (this) {
             case variable:
                 return new Action[]{
@@ -45,6 +46,22 @@ public enum EditorLineCategory {
                 };
             default:
                 return new Action[]{};
+        }
+    }
+
+    // Image
+    public int image() {
+        switch (this) {
+            case variable:
+                return R.drawable.variable;
+            case structure:
+                return R.drawable.structure;
+            case output:
+                return R.drawable.output;
+            case settings:
+                return R.drawable.settings;
+            default:
+                return 0;
         }
     }
 

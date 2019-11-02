@@ -45,7 +45,7 @@ public class InputAction implements Action {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine("action_input", EditorLineCategory.variable, 0, new String[]{identifier, value.toString()}));
+        lines.add(new EditorLine(R.string.action_input, EditorLineCategory.variable, 0, new String[]{identifier, value.toString()}));
 
         return lines;
     }

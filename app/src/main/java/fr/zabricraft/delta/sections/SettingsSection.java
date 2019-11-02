@@ -8,8 +8,8 @@ import java.util.List;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.utils.EditorLine;
+import fr.zabricraft.delta.views.EditorCell;
 import fr.zabricraft.delta.views.HeaderCell;
-import fr.zabricraft.delta.views.LabelCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
@@ -29,7 +29,7 @@ public class SettingsSection extends Section {
     }
 
     public View getItemView(ViewGroup parent) {
-        return new LabelCell(parent.getContext());
+        return new EditorCell(parent.getContext());
     }
 
     public View getHeaderView(ViewGroup parent) {
@@ -43,10 +43,11 @@ public class SettingsSection extends Section {
 
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
+        EditorLine line = container.getSettings().get(position);
 
         // bind your view here
-        if (itemHolder.itemView instanceof LabelCell) {
-
+        if (itemHolder.itemView instanceof EditorCell) {
+            ((EditorCell) itemHolder.itemView).with(line, container, position);
         }
     }
 
@@ -61,9 +62,8 @@ public class SettingsSection extends Section {
     }
 
     // Container interface
-    public interface SettingsContainer {
+    public interface SettingsContainer extends EditorLinesSection.EditorLinesContainer {
         List<EditorLine> getSettings();
-
         int settingsCount();
     }
 
