@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ public class EditorCell extends LinearLayout {
 
     private ImageView icon;
     private TextView category;
+    private TextView delete;
     private LinearLayout header;
     private LinearLayout stack;
     private Button button;
@@ -64,6 +66,7 @@ public class EditorCell extends LinearLayout {
         headerParams.setMargins(dp8, dp8, dp8, 0);
         header.setLayoutParams(headerParams);
         header.setOrientation(LinearLayout.HORIZONTAL);
+
         stack = new LinearLayout(context);
         LinearLayout.LayoutParams stackParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         stackParams.setMargins(dp4, 0, dp4, 0);
@@ -79,16 +82,31 @@ public class EditorCell extends LinearLayout {
 
         // Init category
         category = new TextView(context);
-        LinearLayout.LayoutParams categoryParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams categoryParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         categoryParams.gravity = Gravity.CENTER;
         category.setLayoutParams(categoryParams);
         category.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         category.setTextColor(getResources().getColor(android.R.color.black));
         category.setTypeface(category.getTypeface(), Typeface.BOLD);
 
+        // Delete button
+        delete = new TextView(context);
+        LinearLayout.LayoutParams deleteParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        deleteParams.gravity = Gravity.END;
+        delete.setLayoutParams(deleteParams);
+        delete.setText("✖");
+        delete.setTextAlignment(TEXT_ALIGNMENT_TEXT_END);
+        delete.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        delete.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                container.editorLineDeleted(line, index);
+            }
+        });
+
         // Add to header
         header.addView(icon);
         header.addView(category);
+        header.addView(delete);
 
         // Init button
         button = new Button(context);
@@ -99,6 +117,11 @@ public class EditorCell extends LinearLayout {
         buttonBackground.setColor(getResources().getColor(R.color.colorPrimary));
         buttonBackground.setCornerRadius(dp8);
         button.setBackground(buttonBackground);
+        button.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                container.openActionSelection();
+            }
+        });
     }
 
     public void with(EditorLine line, EditorLinesSection.EditorLinesContainer container, int index) {
@@ -166,15 +189,24 @@ public class EditorCell extends LinearLayout {
         }
 
         // Update left space
-        int left = IntExtension.dpToPixel(16 * (line.getIndentation() + 1), getResources());
+        int left = IntExtension.dpToPixel(32 * line.getIndentation(), getResources());
         int dp16 = IntExtension.dpToPixel(16, getResources());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(left, 0, dp16, dp16);
+        params.setMargins(dp16 + left, 0, dp16, dp16);
         setLayoutParams(params);
 
         // Update icon and category
         icon.setImageResource(line.getCategory().image);
         category.setText(line.getCategory().title);
+
+        // Delete button
+        if (line.getCategory() == EditorLineCategory.settings || line.getFormat() == R.string.action_else || line.getFormat() == R.string.action_end) {
+            // Hide button
+            delete.setVisibility(INVISIBLE);
+        } else {
+            // Show button
+            delete.setVisibility(VISIBLE);
+        }
     }
 
 }

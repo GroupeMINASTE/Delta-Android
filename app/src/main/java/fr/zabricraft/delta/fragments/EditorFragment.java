@@ -131,4 +131,8 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         getActivity().finish();
     }
 
+    public void openActionSelection() {
+
+    }
+    
 }

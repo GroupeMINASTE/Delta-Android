@@ -65,6 +65,7 @@ public class EditorLinesSection extends Section {
     // Container interface
     public interface EditorLinesContainer {
         List<EditorLine> toEditorLines();
+
         int editorLinesCount();
 
         void editorLineChanged(EditorLine line, int index);
@@ -72,6 +73,8 @@ public class EditorLinesSection extends Section {
         void editorLineAdded(Action action, int index);
 
         void editorLineDeleted(EditorLine line, int index);
+
+        void openActionSelection();
     }
 
 }
