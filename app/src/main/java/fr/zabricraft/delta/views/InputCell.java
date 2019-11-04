@@ -59,7 +59,6 @@ public class InputCell extends LinearLayout implements TextWatcher {
         fieldParams.setMargins(0, 0, dp16, 0);
         fieldParams.gravity = Gravity.CENTER;
         field.setLayoutParams(fieldParams);
-        field.setBackgroundResource(android.R.color.transparent);
         field.addTextChangedListener(this);
 
         // Add them to layout
