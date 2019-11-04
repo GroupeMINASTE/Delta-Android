@@ -82,7 +82,8 @@ public class AlgorithmsSection extends Section {
             ((LabelCell) view).with(R.string.new_algorithm);
             view.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    // TODO: Open editor for a new algorithm
+                    // Open editor for a new algorithm
+                    container.startEditor(0);
                 }
             });
         }
@@ -99,6 +100,8 @@ public class AlgorithmsSection extends Section {
     // Container interface
     public interface AlgorithmContainer {
         List<Algorithm> getAlgorithms(int title);
+
+        void startEditor(int algorithm);
     }
 
 }

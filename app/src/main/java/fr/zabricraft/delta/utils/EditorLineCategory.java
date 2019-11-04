@@ -14,14 +14,20 @@ import fr.zabricraft.delta.actions.WhileAction;
 public enum EditorLineCategory {
 
     // Values
-    variable("variable"), structure("structure"), output("output"), settings("settings"), add("add");
+    variable(R.string.category_variable, R.drawable.variable),
+    structure(R.string.category_structure, R.drawable.structure),
+    output(R.string.category_output, R.drawable.output),
+    settings(R.string.category_settings, R.drawable.settings),
+    add(R.string.category_add, 0);
 
     // Properties
-    public final String rawValue;
+    public final int title;
+    public final int image;
 
     // Constructor
-    EditorLineCategory(String rawValue) {
-        this.rawValue = rawValue;
+    EditorLineCategory(int title, int image) {
+        this.title = title;
+        this.image = image;
     }
 
     // Catalog
@@ -46,22 +52,6 @@ public enum EditorLineCategory {
                 };
             default:
                 return new Action[]{};
-        }
-    }
-
-    // Image
-    public int image() {
-        switch (this) {
-            case variable:
-                return R.drawable.variable;
-            case structure:
-                return R.drawable.structure;
-            case output:
-                return R.drawable.output;
-            case settings:
-                return R.drawable.settings;
-            default:
-                return 0;
         }
     }
 

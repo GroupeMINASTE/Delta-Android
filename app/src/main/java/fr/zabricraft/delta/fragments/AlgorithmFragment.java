@@ -13,6 +13,7 @@ import org.javatuples.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.sections.InputsSection;
 import fr.zabricraft.delta.sections.OutputsSection;
 import fr.zabricraft.delta.tokens.Token;
@@ -94,6 +95,7 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         recyclerView = new RecyclerView(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
 
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();

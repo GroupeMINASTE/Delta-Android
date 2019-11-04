@@ -1,6 +1,7 @@
 package fr.zabricraft.delta.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.activities.EditorActivity;
 import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.sections.AboutSection;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
@@ -71,6 +73,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
         recyclerView = new RecyclerView(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
 
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
@@ -93,6 +96,12 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
         } else {
             return downloads;
         }
+    }
+
+    public void startEditor(int algorithm) {
+        Intent intent = new Intent(getActivity(), EditorActivity.class);
+        intent.putExtra("id", algorithm);
+        startActivity(intent);
     }
 
 }

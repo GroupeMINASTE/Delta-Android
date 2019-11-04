@@ -59,6 +59,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         recyclerView = new RecyclerView(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
 
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
