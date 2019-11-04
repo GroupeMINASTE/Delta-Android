@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.javatuples.Pair;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.RootAction;
 import fr.zabricraft.delta.sections.EditorLinesSection;
 import fr.zabricraft.delta.sections.SettingsSection;
@@ -89,6 +92,43 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
 
     public int editorLinesCount() {
         return algorithm != null ? algorithm.editorLinesCount() : 0;
+    }
+
+    public void editorLineChanged(EditorLine line, int index) {
+        if (line != null && algorithm != null) {
+            algorithm.update(line, index);
+        }
+    }
+
+    public void editorLineAdded(Action action, int index) {
+        if (algorithm != null) {
+            // Add the line into algorithm
+            Pair<Integer, Integer> range = algorithm.insert(action, index);
+
+            // Insert new rows
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
+
+    public void editorLineDeleted(EditorLine line, int index) {
+        if (line != null && algorithm != null) {
+            // Delete the line into algorithm
+            Pair<Integer, Integer> range = algorithm.delete(line, index);
+
+            // Delete old rows
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
+
+    public void saveAndClose() {
+        // Save algorithm to database
+        Algorithm newAlgorithm = Database.getInstance(getActivity()).updateAlgorithm(algorithm);
+
+        // Call completion handler
+        // TODO: Refresh activities with new data
+
+        // Dismiss activity
+        getActivity().finish();
     }
 
 }

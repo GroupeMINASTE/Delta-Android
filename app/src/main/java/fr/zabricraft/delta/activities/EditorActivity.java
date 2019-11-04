@@ -11,6 +11,9 @@ import fr.zabricraft.delta.fragments.EditorFragment;
 
 public class EditorActivity extends AppCompatActivity {
 
+    private EditorFragment fragment;
+    private boolean saving = false;
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.editor_menu, menu);
@@ -20,7 +23,10 @@ public class EditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                // TODO: Save algorithm
+                if (!saving) {
+                    saving = true;
+                    fragment.saveAndClose();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -33,7 +39,7 @@ public class EditorActivity extends AppCompatActivity {
 
         setTitle(R.string.editor);
 
-        EditorFragment fragment = EditorFragment.create(getIntent().getIntExtra("id", 0));
+        fragment = EditorFragment.create(getIntent().getIntExtra("id", 0));
 
         getFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
     }

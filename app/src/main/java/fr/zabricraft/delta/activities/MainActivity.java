@@ -14,6 +14,8 @@ import fr.zabricraft.delta.sections.AlgorithmsSection;
 
 public class MainActivity extends AppCompatActivity implements AlgorithmsSection.AlgorithmLoader {
 
+    private int currentAlgorithm = 0;
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-                startEditor(getIntent().getIntExtra("id", 0));
+                startEditor(currentAlgorithm);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
     }
 
     public void load(int algorithm) {
+        currentAlgorithm = algorithm;
+
         if (findViewById(R.id.algorithmFragment) != null) {
             AlgorithmFragment fragment = AlgorithmFragment.create(algorithm);
             getFragmentManager().beginTransaction().replace(R.id.algorithmFragment, fragment).addToBackStack(null).commit();

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.views.EditorCell;
 import fr.zabricraft.delta.views.HeaderCell;
@@ -64,8 +65,13 @@ public class EditorLinesSection extends Section {
     // Container interface
     public interface EditorLinesContainer {
         List<EditorLine> toEditorLines();
-
         int editorLinesCount();
+
+        void editorLineChanged(EditorLine line, int index);
+
+        void editorLineAdded(Action action, int index);
+
+        void editorLineDeleted(EditorLine line, int index);
     }
 
 }

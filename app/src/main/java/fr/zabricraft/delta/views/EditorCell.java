@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Button;
@@ -40,6 +42,7 @@ public class EditorCell extends LinearLayout {
         super(context);
 
         // Size of dp
+        int dp4 = IntExtension.dpToPixel(4, getResources());
         int dp8 = IntExtension.dpToPixel(8, getResources());
         int dp16 = IntExtension.dpToPixel(16, getResources());
 
@@ -63,7 +66,7 @@ public class EditorCell extends LinearLayout {
         header.setOrientation(LinearLayout.HORIZONTAL);
         stack = new LinearLayout(context);
         LinearLayout.LayoutParams stackParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        stackParams.setMargins(dp8, 0, dp8, 0);
+        stackParams.setMargins(dp4, 0, dp4, 0);
         stack.setLayoutParams(stackParams);
         stack.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -130,7 +133,20 @@ public class EditorCell extends LinearLayout {
             for (String part : StringExtension.cutEditorLine(getResources().getString(line.getFormat()))) {
                 // Add current part to line
                 if (part.equals("%s")) {
+                    final int currentTag = tag;
                     EditText field = new EditText(getContext());
+                    field.addTextChangedListener(new TextWatcher() {
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
+
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            EditorCell.this.line.setValue(currentTag, String.valueOf(charSequence));
+                            EditorCell.this.container.editorLineChanged(EditorCell.this.line, EditorCell.this.index);
+                        }
+
+                        public void afterTextChanged(Editable editable) {
+                        }
+                    });
 
                     if (args.size() > 0) {
                         field.setText(args.remove(0));
