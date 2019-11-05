@@ -30,6 +30,9 @@ public enum EditorLineCategory {
         this.image = image;
     }
 
+    // List
+    public static final EditorLineCategory[] list = {variable, structure, output};
+
     // Catalog
     public Action[] catalog() {
         switch (this) {

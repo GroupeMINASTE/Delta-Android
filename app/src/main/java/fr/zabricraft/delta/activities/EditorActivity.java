@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.fragments.EditorFragment;
+import fr.zabricraft.delta.utils.Algorithm;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -39,7 +40,12 @@ public class EditorActivity extends AppCompatActivity {
 
         setTitle(R.string.editor);
 
-        fragment = EditorFragment.create(getIntent().getIntExtra("id", 0));
+        Object algorithm = getIntent().getSerializableExtra("algorithm");
+        if (algorithm instanceof Algorithm) {
+            fragment = EditorFragment.create(((Algorithm) algorithm));
+        } else {
+            fragment = EditorFragment.create(null);
+        }
 
         getFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
     }

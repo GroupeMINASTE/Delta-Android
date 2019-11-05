@@ -18,7 +18,6 @@ import fr.zabricraft.delta.sections.InputsSection;
 import fr.zabricraft.delta.sections.OutputsSection;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.Algorithm;
-import fr.zabricraft.delta.utils.Database;
 import fr.zabricraft.delta.utils.Process;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
@@ -30,26 +29,26 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
     private RecyclerView recyclerView;
     private OutputsSection outputsSection;
 
-    public static AlgorithmFragment create(int algorithm) {
+    public static AlgorithmFragment create(Algorithm algorithm) {
         Bundle args = new Bundle();
-        args.putInt("id", algorithm);
+        args.putSerializable("algorithm", algorithm);
 
         AlgorithmFragment fragment = new AlgorithmFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public void selectAlgorithm(int id) {
-        // Get algorithm from database
-        algorithm = Database.getInstance(getActivity()).getAlgorithm(id);
-
+    public void selectAlgorithm(Algorithm algorithm) {
         // Check if not null
         if (algorithm != null) {
+            // Set algorithm
+            this.algorithm = algorithm;
+
             // Set name
-            getActivity().setTitle(algorithm.getName());
+            getActivity().setTitle(this.algorithm.getName());
 
             // Update inputs
-            algorithm.extractInputs();
+            this.algorithm.extractInputs();
             recyclerView.getAdapter().notifyDataSetChanged();
 
             // Update result shown on screen
@@ -107,7 +106,10 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         recyclerView.setAdapter(sectionAdapter);
 
         // Load algorithm
-        selectAlgorithm(getArguments().getInt("id"));
+        Object algorithm = getArguments().getSerializable("algorithm");
+        if (algorithm instanceof Algorithm) {
+            selectAlgorithm(((Algorithm) algorithm));
+        }
 
         return recyclerView;
     }

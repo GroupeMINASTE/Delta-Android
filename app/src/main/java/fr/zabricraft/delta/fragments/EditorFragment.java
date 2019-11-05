@@ -1,6 +1,8 @@
 package fr.zabricraft.delta.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import java.util.List;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.RootAction;
+import fr.zabricraft.delta.activities.ActionSelectionActivity;
 import fr.zabricraft.delta.sections.EditorLinesSection;
 import fr.zabricraft.delta.sections.SettingsSection;
 import fr.zabricraft.delta.utils.Algorithm;
@@ -30,30 +33,23 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
 
     private RecyclerView recyclerView;
 
-    public static EditorFragment create(int algorithm) {
+    public static EditorFragment create(Algorithm algorithm) {
         Bundle args = new Bundle();
-        args.putInt("id", algorithm);
+        args.putSerializable("algorithm", algorithm);
 
         EditorFragment fragment = new EditorFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public void selectAlgorithm(int id) {
-        // Get algorithm from database
-        if (id != 0) {
-            algorithm = Database.getInstance(getActivity()).getAlgorithm(id);
-        } else {
-            algorithm = null;
-        }
-
+    public void selectAlgorithm(Algorithm algorithm) {
         // Check if null
         if (algorithm == null) {
             // Create a new algorithm
-            algorithm = new Algorithm(0, null, true, getString(R.string.new_algorithm), new Date(), new RootAction());
+            this.algorithm = new Algorithm(0, null, true, getString(R.string.new_algorithm), new Date(), new RootAction());
         } else {
             // Clone for editing
-            algorithm = algorithm.clone(getActivity());
+            this.algorithm = algorithm.clone(getActivity());
         }
     }
 
@@ -73,7 +69,12 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         recyclerView.setAdapter(sectionAdapter);
 
         // Load algorithm
-        selectAlgorithm(getArguments().getInt("id"));
+        Object algorithm = getArguments().getSerializable("algorithm");
+        if (algorithm instanceof Algorithm) {
+            selectAlgorithm(((Algorithm) algorithm));
+        } else {
+            selectAlgorithm(null);
+        }
 
         return recyclerView;
     }
@@ -131,8 +132,23 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         getActivity().finish();
     }
 
-    public void openActionSelection() {
-
+    public void openActionSelection(int index) {
+        Intent intent = new Intent(getActivity(), ActionSelectionActivity.class);
+        intent.putExtra("index", index);
+        startActivityForResult(intent, 666);
     }
-    
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 666 && resultCode == Activity.RESULT_OK) {
+            // Get data from Intent
+            Object action = data.getSerializableExtra("action");
+            int index = data.getIntExtra("index", -1);
+
+            // Check if data is valid
+            if (action instanceof Action && index != -1) {
+                // Add action to algorithm
+                editorLineAdded(((Action) action), index);
+            }
+        }
+    }
 }

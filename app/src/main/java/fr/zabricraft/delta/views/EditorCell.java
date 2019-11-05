@@ -119,7 +119,7 @@ public class EditorCell extends LinearLayout {
         button.setBackground(buttonBackground);
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                container.openActionSelection();
+                container.openActionSelection(index);
             }
         });
     }

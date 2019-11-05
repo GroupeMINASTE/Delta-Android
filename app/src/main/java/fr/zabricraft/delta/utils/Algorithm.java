@@ -5,6 +5,7 @@ import android.content.Context;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import fr.zabricraft.delta.actions.ActionBlock;
 import fr.zabricraft.delta.actions.RootAction;
 import fr.zabricraft.delta.tokens.Token;
 
-public class Algorithm {
+public class Algorithm implements Serializable {
 
     // Properties
     private int local_id;

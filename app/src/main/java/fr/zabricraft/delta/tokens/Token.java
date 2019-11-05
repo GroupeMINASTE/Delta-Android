@@ -1,10 +1,11 @@
 package fr.zabricraft.delta.tokens;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public interface Token {
+public interface Token extends Serializable {
 
     String toString();
 

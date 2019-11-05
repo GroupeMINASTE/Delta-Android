@@ -11,10 +11,11 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;
 import fr.zabricraft.delta.fragments.HomeFragment;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
+import fr.zabricraft.delta.utils.Algorithm;
 
 public class MainActivity extends AppCompatActivity implements AlgorithmsSection.AlgorithmLoader {
 
-    private int currentAlgorithm = 0;
+    private Algorithm currentAlgorithm = null;
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
         getFragmentManager().beginTransaction().add(R.id.homeFragment, new HomeFragment()).commit();
     }
 
-    public void load(int algorithm) {
+    public void load(Algorithm algorithm) {
         currentAlgorithm = algorithm;
 
         if (findViewById(R.id.algorithmFragment) != null) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
             getFragmentManager().beginTransaction().replace(R.id.algorithmFragment, fragment).addToBackStack(null).commit();
         } else {
             Intent intent = new Intent(this, AlgorithmActivity.class);
-            intent.putExtra("id", algorithm);
+            intent.putExtra("algorithm", algorithm);
             startActivity(intent);
         }
     }
@@ -61,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
         }
     }
 
-    public void startEditor(int algorithm) {
+    public void startEditor(Algorithm algorithm) {
         Intent intent = new Intent(this, EditorActivity.class);
-        intent.putExtra("id", algorithm);
+        intent.putExtra("algorithm", algorithm);
         startActivity(intent);
     }
 }

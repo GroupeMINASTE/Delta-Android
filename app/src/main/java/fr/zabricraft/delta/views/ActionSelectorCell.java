@@ -87,7 +87,7 @@ public class ActionSelectorCell extends LinearLayout {
         // Update icon, category and label
         icon.setImageResource(line.getCategory().image);
         category.setText(line.getCategory().title);
-        label.setText(String.format(getResources().getString(line.getFormat()), line.getValues()));
+        label.setText(String.format(getResources().getString(line.getFormat()), (Object[]) line.getValues()));
     }
 
 }

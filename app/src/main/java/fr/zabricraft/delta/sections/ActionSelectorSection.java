@@ -4,33 +4,32 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
-import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
-import fr.zabricraft.delta.utils.EditorLine;
-import fr.zabricraft.delta.views.EditorCell;
+import fr.zabricraft.delta.utils.EditorLineCategory;
+import fr.zabricraft.delta.views.ActionSelectorCell;
 import fr.zabricraft.delta.views.HeaderCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class EditorLinesSection extends Section {
+public class ActionSelectorSection extends Section {
 
-    private final EditorLinesContainer container;
+    private final ActionSelectionContainer container;
+    private final EditorLineCategory category;
 
-    public EditorLinesSection(EditorLinesContainer container) {
+    public ActionSelectorSection(ActionSelectionContainer container, EditorLineCategory category) {
         super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().build());
 
         this.container = container;
+        this.category = category;
     }
 
     public int getContentItemsTotal() {
-        return container.editorLinesCount();
+        return category.catalog().length;
     }
 
     public View getItemView(ViewGroup parent) {
-        return new EditorCell(parent.getContext());
+        return new ActionSelectorCell(parent.getContext());
     }
 
     public View getHeaderView(ViewGroup parent) {
@@ -44,18 +43,23 @@ public class EditorLinesSection extends Section {
 
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
-        EditorLine line = container.toEditorLines().get(position);
+        final Action action = category.catalog()[position];
 
         // bind your view here
-        if (itemHolder.itemView instanceof EditorCell) {
-            ((EditorCell) itemHolder.itemView).with(line, container, position);
+        if (itemHolder.itemView instanceof ActionSelectorCell) {
+            ((ActionSelectorCell) itemHolder.itemView).with(action.toEditorLines().get(0));
+            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    container.selectAndClose(action);
+                }
+            });
         }
     }
 
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         // Check if it's a headerCell
         if (view instanceof HeaderCell) {
-            ((HeaderCell) view).with(R.string.instructions);
+            ((HeaderCell) view).with(category.title);
         }
 
         // return an empty instance of ViewHolder for the headers of this section
@@ -63,18 +67,8 @@ public class EditorLinesSection extends Section {
     }
 
     // Container interface
-    public interface EditorLinesContainer {
-        List<EditorLine> toEditorLines();
-
-        int editorLinesCount();
-
-        void editorLineChanged(EditorLine line, int index);
-
-        void editorLineAdded(Action action, int index);
-
-        void editorLineDeleted(EditorLine line, int index);
-
-        void openActionSelection(int index);
+    public interface ActionSelectionContainer {
+        void selectAndClose(Action action);
     }
 
 }

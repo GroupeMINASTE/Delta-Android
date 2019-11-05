@@ -3,13 +3,14 @@ package fr.zabricraft.delta.actions;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
+import java.io.Serializable;
 import java.util.List;
 
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.Process;
 
-public interface Action {
+public interface Action extends Serializable {
 
     void execute(Process process);
 

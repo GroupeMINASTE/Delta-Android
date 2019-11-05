@@ -98,9 +98,9 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
         }
     }
 
-    public void startEditor(int algorithm) {
+    public void startEditor(Algorithm algorithm) {
         Intent intent = new Intent(getActivity(), EditorActivity.class);
-        intent.putExtra("id", algorithm);
+        intent.putExtra("algorithm", algorithm);
         startActivity(intent);
     }
 

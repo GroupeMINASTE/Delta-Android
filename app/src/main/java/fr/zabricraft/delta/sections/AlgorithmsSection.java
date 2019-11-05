@@ -60,7 +60,7 @@ public class AlgorithmsSection extends Section {
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     // Load algorithm details
-                    loader.load(algorithm.getLocalId());
+                    loader.load(algorithm);
                 }
             });
         }
@@ -83,7 +83,7 @@ public class AlgorithmsSection extends Section {
             view.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     // Open editor for a new algorithm
-                    container.startEditor(0);
+                    container.startEditor(null);
                 }
             });
         }
@@ -94,14 +94,14 @@ public class AlgorithmsSection extends Section {
 
     // Loader interface
     public interface AlgorithmLoader {
-        void load(int algorithm);
+        void load(Algorithm algorithm);
     }
 
     // Container interface
     public interface AlgorithmContainer {
         List<Algorithm> getAlgorithms(int title);
 
-        void startEditor(int algorithm);
+        void startEditor(Algorithm algorithm);
     }
 
 }
