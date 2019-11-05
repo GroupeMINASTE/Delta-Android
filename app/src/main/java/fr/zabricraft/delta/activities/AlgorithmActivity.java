@@ -1,5 +1,6 @@
 package fr.zabricraft.delta.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +53,25 @@ public class AlgorithmActivity extends AppCompatActivity {
     public void startEditor(Algorithm algorithm) {
         Intent intent = new Intent(this, EditorActivity.class);
         intent.putExtra("algorithm", algorithm);
-        startActivity(intent);
+        startActivityForResult(intent, 667);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 667 && resultCode == Activity.RESULT_OK) {
+            // Get data from Intent
+            Object algorithm = data.getSerializableExtra("algorithm");
+
+            // Check if data is valid
+            if (algorithm instanceof Algorithm) {
+                // Update with new algorithm
+                fragment.selectAlgorithm((Algorithm) algorithm);
+
+                // Update home list
+                if (getParent() instanceof MainActivity) {
+                    ((MainActivity) getParent()).loadAlgorithms();
+                }
+            }
+        }
     }
 
 }

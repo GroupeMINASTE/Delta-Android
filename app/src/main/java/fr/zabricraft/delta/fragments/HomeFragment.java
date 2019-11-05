@@ -1,5 +1,6 @@
 package fr.zabricraft.delta.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -101,7 +102,20 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
     public void startEditor(Algorithm algorithm) {
         Intent intent = new Intent(getActivity(), EditorActivity.class);
         intent.putExtra("algorithm", algorithm);
-        startActivity(intent);
+        startActivityForResult(intent, 667);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 667 && resultCode == Activity.RESULT_OK) {
+            // Get data from Intent
+            Object algorithm = data.getSerializableExtra("algorithm");
+
+            // Check if data is valid
+            if (algorithm instanceof Algorithm) {
+                // Update with new algorithm
+                loadAlgorithms();
+            }
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package fr.zabricraft.delta.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import fr.zabricraft.delta.utils.Algorithm;
 
 public class MainActivity extends AppCompatActivity implements AlgorithmsSection.AlgorithmLoader {
 
+    private HomeFragment fragment;
+    private AlgorithmFragment algorithmFragment;
     private Algorithm currentAlgorithm = null;
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -38,15 +41,17 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
 
         setContentView(R.layout.activity_main);
 
-        getFragmentManager().beginTransaction().add(R.id.homeFragment, new HomeFragment()).commit();
+        fragment = new HomeFragment();
+
+        getFragmentManager().beginTransaction().add(R.id.homeFragment, fragment).commit();
     }
 
     public void load(Algorithm algorithm) {
         currentAlgorithm = algorithm;
 
         if (findViewById(R.id.algorithmFragment) != null) {
-            AlgorithmFragment fragment = AlgorithmFragment.create(algorithm);
-            getFragmentManager().beginTransaction().replace(R.id.algorithmFragment, fragment).addToBackStack(null).commit();
+            algorithmFragment = AlgorithmFragment.create(algorithm);
+            getFragmentManager().beginTransaction().replace(R.id.algorithmFragment, algorithmFragment).addToBackStack(null).commit();
         } else {
             Intent intent = new Intent(this, AlgorithmActivity.class);
             intent.putExtra("algorithm", algorithm);
@@ -65,6 +70,28 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
     public void startEditor(Algorithm algorithm) {
         Intent intent = new Intent(this, EditorActivity.class);
         intent.putExtra("algorithm", algorithm);
-        startActivity(intent);
+        startActivityForResult(intent, 667);
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 667 && resultCode == Activity.RESULT_OK && algorithmFragment != null) {
+            // Get data from Intent
+            Object algorithm = data.getSerializableExtra("algorithm");
+
+            // Check if data is valid
+            if (algorithm instanceof Algorithm) {
+                // Update with new algorithm
+                algorithmFragment.selectAlgorithm((Algorithm) algorithm);
+
+                // Update home list
+                loadAlgorithms();
+            }
+        }
+    }
+
+    public void loadAlgorithms() {
+        // Update home list
+        fragment.loadAlgorithms();
+    }
+
 }

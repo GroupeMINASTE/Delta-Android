@@ -125,8 +125,10 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         // Save algorithm to database
         Algorithm newAlgorithm = Database.getInstance(getActivity()).updateAlgorithm(algorithm);
 
-        // Call completion handler
-        // TODO: Refresh activities with new data
+        // Give new algorithm as result
+        Intent result = new Intent();
+        result.putExtra("algorithm", newAlgorithm);
+        getActivity().setResult(Activity.RESULT_OK, result);
 
         // Dismiss activity
         getActivity().finish();
