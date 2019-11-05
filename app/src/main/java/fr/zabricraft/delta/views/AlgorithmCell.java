@@ -5,6 +5,8 @@ import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.extensions.DateExtension;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.utils.Algorithm;
 
@@ -50,7 +52,7 @@ public class AlgorithmCell extends LinearLayout {
 
     public void with(Algorithm algorithm) {
         name.setText(algorithm.getName());
-        last_update.setText(algorithm.getLastUpdate().toString());
+        last_update.setText(String.format(getResources().getString(R.string.last_update), DateExtension.toRenderedString(algorithm.getLastUpdate())));
     }
 
 }

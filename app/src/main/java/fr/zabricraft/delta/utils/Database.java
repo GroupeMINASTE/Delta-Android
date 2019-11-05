@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import fr.zabricraft.delta.extensions.StringExtension;
-
 public class Database extends SQLiteOpenHelper {
 
     // Properties
@@ -53,7 +51,7 @@ public class Database extends SQLiteOpenHelper {
                 name + " VARCHAR NOT NULL," +
                 lines + " TEXT NOT NULL," +
                 owner + " INTEGER NOT NULL," +
-                last_update + " DATETIME NOT NULL" +
+                last_update + " LONG NOT NULL" +
                 ");");
     }
 
@@ -88,7 +86,7 @@ public class Database extends SQLiteOpenHelper {
                             cursor.getInt(cursor.getColumnIndex(remote_id)),
                             cursor.getInt(cursor.getColumnIndex(owner)) == 1,
                             cursor.getString(cursor.getColumnIndex(name)),
-                            StringExtension.stringToDate(cursor.getString(cursor.getColumnIndex(last_update))),
+                            new Date(cursor.getLong(cursor.getColumnIndex(last_update))),
                             cursor.getString(cursor.getColumnIndex(lines))
                     ).execute());
                 } while (cursor.moveToNext());
@@ -126,7 +124,7 @@ public class Database extends SQLiteOpenHelper {
                         cursor.getInt(cursor.getColumnIndex(remote_id)),
                         cursor.getInt(cursor.getColumnIndex(owner)) == 1,
                         cursor.getString(cursor.getColumnIndex(name)),
-                        StringExtension.stringToDate(cursor.getString(cursor.getColumnIndex(last_update))),
+                        new Date(cursor.getLong(cursor.getColumnIndex(last_update))),
                         cursor.getString(cursor.getColumnIndex(lines))
                 ).execute();
             }
@@ -160,7 +158,7 @@ public class Database extends SQLiteOpenHelper {
             values.put(name, algorithm.getName());
             values.put(lines, algorithm.toString());
             values.put(owner, algorithm.isOwner() ? 1 : 0);
-            values.put(last_update, "now");
+            values.put(last_update, algorithm.getLastUpdate().getTime());
 
             // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
             long id = db.insertOrThrow(algorithms, null, values);
@@ -202,7 +200,7 @@ public class Database extends SQLiteOpenHelper {
             values.put(name, algorithm.getName());
             values.put(lines, algorithm.toString());
             values.put(owner, algorithm.isOwner() ? 1 : 0);
-            values.put(last_update, "now");
+            values.put(last_update, algorithm.getLastUpdate().getTime());
 
             // Update row
             db.update(algorithms, values, local_id + " = ?", new String[]{String.valueOf(algorithm.getLocalId())});
