@@ -8,7 +8,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import org.greenrobot.eventbus.EventBus;
+
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.extensions.NotificationNameExtension;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;
 import fr.zabricraft.delta.utils.Algorithm;
 
@@ -67,9 +70,7 @@ public class AlgorithmActivity extends AppCompatActivity {
                 fragment.selectAlgorithm((Algorithm) algorithm);
 
                 // Update home list
-                if (getParent() instanceof MainActivity) {
-                    ((MainActivity) getParent()).loadAlgorithms();
-                }
+                EventBus.getDefault().post(new NotificationNameExtension.AlgorithmsChanged());
             }
         }
     }

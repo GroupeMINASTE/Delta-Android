@@ -8,7 +8,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.extensions.NotificationNameExtension;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;
 import fr.zabricraft.delta.fragments.HomeFragment;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
@@ -39,11 +44,18 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        EventBus.getDefault().register(this);
+
         setContentView(R.layout.activity_main);
 
         fragment = new HomeFragment();
 
         getFragmentManager().beginTransaction().add(R.id.homeFragment, fragment).commit();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     public void load(Algorithm algorithm) {
@@ -84,12 +96,13 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
                 algorithmFragment.selectAlgorithm((Algorithm) algorithm);
 
                 // Update home list
-                loadAlgorithms();
+                onAlgorithmsChanged(new NotificationNameExtension.AlgorithmsChanged());
             }
         }
     }
 
-    public void loadAlgorithms() {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAlgorithmsChanged(NotificationNameExtension.AlgorithmsChanged event) {
         // Update home list
         fragment.loadAlgorithms();
     }
