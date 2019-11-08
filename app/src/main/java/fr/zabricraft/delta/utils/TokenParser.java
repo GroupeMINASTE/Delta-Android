@@ -99,7 +99,7 @@ public class TokenParser {
                     name.append(current);
 
                     // Check for an index
-                    if (i < tokens.length() - 1 && tokens.charAt(i + 1) == '_' && variablesAndNumber.indexOf(tokens.charAt(i + 2)) != -1) {
+                    if (i < tokens.length() - 2 && tokens.charAt(i + 1) == '_' && variablesAndNumber.indexOf(tokens.charAt(i + 2)) != -1) {
                         // Add index to variable
                         char index = tokens.charAt(i + 2);
                         name.append('_');
