@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fr.zabricraft.delta.extensions.IntExtension;
+import fr.zabricraft.delta.extensions.StringExtension;
 
 public class OutputCell extends LinearLayout {
 
@@ -36,8 +37,8 @@ public class OutputCell extends LinearLayout {
         addView(new Separator(context));
     }
 
-    public void with(CharSequence output) {
-        name.setText(output);
+    public void with(String output) {
+        name.setText(StringExtension.attributedMath(output));
     }
 
 }

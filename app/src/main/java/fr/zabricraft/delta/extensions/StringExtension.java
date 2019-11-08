@@ -1,7 +1,15 @@
 package fr.zabricraft.delta.extensions;
 
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.SubscriptSpan;
+import android.text.style.SuperscriptSpan;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringExtension {
 
@@ -44,6 +52,39 @@ public class StringExtension {
         }
 
         return parts;
+    }
+
+    public static SpannableStringBuilder attributedMath(String string) {
+        SpannableStringBuilder workspace = new SpannableStringBuilder(string);
+
+        // Powers (numbers)
+        Matcher numbers = Pattern.compile(" \\^ [0-9]+").matcher(workspace.toString());
+        while (numbers.find()) {
+            String group = numbers.group();
+            workspace.setSpan(new SuperscriptSpan(), numbers.start(), numbers.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            workspace.setSpan(new AbsoluteSizeSpan(10, true), numbers.start(), numbers.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            workspace.replace(numbers.start(), numbers.end(), group.substring(3));
+        }
+
+        // Powers (expressions)
+        Matcher expressions = Pattern.compile(" \\^ \\([0-9a-z*+\\-/ ]+\\)").matcher(workspace.toString());
+        while (expressions.find()) {
+            String group = expressions.group();
+            workspace.setSpan(new SuperscriptSpan(), expressions.start(), expressions.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            workspace.setSpan(new AbsoluteSizeSpan(10, true), expressions.start(), expressions.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            workspace.replace(expressions.start(), expressions.end(), group.substring(4, group.length() - 1));
+        }
+
+        // Indexes
+        Matcher variables = Pattern.compile("_[0-9a-z]").matcher(workspace.toString());
+        while (variables.find()) {
+            String group = variables.group();
+            workspace.setSpan(new SubscriptSpan(), variables.start(), variables.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            workspace.setSpan(new AbsoluteSizeSpan(10, true), variables.start(), variables.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            workspace.replace(variables.start(), variables.end(), group.substring(1));
+        }
+
+        return workspace;
     }
 
 }
