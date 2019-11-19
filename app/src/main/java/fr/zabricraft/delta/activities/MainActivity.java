@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
 
     private HomeFragment fragment;
     private AlgorithmFragment algorithmFragment;
-    private Algorithm currentAlgorithm = null;
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -41,7 +40,11 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-                startEditor(currentAlgorithm);
+                if (algorithmFragment != null) {
+                    startEditor(algorithmFragment.getAlgorithm());
+                } else {
+                    startEditor(null);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -108,8 +111,6 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
     }
 
     public void load(Algorithm algorithm) {
-        currentAlgorithm = algorithm;
-
         if (findViewById(R.id.algorithmFragment) != null) {
             algorithmFragment = AlgorithmFragment.create(algorithm);
             getFragmentManager().beginTransaction().replace(R.id.algorithmFragment, algorithmFragment).addToBackStack(null).commit();

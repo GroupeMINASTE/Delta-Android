@@ -22,11 +22,10 @@ public class Vector implements Token {
         StringBuilder string = new StringBuilder();
 
         for (Token value : values) {
-            string.append(", ");
+            if (string.length() != 0) {
+                string.append(", ");
+            }
             string.append(value.toString());
-        }
-        if (string.length() > 0) {
-            string.substring(2);
         }
 
         string.insert(0, "(");

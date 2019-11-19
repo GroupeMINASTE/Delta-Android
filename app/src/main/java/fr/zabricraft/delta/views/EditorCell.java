@@ -158,6 +158,7 @@ public class EditorCell extends LinearLayout {
                 if (part.equals("%s")) {
                     final int currentTag = tag;
                     EditText field = new EditText(getContext());
+                    field.setSingleLine();
                     field.addTextChangedListener(new TextWatcher() {
                         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         }

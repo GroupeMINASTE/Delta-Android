@@ -37,6 +37,10 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         return fragment;
     }
 
+    public Algorithm getAlgorithm() {
+        return algorithm;
+    }
+
     public void selectAlgorithm(Algorithm algorithm) {
         // Check if not null
         if (algorithm != null) {

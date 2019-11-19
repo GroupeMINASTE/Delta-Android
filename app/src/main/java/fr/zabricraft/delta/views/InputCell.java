@@ -57,6 +57,7 @@ public class InputCell extends LinearLayout implements TextWatcher {
         fieldParams.gravity = Gravity.CENTER;
         field.setLayoutParams(fieldParams);
         field.addTextChangedListener(this);
+        field.setSingleLine();
 
         // Add them to layout
         horizontal.addView(name);

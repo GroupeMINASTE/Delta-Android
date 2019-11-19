@@ -28,9 +28,8 @@ public class AlgorithmActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-                Object algorithm = getIntent().getSerializableExtra("algorithm");
-                if (algorithm instanceof Algorithm) {
-                    startEditor(((Algorithm) algorithm));
+                if (fragment != null) {
+                    startEditor(fragment.getAlgorithm());
                 } else {
                     startEditor(null);
                 }
