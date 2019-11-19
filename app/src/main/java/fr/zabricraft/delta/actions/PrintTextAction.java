@@ -44,7 +44,7 @@ public class PrintTextAction implements Action {
     }
 
     public String toString() {
-        return "print_text \"" + text.replaceAll("\"", "\\\"") + "\"";
+        return "print_text \"" + text.replaceAll("\"", "\\\\\"") + "\"";
     }
 
     public List<EditorLine> toEditorLines() {
