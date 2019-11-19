@@ -18,15 +18,15 @@ import fr.zabricraft.delta.utils.TokenParser;
 
 public class WhileAction implements ActionBlock {
 
-    private Token condition;
+    private String condition;
     private List<Action> actions;
 
-    public WhileAction(Token condition, List<Action> actions) {
+    public WhileAction(String condition, List<Action> actions) {
         this.condition = condition;
         this.actions = actions;
     }
 
-    public WhileAction(Token condition) {
+    public WhileAction(String condition) {
         this.condition = condition;
         this.actions = new ArrayList<>();
     }
@@ -38,6 +38,9 @@ public class WhileAction implements ActionBlock {
     public void execute(Process process) {
         // Counter
         int i = 0;
+
+        // Parse condition
+        Token condition = new TokenParser(this.condition, process).execute();
 
         // Check if condition is true
         while (condition.compute(process.variables, false) instanceof Equation && ((Equation) condition.compute(process.variables, false)).isTrue(process.variables)) {
@@ -64,7 +67,7 @@ public class WhileAction implements ActionBlock {
         StringBuilder string = new StringBuilder();
 
         string.append("while \"");
-        string.append(condition.toString());
+        string.append(condition);
         string.append("\" {");
 
         for (Action action : actions) {
@@ -80,7 +83,7 @@ public class WhileAction implements ActionBlock {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_while, EditorLineCategory.structure, 0, new String[]{condition.toString()}));
+        lines.add(new EditorLine(R.string.action_while, EditorLineCategory.structure, 0, new String[]{condition}));
 
         for (Action action : actions) {
             lines.addAll(ArrayExtension.incrementIndentation(action.toEditorLines()));
@@ -176,12 +179,12 @@ public class WhileAction implements ActionBlock {
     public void update(EditorLine line) {
         if (line.getValues().length == 1) {
             // Get "while condition"
-            this.condition = new TokenParser(line.getValues()[0]).execute();
+            this.condition = line.getValues()[0];
         }
     }
 
-    public List<Pair<String, Token>> extractInputs() {
-        List<Pair<String, Token>> inputs = new ArrayList<>();
+    public List<Pair<String, String>> extractInputs() {
+        List<Pair<String, String>> inputs = new ArrayList<>();
 
         for (Action action : actions) {
             inputs.addAll(action.extractInputs());

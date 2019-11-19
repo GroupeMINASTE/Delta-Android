@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.tokens.FormattedToken;
-import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
@@ -17,19 +15,11 @@ import fr.zabricraft.delta.utils.TokenParser;
 public class SetAction implements Action {
 
     private String identifier;
-    private Token value;
-    private boolean format;
+    private String value;
 
-    public SetAction(String identifier, Token value, boolean format) {
+    public SetAction(String identifier, String value) {
         this.identifier = identifier;
         this.value = value;
-        this.format = format;
-    }
-
-    public SetAction(String identifier, Token value) {
-        this.identifier = identifier;
-        this.value = value;
-        this.format = false;
     }
 
     public void execute(Process process) {
@@ -39,21 +29,17 @@ public class SetAction implements Action {
         }
 
         // Set value with process environment
-        if (format) {
-            process.variables.put(identifier, new FormattedToken(value));
-        } else {
-            process.variables.put(identifier, value.compute(process.variables, false));
-        }
+        process.set(identifier, new TokenParser(value, process).execute());
     }
 
     public String toString() {
-        return (format ? "set_formatted" : "set") + " \"" + identifier + "\" to \"" + value.toString() + "\"";
+        return "set \"" + identifier + "\" to \"" + value + "\"";
     }
 
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(format ? R.string.action_set_formatted : R.string.action_set, EditorLineCategory.variable, 0, new String[]{identifier, value.toString()}));
+        lines.add(new EditorLine(R.string.action_set, EditorLineCategory.variable, 0, new String[]{identifier, value.toString()}));
 
         return lines;
     }
@@ -69,11 +55,11 @@ public class SetAction implements Action {
     public void update(EditorLine line) {
         if (line.getValues().length == 2) {
             this.identifier = line.getValues()[0];
-            this.value = new TokenParser(line.getValues()[1]).execute();
+            this.value = line.getValues()[1];
         }
     }
 
-    public List<Pair<String, Token>> extractInputs() {
+    public List<Pair<String, String>> extractInputs() {
         return new ArrayList<>();
     }
 

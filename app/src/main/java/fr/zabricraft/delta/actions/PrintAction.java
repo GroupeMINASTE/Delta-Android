@@ -55,7 +55,7 @@ public class PrintAction implements Action {
         }
     }
 
-    public List<Pair<String, Token>> extractInputs() {
+    public List<Pair<String, String>> extractInputs() {
         return new ArrayList<>();
     }
 

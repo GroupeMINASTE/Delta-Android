@@ -17,7 +17,6 @@ import fr.zabricraft.delta.actions.PrintTextAction;
 import fr.zabricraft.delta.actions.RootAction;
 import fr.zabricraft.delta.actions.SetAction;
 import fr.zabricraft.delta.actions.WhileAction;
-import fr.zabricraft.delta.tokens.Token;
 
 public class AlgorithmParser {
 
@@ -215,17 +214,17 @@ public class AlgorithmParser {
                                 // Create action and return it
                                 if (value == Keyword.Input && tokens.size() >= 2) {
                                     // Input "identifier" default "token"
-                                    Token token = new TokenParser(tokens.remove(0)).execute();
+                                    String token = tokens.remove(0);
                                     String identifier = tokens.remove(0);
                                     return new InputAction(identifier, token);
                                 } else if (value == Keyword.For && tokens.size() >= 2) {
                                     // For "identifier" in "token"
-                                    Token token = new TokenParser(tokens.remove(0)).execute();
+                                    String token = tokens.remove(0);
                                     String identifier = tokens.remove(0);
                                     return new ForAction(identifier, token);
                                 } else if ((value == Keyword.Set || value == Keyword.SetFormatted) && tokens.size() >= 2) {
                                     // Set "identifier" to "token"
-                                    Token token = new TokenParser(tokens.remove(0)).execute();
+                                    String token = tokens.remove(0);
                                     String identifier = tokens.remove(0);
                                     return new SetAction(identifier, token);
                                 }
@@ -242,7 +241,7 @@ public class AlgorithmParser {
                     // Create action and return it
                     if (value == Keyword.If && tokens.size() >= 1) {
                         // If "condition"
-                        Token condition = new TokenParser(tokens.remove(0)).execute();
+                        String condition = tokens.remove(0);
                         return new IfAction(condition);
                     } else if (value == Keyword.Else) {
                         // Else
@@ -257,7 +256,7 @@ public class AlgorithmParser {
                         return new PrintTextAction(text);
                     } else if (value == Keyword.While && tokens.size() >= 1) {
                         // While "condition"
-                        Token condition = new TokenParser(tokens.remove(0)).execute();
+                        String condition = tokens.remove(0);
                         return new WhileAction(condition);
                     }
                 }

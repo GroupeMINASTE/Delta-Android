@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
@@ -150,8 +149,8 @@ public class RootAction implements ActionBlock {
         // Nothing to update
     }
 
-    public List<Pair<String, Token>> extractInputs() {
-        List<Pair<String, Token>> inputs = new ArrayList<>();
+    public List<Pair<String, String>> extractInputs() {
+        List<Pair<String, String>> inputs = new ArrayList<>();
 
         for (Action action : actions) {
             inputs.addAll(action.extractInputs());

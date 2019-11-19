@@ -16,7 +16,6 @@ import java.util.List;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.sections.InputsSection;
 import fr.zabricraft.delta.sections.OutputsSection;
-import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Process;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
@@ -56,7 +55,7 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         }
     }
 
-    public void inputChanged(Pair<String, Token> input) {
+    public void inputChanged(Pair<String, String> input) {
         // Get vars
         if (algorithm != null && input != null) {
             // Update the input
@@ -114,8 +113,8 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         return recyclerView;
     }
 
-    public List<Pair<String, Token>> getInputs() {
-        return algorithm != null ? algorithm.getInputs() : new ArrayList<Pair<String, Token>>();
+    public List<Pair<String, String>> getInputs() {
+        return algorithm != null ? algorithm.getInputs() : new ArrayList<Pair<String, String>>();
     }
 
     public List<String> getOutputs() {

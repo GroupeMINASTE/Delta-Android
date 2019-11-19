@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
@@ -16,9 +15,9 @@ import fr.zabricraft.delta.utils.TokenParser;
 public class InputAction implements Action {
 
     private String identifier;
-    private Token value;
+    private String value;
 
-    public InputAction(String identifier, Token value) {
+    public InputAction(String identifier, String value) {
         this.identifier = identifier;
         this.value = value;
     }
@@ -30,22 +29,22 @@ public class InputAction implements Action {
         }
 
         // Set value with process environment
-        for (Pair<String, Token> input : process.inputs) {
+        for (Pair<String, String> input : process.inputs) {
             // Check key
             if (input.getValue0().equals(identifier)) {
-                process.variables.put(identifier, input.getValue1().compute(process.variables, false));
+                process.set(identifier, new TokenParser(input.getValue1(), process).execute());
             }
         }
     }
 
     public String toString() {
-        return "input \"" + identifier + "\" default \"" + value.toString() + "\"";
+        return "input \"" + identifier + "\" default \"" + value + "\"";
     }
 
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_input, EditorLineCategory.variable, 0, new String[]{identifier, value.toString()}));
+        lines.add(new EditorLine(R.string.action_input, EditorLineCategory.variable, 0, new String[]{identifier, value}));
 
         return lines;
     }
@@ -61,12 +60,12 @@ public class InputAction implements Action {
     public void update(EditorLine line) {
         if (line.getValues().length == 2) {
             this.identifier = line.getValues()[0];
-            this.value = new TokenParser(line.getValues()[1]).execute();
+            this.value = line.getValues()[1];
         }
     }
 
-    public List<Pair<String, Token>> extractInputs() {
-        List<Pair<String, Token>> inputs = new ArrayList<>();
+    public List<Pair<String, String>> extractInputs() {
+        List<Pair<String, String>> inputs = new ArrayList<>();
 
         inputs.add(Pair.with(identifier, value));
 

@@ -11,20 +11,16 @@ import android.widget.TextView;
 
 import org.javatuples.Pair;
 
-import java.util.HashMap;
-
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.sections.InputsSection;
-import fr.zabricraft.delta.tokens.Token;
-import fr.zabricraft.delta.utils.TokenParser;
 
 public class InputCell extends LinearLayout implements TextWatcher {
 
     private TextView name;
     private EditText field;
 
-    private Pair<String, Token> input;
+    private Pair<String, String> input;
     private InputsSection.InputsContainer container;
 
     public InputCell(Context context) {
@@ -69,12 +65,12 @@ public class InputCell extends LinearLayout implements TextWatcher {
         addView(new Separator(context));
     }
 
-    public void with(Pair<String, Token> input, InputsSection.InputsContainer container) {
+    public void with(Pair<String, String> input, InputsSection.InputsContainer container) {
         this.input = null;
         this.container = null;
 
         name.setText(StringExtension.attributedMath(String.format("%s =", input.getValue0())));
-        field.setText(input.getValue1().compute(new HashMap<String, Token>(), false).toString());
+        field.setText(input.getValue1());
 
         this.input = input;
         this.container = container;
@@ -88,7 +84,7 @@ public class InputCell extends LinearLayout implements TextWatcher {
 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (input != null && container != null) {
-            input = Pair.with(input.getValue0(), new TokenParser(String.valueOf(s)).execute());
+            input = Pair.with(input.getValue0(), String.valueOf(s));
             container.inputChanged(input);
         }
     }

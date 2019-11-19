@@ -9,7 +9,6 @@ import org.javatuples.Pair;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.views.HeaderCell;
 import fr.zabricraft.delta.views.InputCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
@@ -45,7 +44,7 @@ public class InputsSection extends Section {
 
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
         SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
-        Pair<String, Token> input = container.getInputs().get(position);
+        Pair<String, String> input = container.getInputs().get(position);
 
         // bind your view here
         if (itemHolder.itemView instanceof InputCell) {
@@ -65,9 +64,9 @@ public class InputsSection extends Section {
 
     // Container interface
     public interface InputsContainer {
-        List<Pair<String, Token>> getInputs();
+        List<Pair<String, String>> getInputs();
 
-        void inputChanged(Pair<String, Token> input);
+        void inputChanged(Pair<String, String> input);
     }
 
 }

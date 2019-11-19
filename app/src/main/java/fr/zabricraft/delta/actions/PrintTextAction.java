@@ -33,7 +33,7 @@ public class PrintTextAction implements Action {
             String group = groups.group();
 
             // Get token based on string
-            Token token = new TokenParser(group.substring(1, group.length() - 1)).execute();
+            Token token = new TokenParser(group.substring(1, group.length() - 1), process).execute();
 
             // Replace with tokens
             output = output.replace(group, token.compute(process.variables, true).toString());
@@ -69,7 +69,7 @@ public class PrintTextAction implements Action {
         }
     }
 
-    public List<Pair<String, Token>> extractInputs() {
+    public List<Pair<String, String>> extractInputs() {
         return new ArrayList<>();
     }
 

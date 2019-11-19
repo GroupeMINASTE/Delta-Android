@@ -18,16 +18,16 @@ import fr.zabricraft.delta.utils.TokenParser;
 public class ForAction implements ActionBlock {
 
     private String identifier;
-    private Token token;
+    private String token;
     private List<Action> actions;
 
-    public ForAction(String identifier, Token token) {
+    public ForAction(String identifier, String token) {
         this.identifier = identifier;
         this.token = token;
         this.actions = new ArrayList<>();
     }
 
-    public ForAction(String identifier, Token token, List<Action> actions) {
+    public ForAction(String identifier, String token, List<Action> actions) {
         this.identifier = identifier;
         this.token = token;
         this.actions = actions;
@@ -44,7 +44,7 @@ public class ForAction implements ActionBlock {
         }
 
         // Get computed token
-        Token token = this.token.compute(process.variables, false);
+        Token token = new TokenParser(this.token).execute().compute(process.variables, false);
 
         // Get list
         if (token instanceof fr.zabricraft.delta.tokens.List) {
@@ -70,7 +70,7 @@ public class ForAction implements ActionBlock {
         string.append("for \"");
         string.append(identifier);
         string.append("\" in \"");
-        string.append(token.toString());
+        string.append(token);
         string.append("\" {");
 
         for (Action action : actions) {
@@ -86,7 +86,7 @@ public class ForAction implements ActionBlock {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_for, EditorLineCategory.structure, 0, new String[]{identifier, token.toString()}));
+        lines.add(new EditorLine(R.string.action_for, EditorLineCategory.structure, 0, new String[]{identifier, token}));
 
         for (Action action : actions) {
             lines.addAll(ArrayExtension.incrementIndentation(action.toEditorLines()));
@@ -183,12 +183,12 @@ public class ForAction implements ActionBlock {
         if (line.getValues().length == 2) {
             // Get "for identifier in token"
             this.identifier = line.getValues()[0];
-            this.token = new TokenParser(line.getValues()[1]).execute();
+            this.token = line.getValues()[1];
         }
     }
 
-    public List<Pair<String, Token>> extractInputs() {
-        List<Pair<String, Token>> inputs = new ArrayList<>();
+    public List<Pair<String, String>> extractInputs() {
+        List<Pair<String, String>> inputs = new ArrayList<>();
 
         for (Action action : actions) {
             inputs.addAll(action.extractInputs());

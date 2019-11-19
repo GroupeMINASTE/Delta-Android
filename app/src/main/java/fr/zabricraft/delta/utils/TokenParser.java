@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.tokens.Fraction;
+import fr.zabricraft.delta.tokens.FunctionDeclaration;
 import fr.zabricraft.delta.tokens.Number;
 import fr.zabricraft.delta.tokens.Power;
 import fr.zabricraft.delta.tokens.SyntaxError;
@@ -28,7 +29,20 @@ public class TokenParser {
     // Token vars
     private List<Token> values;
 
+    // Environment vars
+    private Process process;
+
     // Initializer
+    public TokenParser(String tokens, Process process) {
+        this.tokens = tokens;
+        this.ops = new ArrayList<>();
+        this.i = 0;
+
+        this.values = new ArrayList<>();
+
+        this.process = process;
+    }
+
     public TokenParser(String tokens) {
         this.tokens = tokens;
         this.ops = new ArrayList<>();
@@ -57,8 +71,20 @@ public class TokenParser {
                 if (current == '(') {
                     // Check if we have a token before without operator
                     if (values.size() > 0 && productCoefficients.indexOf(previous) != -1) {
-                        // Add a multiplication operator
-                        ops.add(0, "*");
+                        // Check if last token is a function
+                        if (values.get(0) instanceof Variable) {
+                            Variable prevar = ((Variable) values.get(0));
+                            if (process != null && process.variables.containsKey(prevar.getName()) && process.variables.get(prevar.getName()) instanceof FunctionDeclaration) {
+                                // Add a function operator
+                                ops.add(0, "f");
+                            } else {
+                                // Add a multiplication operator
+                                ops.add(0, "*");
+                            }
+                        } else {
+                            // Add a multiplication operator
+                            ops.add(0, "*");
+                        }
                     }
 
                     // Add it to operations

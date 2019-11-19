@@ -6,13 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.zabricraft.delta.tokens.Equation;
+import fr.zabricraft.delta.tokens.Function;
 import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.tokens.Variable;
 import fr.zabricraft.delta.tokens.Vector;
 
 public enum Operation {
 
     // Values
-    addition("+"), subtraction("-"), multiplication("*"), division("/"), modulo("%"), power("^"), root("√"), equals("="), unequals("!="), greaterThan(">"), lessThan("<"), greaterThanOrEquals(">="), lessThanOrEquals("<="), list1(","), list2(";");
+    addition("+"), subtraction("-"), multiplication("*"), division("/"), modulo("%"), power("^"), root("√"), equals("="), unequals("!="), greaterThan(">"), lessThan("<"), greaterThanOrEquals(">="), lessThanOrEquals("<="), list1(","), list2(";"), function("f");
 
     // Properties
     public final String rawValue;
@@ -52,6 +54,14 @@ public enum Operation {
         // Check for equations
         if (this == Operation.equals || this == Operation.unequals || this == Operation.greaterThan || this == Operation.lessThan || this == Operation.greaterThanOrEquals || this == Operation.lessThanOrEquals) {
             return new Equation(left, right, this);
+        }
+
+        // Check for function
+        if (this == Operation.function) {
+            if (left instanceof Variable) {
+                // From left
+                return new Function(((Variable) left).getName(), right);
+            }
         }
 
         // Check for lists

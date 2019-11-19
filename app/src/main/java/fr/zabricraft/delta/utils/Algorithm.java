@@ -14,7 +14,6 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.ActionBlock;
 import fr.zabricraft.delta.actions.RootAction;
-import fr.zabricraft.delta.tokens.Token;
 
 public class Algorithm implements Serializable {
 
@@ -24,7 +23,7 @@ public class Algorithm implements Serializable {
     private boolean owner;
     private String name;
     private Date last_update;
-    private List<Pair<String, Token>> inputs;
+    private List<Pair<String, String>> inputs;
     private RootAction root;
 
     // Initializer
@@ -77,7 +76,7 @@ public class Algorithm implements Serializable {
         this.last_update = last_update;
     }
 
-    public List<Pair<String, Token>> getInputs() {
+    public List<Pair<String, String>> getInputs() {
         return inputs;
     }
 

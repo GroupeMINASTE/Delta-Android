@@ -38,14 +38,14 @@ public enum EditorLineCategory {
         switch (this) {
             case variable:
                 return new Action[]{
-                        new InputAction("a", new TokenParser("0").execute()),
-                        new SetAction("a", new TokenParser("0").execute())
+                        new InputAction("a", "0"),
+                        new SetAction("a", "0")
                 };
             case structure:
                 return new Action[]{
-                        new IfAction(new TokenParser("a=b").execute(), new ElseAction()),
-                        new WhileAction(new TokenParser("a=b").execute()),
-                        new ForAction("a", new TokenParser("b").execute())
+                        new IfAction("a = b", new ElseAction()),
+                        new WhileAction("a = b"),
+                        new ForAction("a", "b")
                 };
             case output:
                 return new Action[]{

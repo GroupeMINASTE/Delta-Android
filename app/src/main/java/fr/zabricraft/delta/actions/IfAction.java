@@ -18,29 +18,29 @@ import fr.zabricraft.delta.utils.TokenParser;
 
 public class IfAction implements ActionBlock {
 
-    private Token condition;
+    private String condition;
     private List<Action> actions;
     private ElseAction elseAction;
 
-    public IfAction(Token condition, List<Action> actions, ElseAction elseAction) {
+    public IfAction(String condition, List<Action> actions, ElseAction elseAction) {
         this.condition = condition;
         this.actions = actions;
         this.elseAction = elseAction;
     }
 
-    public IfAction(Token condition, List<Action> actions) {
+    public IfAction(String condition, List<Action> actions) {
         this.condition = condition;
         this.actions = actions;
         this.elseAction = null;
     }
 
-    public IfAction(Token condition, ElseAction elseAction) {
+    public IfAction(String condition, ElseAction elseAction) {
         this.condition = condition;
         this.actions = new ArrayList<>();
         this.elseAction = elseAction;
     }
 
-    public IfAction(Token condition) {
+    public IfAction(String condition) {
         this.condition = condition;
         this.actions = new ArrayList<>();
         this.elseAction = null;
@@ -60,7 +60,7 @@ public class IfAction implements ActionBlock {
 
     public void execute(Process process) {
         // Get computed condition and check it
-        Token condition = this.condition.compute(process.variables, false);
+        Token condition = new TokenParser(this.condition).execute().compute(process.variables, false);
         if (condition instanceof Equation && ((Equation) condition).isTrue(process.variables)) {
             // Execute actions
             for (Action action : actions) {
@@ -78,7 +78,7 @@ public class IfAction implements ActionBlock {
         StringBuilder string = new StringBuilder();
 
         string.append("if \"");
-        string.append(condition.toString());
+        string.append(condition);
         string.append("\" {");
 
         for (Action action : actions) {
@@ -98,7 +98,7 @@ public class IfAction implements ActionBlock {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_if, EditorLineCategory.structure, 0, new String[]{condition.toString()}));
+        lines.add(new EditorLine(R.string.action_if, EditorLineCategory.structure, 0, new String[]{condition}));
 
         for (Action action : actions) {
             lines.addAll(ArrayExtension.incrementIndentation(action.toEditorLines()));
@@ -216,12 +216,12 @@ public class IfAction implements ActionBlock {
     public void update(EditorLine line) {
         if (line.getValues().length == 1) {
             // Get "if condition"
-            this.condition = new TokenParser(line.getValues()[0]).execute();
+            this.condition = line.getValues()[0];
         }
     }
 
-    public List<Pair<String, Token>> extractInputs() {
-        List<Pair<String, Token>> inputs = new ArrayList<>();
+    public List<Pair<String, String>> extractInputs() {
+        List<Pair<String, String>> inputs = new ArrayList<>();
 
         for (Action action : actions) {
             inputs.addAll(action.extractInputs());
