@@ -179,7 +179,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     // Delete an algorithm
-    public void deleteAlgorith(Algorithm algorithm) {
+    public void deleteAlgorithm(Algorithm algorithm) {
         // If id id 0
         if (algorithm.getLocalId() == 0) {
             return;

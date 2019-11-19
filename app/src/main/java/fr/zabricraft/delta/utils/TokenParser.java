@@ -3,7 +3,9 @@ package fr.zabricraft.delta.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.zabricraft.delta.tokens.Fraction;
 import fr.zabricraft.delta.tokens.Number;
+import fr.zabricraft.delta.tokens.Power;
 import fr.zabricraft.delta.tokens.SyntaxError;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.tokens.Variable;
@@ -72,11 +74,25 @@ public class TokenParser {
                 // Number
                 else if (isInt(String.valueOf(current))) {
                     int val = 0;
+                    int powerOfTen = 0;
 
                     // Get other digits
                     while (i < tokens.length() && isInt(String.valueOf(tokens.charAt(i)))) {
                         val = (val * 10) + Integer.parseInt(String.valueOf(tokens.charAt(i)));
                         i++;
+                    }
+
+                    // If we have a dot
+                    if (i < tokens.length() - 1 && tokens.charAt(i) == '.') {
+                        // Pass the dot
+                        i++;
+
+                        // And start getting numbers after the dot
+                        while (i < tokens.length() && isInt(String.valueOf(tokens.charAt(i)))) {
+                            val = (val * 10) + Integer.parseInt(String.valueOf(tokens.charAt(i)));
+                            i++;
+                            powerOfTen++;
+                        }
                     }
 
                     // Check if we have a token before without operator
@@ -86,7 +102,11 @@ public class TokenParser {
                     }
 
                     // Insert into values
-                    insertValue(new Number(val));
+                    if (powerOfTen > 0) {
+                        insertValue(new Fraction(new Number(val), new Power(new Number(10), new Number(powerOfTen))));
+                    } else {
+                        insertValue(new Number(val));
+                    }
 
                     // Remove one, else current character is skipped
                     i--;
@@ -240,9 +260,9 @@ public class TokenParser {
         Operation op = getFirstOperationAndRemove();
         if (op != null) {
             if (op == Operation.root) {
-                return op.join(right, left);
+                return op.join(right, left, ops);
             } else {
-                return op.join(left, right);
+                return op.join(left, right, ops);
             }
         }
 

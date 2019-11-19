@@ -39,8 +39,7 @@ public enum EditorLineCategory {
             case variable:
                 return new Action[]{
                         new InputAction("a", new TokenParser("0").execute()),
-                        new SetAction("a", new TokenParser("0").execute()),
-                        new SetAction("f(x)", new TokenParser("ax+b").execute(), true)
+                        new SetAction("a", new TokenParser("0").execute())
                 };
             case structure:
                 return new Action[]{

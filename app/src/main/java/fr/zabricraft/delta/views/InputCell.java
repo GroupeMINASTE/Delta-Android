@@ -14,6 +14,7 @@ import org.javatuples.Pair;
 import java.util.HashMap;
 
 import fr.zabricraft.delta.extensions.IntExtension;
+import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.sections.InputsSection;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.TokenParser;
@@ -72,7 +73,7 @@ public class InputCell extends LinearLayout implements TextWatcher {
         this.input = null;
         this.container = null;
 
-        name.setText(String.format("%s =", input.getValue0()));
+        name.setText(StringExtension.attributedMath(String.format("%s =", input.getValue0())));
         field.setText(input.getValue1().compute(new HashMap<String, Token>(), false).toString());
 
         this.input = input;

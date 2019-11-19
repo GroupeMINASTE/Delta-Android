@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.tokens.FormattedToken;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
+import fr.zabricraft.delta.utils.TokenParser;
 
 public class PrintAction implements Action {
 
@@ -23,18 +23,10 @@ public class PrintAction implements Action {
 
     public void execute(Process process) {
         // Get the value
-        if (process.variables.containsKey(identifier)) {
-            Token value = process.variables.get(identifier);
+        Token value = new TokenParser(identifier).execute();
 
-            // Print it (add it to output)
-            if (value instanceof FormattedToken) {
-                // Formatted
-                process.outputs.add(identifier + " = " + value.compute(process.variables, true).toString());
-            } else {
-                // Not formatted
-                process.outputs.add(identifier + " = " + value.toString());
-            }
-        }
+        // Print it (add it to output)
+        process.outputs.add(identifier + " = " + value.compute(process.variables, true).toString());
     }
 
     public String toString() {

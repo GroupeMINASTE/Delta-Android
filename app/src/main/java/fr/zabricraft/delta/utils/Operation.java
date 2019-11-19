@@ -1,14 +1,18 @@
 package fr.zabricraft.delta.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import fr.zabricraft.delta.tokens.Equation;
 import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.tokens.Vector;
 
 public enum Operation {
 
     // Values
-    addition("+"), subtraction("-"), multiplication("*"), division("/"), modulo("%"), power("^"), root("√"), equals("="), unequals("!="), greaterThan(">"), lessThan("<"), greaterThanOrEquals(">="), lessThanOrEquals("<="), list(","), vector(";");
+    addition("+"), subtraction("-"), multiplication("*"), division("/"), modulo("%"), power("^"), root("√"), equals("="), unequals("!="), greaterThan(">"), lessThan("<"), greaterThanOrEquals(">="), lessThanOrEquals("<="), list1(","), list2(";");
 
     // Properties
     public final String rawValue;
@@ -44,10 +48,46 @@ public enum Operation {
     }
 
     // Join with two tokens
-    public Token join(Token left, Token right) {
+    public Token join(Token left, Token right, List<String> ops) {
         // Check for equations
         if (this == Operation.equals || this == Operation.unequals || this == Operation.greaterThan || this == Operation.lessThan || this == Operation.greaterThanOrEquals || this == Operation.lessThanOrEquals) {
             return new Equation(left, right, this);
+        }
+
+        // Check for lists
+        if (ops.contains("{") && (this == Operation.list1 || this == Operation.list2)) {
+            if (left instanceof fr.zabricraft.delta.tokens.List) {
+                // From left
+                List<Token> values = new ArrayList<>(((fr.zabricraft.delta.tokens.List) left).getValues());
+                values.add(right);
+                return new fr.zabricraft.delta.tokens.List(values);
+            } else if (right instanceof fr.zabricraft.delta.tokens.List) {
+                // From right
+                List<Token> values = new ArrayList<>(((fr.zabricraft.delta.tokens.List) right).getValues());
+                values.add(left);
+                return new fr.zabricraft.delta.tokens.List(values);
+            } else {
+                // From new tokens
+                return new fr.zabricraft.delta.tokens.List(Arrays.asList(left, right));
+            }
+        }
+
+        // Check for vectors
+        if (ops.contains("(") && (this == Operation.list1 || this == Operation.list2)) {
+            if (left instanceof Vector) {
+                // From left
+                List<Token> values = new ArrayList<>(((Vector) left).getValues());
+                values.add(right);
+                return new Vector(values);
+            } else if (right instanceof Vector) {
+                // From right
+                List<Token> values = new ArrayList<>(((Vector) right).getValues());
+                values.add(left);
+                return new Vector(values);
+            } else {
+                // From new tokens
+                return new Vector(Arrays.asList(left, right));
+            }
         }
 
         // Simple expression

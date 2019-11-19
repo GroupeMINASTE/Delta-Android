@@ -2,7 +2,10 @@ package fr.zabricraft.delta.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,12 +15,16 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.extensions.NotificationNameExtension;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;
 import fr.zabricraft.delta.fragments.HomeFragment;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
 import fr.zabricraft.delta.utils.Algorithm;
+import fr.zabricraft.delta.utils.Database;
 
 public class MainActivity extends AppCompatActivity implements AlgorithmsSection.AlgorithmLoader {
 
@@ -44,6 +51,48 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Get build number
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        int build_number = data.getInt("build_number", 0);
+
+        // Check to update
+        if (build_number < 13) {
+            // Get all algorithms
+            List<Algorithm> algorithms = Database.getInstance(this).getAlgorithms();
+
+            // Clear downloaded algorithms and save them again
+            for (Algorithm algorithm : algorithms) {
+                // Check id it is a download
+                if (!algorithm.isOwner()) {
+                    // Remove it
+                    Database.getInstance(this).deleteAlgorithm(algorithm);
+                }
+            }
+
+            // Add again downloads
+            for (Algorithm algorithm : AlgorithmExtension.defaults) {
+                Database.getInstance(this).addAlgorithm(algorithm);
+            }
+
+            // Reload list
+            algorithms = Database.getInstance(this).getAlgorithms();
+
+            // Replace set_formatted by set in code
+            for (Algorithm algorithm : algorithms) {
+                // Just save them again
+                Database.getInstance(this).updateAlgorithm(algorithm);
+            }
+        }
+
+        // Get current version and save it
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            data.edit().putInt("build_number", pInfo.versionCode).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Create views
         EventBus.getDefault().register(this);
 
         setContentView(R.layout.activity_main);

@@ -5,12 +5,15 @@ import org.javatuples.Triplet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
+import fr.zabricraft.delta.utils.TokenParser;
 
 public class PrintTextAction implements Action {
 
@@ -21,12 +24,27 @@ public class PrintTextAction implements Action {
     }
 
     public void execute(Process process) {
+        // Get output
+        String output = text;
+
+        // Get "" to interpret them
+        Matcher groups = Pattern.compile("\".*\"").matcher(output);
+        while (groups.find()) {
+            String group = groups.group();
+
+            // Get token based on string
+            Token token = new TokenParser(group.substring(1, group.length() - 1)).execute();
+
+            // Replace with tokens
+            output = output.replace(group, token.compute(process.variables, true).toString());
+        }
+
         // Print text
-        process.outputs.add(text);
+        process.outputs.add(output);
     }
 
     public String toString() {
-        return "print_text \"" + text + "\"";
+        return "print_text \"" + text.replaceAll("\"", "\\\"") + "\"";
     }
 
     public List<EditorLine> toEditorLines() {

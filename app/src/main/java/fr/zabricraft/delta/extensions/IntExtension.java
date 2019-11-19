@@ -15,6 +15,14 @@ public class IntExtension {
         return a;
     }
 
+    public static boolean isPowerOfTen(int input) {
+        while (input > 9 && input % 10 == 0) {
+            input /= 10;
+        }
+
+        return input == 1;
+    }
+
     public static int dpToPixel(int dp, Resources resources) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
     }

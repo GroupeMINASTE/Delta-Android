@@ -135,6 +135,13 @@ public class AlgorithmParser {
 
                 // Get all the characters
                 while (i < lines.length() && lines.charAt(i) != '"') {
+                    // Check for \
+                    if (lines.charAt(i) == '\\' && i < lines.length() - 1) {
+                        // Skip it and get next character
+                        i++;
+                    }
+
+                    // Add character to string
                     token.append(lines.charAt(i));
                     i++;
                 }
@@ -216,16 +223,11 @@ public class AlgorithmParser {
                                     Token token = new TokenParser(tokens.remove(0)).execute();
                                     String identifier = tokens.remove(0);
                                     return new ForAction(identifier, token);
-                                } else if (value == Keyword.Set && tokens.size() >= 2) {
+                                } else if ((value == Keyword.Set || value == Keyword.SetFormatted) && tokens.size() >= 2) {
                                     // Set "identifier" to "token"
                                     Token token = new TokenParser(tokens.remove(0)).execute();
                                     String identifier = tokens.remove(0);
                                     return new SetAction(identifier, token);
-                                } else if (value == Keyword.SetFormatted && tokens.size() >= 2) {
-                                    // Set "identifier" to "token" as format
-                                    Token token = new TokenParser(tokens.remove(0)).execute();
-                                    String identifier = tokens.remove(0);
-                                    return new SetAction(identifier, token, true);
                                 }
                             }
                         }
