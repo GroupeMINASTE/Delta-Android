@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,6 +29,8 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
     private List<Algorithm> downloads;
 
     private RecyclerView recyclerView;
+
+    private Algorithm longClickAlgorithm;
 
     public void loadAlgorithms() {
         // Clear previous data
@@ -105,6 +108,10 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
         startActivityForResult(intent, 667);
     }
 
+    public void setLongClickAlgorithm(Algorithm algorithm) {
+        this.longClickAlgorithm = algorithm;
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 667 && resultCode == Activity.RESULT_OK) {
             // Get data from Intent
@@ -116,6 +123,26 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
                 loadAlgorithms();
             }
         }
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                // Start editor
+                startEditor(longClickAlgorithm);
+                break;
+            case 1:
+                // Delete and refresh
+                if (longClickAlgorithm != null) {
+                    // Delete it from database
+                    Database.getInstance(getActivity()).deleteAlgorithm(longClickAlgorithm);
+
+                    // Update without algorithm
+                    loadAlgorithms();
+                }
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
 }

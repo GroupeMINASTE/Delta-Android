@@ -63,6 +63,13 @@ public class AlgorithmsSection extends Section {
                     loader.load(algorithm);
                 }
             });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    container.setLongClickAlgorithm(algorithm);
+                    return false;
+                }
+            });
         }
     }
 
@@ -102,6 +109,8 @@ public class AlgorithmsSection extends Section {
         List<Algorithm> getAlgorithms(int title);
 
         void startEditor(Algorithm algorithm);
+
+        void setLongClickAlgorithm(Algorithm algorithm);
     }
 
 }

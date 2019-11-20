@@ -2,6 +2,8 @@ package fr.zabricraft.delta.views;
 
 import android.content.Context;
 import android.util.TypedValue;
+import android.view.ContextMenu;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -10,7 +12,7 @@ import fr.zabricraft.delta.extensions.DateExtension;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.utils.Algorithm;
 
-public class AlgorithmCell extends LinearLayout {
+public class AlgorithmCell extends LinearLayout implements View.OnCreateContextMenuListener {
 
     private TextView name;
     private TextView last_update;
@@ -18,6 +20,9 @@ public class AlgorithmCell extends LinearLayout {
     public AlgorithmCell(Context context) {
         // Init linearLayout
         super(context);
+
+        // Listen for menus
+        setOnCreateContextMenuListener(this);
 
         // Size of dp
         int dp4 = IntExtension.dpToPixel(4, getResources());
@@ -53,6 +58,11 @@ public class AlgorithmCell extends LinearLayout {
     public void with(Algorithm algorithm) {
         name.setText(algorithm.getName());
         last_update.setText(String.format(getResources().getString(R.string.last_update), DateExtension.toRenderedString(algorithm.getLastUpdate())));
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.add(0, 0, 0, R.string.edit);
+        menu.add(0, 1, 0, R.string.delete);
     }
 
 }
