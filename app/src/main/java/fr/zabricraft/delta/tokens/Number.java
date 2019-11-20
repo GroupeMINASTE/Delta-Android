@@ -207,7 +207,7 @@ public class Number implements Token {
             if (right instanceof Number) {
                 if (value >= 0) {
                     // Positive
-                    double value = Math.pow(this.value, 1 / ((Number) right).value);
+                    double value = Math.pow(this.value, 1.0 / ((Number) right).value);
 
                     if (Double.isInfinite(value) || Double.isNaN(value)) {
                         // Calcul error
@@ -218,7 +218,7 @@ public class Number implements Token {
                     }
                 } else {
                     // Negative
-                    double value = Math.pow(-this.value, 1 / ((Number) right).value);
+                    double value = Math.pow(-this.value, 1.0 / ((Number) right).value);
 
                     if (Double.isInfinite(value) || Double.isNaN(value)) {
                         // Calcul error

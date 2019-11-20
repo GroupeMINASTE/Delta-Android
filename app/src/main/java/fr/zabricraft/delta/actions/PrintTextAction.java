@@ -28,7 +28,7 @@ public class PrintTextAction implements Action {
         String output = text;
 
         // Get "" to interpret them
-        Matcher groups = Pattern.compile("\".*\"").matcher(output);
+        Matcher groups = Pattern.compile("\"[^\"]*\"").matcher(output);
         while (groups.find()) {
             String group = groups.group();
 

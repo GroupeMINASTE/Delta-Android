@@ -29,13 +29,13 @@ public class Process {
     }
 
     public void set(String identifier, Token value) {
-        Matcher f = Pattern.compile("([a-zA-Z])\\((.+)\\)").matcher(identifier);
+        Matcher f = Pattern.compile("([" + TokenParser.variables + "])\\( *([" + TokenParser.variables + "]) *\\)").matcher(identifier.trim());
         if (f.find()) {
             // Take it as a function
             variables.put(f.group(1), new FunctionDeclaration(f.group(2), value));
         } else {
             // Set it as a variable
-            variables.put(identifier, value.compute(variables, false));
+            variables.put(identifier.trim(), value.compute(variables, false));
         }
     }
 

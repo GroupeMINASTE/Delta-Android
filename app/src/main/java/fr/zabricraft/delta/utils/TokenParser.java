@@ -14,12 +14,11 @@ import fr.zabricraft.delta.tokens.Variable;
 public class TokenParser {
 
     // Constants
-    public static final String variables = "abcdefghijklmnopqrstuvwxyzΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΣσςϹϲΤτΥυΦφΧχΨψΩω";
-    public static final String functions = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String variables = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΣσςϹϲΤτΥυΦφΧχΨψΩω";
     public static final String variablesAndNumber = variables + "0123456789";
     public static final String productCoefficients = variablesAndNumber + ")";
     public static final String constants = "i";
-    public static final String input = variablesAndNumber + functions + "_+-*/%^√,;(){}=<>! ";
+    public static final String input = variablesAndNumber + "_+-*/%^√,;(){}=<>! ";
 
     // Parsing vars
     private String tokens;
