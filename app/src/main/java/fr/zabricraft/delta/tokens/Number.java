@@ -234,7 +234,7 @@ public class Number implements Token {
             }
 
             // Return root
-            new Root(this, right);
+            return new Root(this, right);
         }
 
         // Unknown, return a calcul error
