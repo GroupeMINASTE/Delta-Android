@@ -60,7 +60,7 @@ public class IfAction implements ActionBlock {
 
     public void execute(Process process) {
         // Get computed condition and check it
-        Token condition = new TokenParser(this.condition).execute().compute(process.variables, false);
+        Token condition = new TokenParser(this.condition, process).execute().compute(process.variables, false);
         if (condition instanceof Equation && ((Equation) condition).isTrue(process.variables)) {
             // Execute actions
             for (Action action : actions) {

@@ -23,7 +23,7 @@ public class PrintAction implements Action {
 
     public void execute(Process process) {
         // Get the value
-        Token value = new TokenParser(identifier).execute();
+        Token value = new TokenParser(identifier, process).execute();
 
         // Print it (add it to output)
         process.outputs.add(identifier + " = " + value.compute(process.variables, true).toString());

@@ -70,7 +70,7 @@ public class InputCell extends LinearLayout implements TextWatcher {
         this.input = null;
         this.container = null;
 
-        name.setText(StringExtension.attributedMath(String.format("%s =", input.getValue0())));
+        name.setText(StringExtension.attributedMath(String.format("%s =", input.getValue0())), TextView.BufferType.SPANNABLE);
         field.setText(input.getValue1());
 
         this.input = input;

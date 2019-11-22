@@ -44,7 +44,7 @@ public class ForAction implements ActionBlock {
         }
 
         // Get computed token
-        Token token = new TokenParser(this.token).execute().compute(process.variables, false);
+        Token token = new TokenParser(this.token, process).execute().compute(process.variables, false);
 
         // Get list
         if (token instanceof fr.zabricraft.delta.tokens.List) {

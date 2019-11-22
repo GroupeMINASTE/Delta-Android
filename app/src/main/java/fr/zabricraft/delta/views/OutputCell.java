@@ -38,7 +38,7 @@ public class OutputCell extends LinearLayout {
     }
 
     public void with(String output) {
-        name.setText(StringExtension.attributedMath(output));
+        name.setText(StringExtension.attributedMath(output), TextView.BufferType.SPANNABLE);
     }
 
 }
