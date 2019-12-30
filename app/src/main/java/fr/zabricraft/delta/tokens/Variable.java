@@ -98,6 +98,16 @@ public class Variable implements Token {
                     return new Power(this, new Number(((Number) right).getValue() % 4)).compute(inputs, format);
                 }
             }
+            // Check for e
+            if (name.equals("e")) {
+                // If right is a number
+                if (right instanceof Number) {
+                    // e^0 = 1
+                    if (((Number) right).getValue() == 0) {
+                        return new Number(1);
+                    }
+                }
+            }
 
             return new Power(this, right);
         }
@@ -128,6 +138,12 @@ public class Variable implements Token {
     }
 
     public Double asDouble() {
+        // Exp
+        if (name.equals("e")) {
+            // give an aproximated value
+            return Math.exp(1);
+        }
+
         return null;
     }
 

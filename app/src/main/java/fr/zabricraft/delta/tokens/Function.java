@@ -1,10 +1,12 @@
 package fr.zabricraft.delta.tokens;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
+import fr.zabricraft.delta.utils.TokenParser;
 
 public class Function implements Token {
 
@@ -25,11 +27,42 @@ public class Function implements Token {
         String variable;
 
         // Check if an input corresponds to this variable
-        if (inputs.containsKey(name) && inputs.get(name) instanceof FunctionDeclaration) {
+        if (Arrays.asList(TokenParser.funcs).contains(name)) {
+            // Universal func
+
+            // Sin
+
+            // Cos
+
+            // Tan
+
+            // Sqrt
+            if (name.equals("sqrt")) {
+                expression = new Root(new Variable("x"), new Number(2));
+                variable = "x";
+            }
+
+            // Exp
+            else if (name.equals("exp")) {
+                expression = new Power(new Variable("e"), new Variable("x"));
+                variable = "x";
+            }
+
+            // Log
+
+            // Ln
+
+            // Cannot be simplified
+            else {
+                return this;
+            }
+        } else if (inputs.containsKey(name) && inputs.get(name) instanceof FunctionDeclaration) {
+            // Custom func
             FunctionDeclaration value = (FunctionDeclaration) inputs.get(name);
             expression = value.getToken();
             variable = value.getVariable().trim();
         } else {
+            // Unknown func
             return new CalculError();
         }
 

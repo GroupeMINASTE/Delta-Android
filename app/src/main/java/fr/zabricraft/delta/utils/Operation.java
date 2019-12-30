@@ -2,8 +2,8 @@ package fr.zabricraft.delta.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.zabricraft.delta.tokens.Equation;
 import fr.zabricraft.delta.tokens.Function;
@@ -40,7 +40,10 @@ public enum Operation {
 
     // Get precedence
     public int getPrecedence() {
-        if (this == Operation.power) {
+        if (this == Operation.function) {
+            return 4;
+        }
+        if (this == Operation.power || this == Operation.root) {
             return 3;
         }
         if (this == Operation.multiplication || this == Operation.division || this == Operation.modulo) {
@@ -50,7 +53,7 @@ public enum Operation {
     }
 
     // Join with two tokens
-    public Token join(Token left, Token right, List<String> ops) {
+    public Token join(Token left, Token right, List<String> ops, Map<String, Token> inputs) {
         // Check for equations
         if (this == Operation.equals || this == Operation.unequals || this == Operation.greaterThan || this == Operation.lessThan || this == Operation.greaterThanOrEquals || this == Operation.lessThanOrEquals) {
             return new Equation(left, right, this);
@@ -101,7 +104,7 @@ public enum Operation {
         }
 
         // Simple expression
-        return left.apply(this, right, new HashMap<String, Token>(), true);
+        return left.apply(this, right, inputs, true);
     }
 
 }

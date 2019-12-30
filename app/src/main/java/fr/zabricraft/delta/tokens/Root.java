@@ -64,6 +64,12 @@ public class Root implements Token {
 
         // Power
         if (operation == Operation.power) {
+            // Check if power is the same
+            if (right instanceof Number && power instanceof Number && ((Number) right).getValue() == ((Number) power).getValue()) {
+                // Undo the root
+                return token;
+            }
+
             return new Power(this, right);
         }
 

@@ -196,7 +196,7 @@ public class AlgorithmParser {
             HashMap<Keyword, Keyword[]> grouped = new HashMap<>();
             grouped.put(Keyword.Default, new Keyword[]{Keyword.Input});
             grouped.put(Keyword.In, new Keyword[]{Keyword.For});
-            grouped.put(Keyword.To, new Keyword[]{Keyword.Set, Keyword.SetFormatted});
+            grouped.put(Keyword.To, new Keyword[]{Keyword.Set});
 
             // Iterate values
             for (Keyword key : grouped.keySet()) {
@@ -222,7 +222,7 @@ public class AlgorithmParser {
                                     String token = tokens.remove(0);
                                     String identifier = tokens.remove(0);
                                     return new ForAction(identifier, token);
-                                } else if ((value == Keyword.Set || value == Keyword.SetFormatted) && tokens.size() >= 2) {
+                                } else if (value == Keyword.Set && tokens.size() >= 2) {
                                     // Set "identifier" to "token"
                                     String token = tokens.remove(0);
                                     String identifier = tokens.remove(0);

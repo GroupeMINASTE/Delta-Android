@@ -58,30 +58,30 @@ public class StringExtension {
         SpannableStringBuilder workspace = new SpannableStringBuilder(string);
 
         // Powers (numbers)
-        Matcher numbers = Pattern.compile(" \\^ [0-9]+").matcher(workspace.toString());
+        Matcher numbers = Pattern.compile(" ?\\^ ?([0-9]+)").matcher(workspace.toString());
         while (numbers.find()) {
-            String group = numbers.group();
+            String group = numbers.group(1);
             workspace.setSpan(new SuperscriptSpan(), numbers.start(), numbers.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             workspace.setSpan(new AbsoluteSizeSpan(10, true), numbers.start(), numbers.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            workspace.replace(numbers.start(), numbers.end(), group.substring(3));
+            workspace.replace(numbers.start(), numbers.end(), group);
         }
 
         // Powers (expressions)
-        Matcher expressions = Pattern.compile(" \\^ \\([0-9a-z*+\\-/ ]+\\)").matcher(workspace.toString());
+        Matcher expressions = Pattern.compile(" ?\\^ ?\\(([0-9a-z*+\\-/ ]+)\\)").matcher(workspace.toString());
         while (expressions.find()) {
-            String group = expressions.group();
+            String group = expressions.group(1);
             workspace.setSpan(new SuperscriptSpan(), expressions.start(), expressions.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             workspace.setSpan(new AbsoluteSizeSpan(10, true), expressions.start(), expressions.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            workspace.replace(expressions.start(), expressions.end(), group.substring(4, group.length() - 1));
+            workspace.replace(expressions.start(), expressions.end(), group);
         }
 
         // Indexes
-        Matcher variables = Pattern.compile("_[0-9a-z]").matcher(workspace.toString());
+        Matcher variables = Pattern.compile("_([0-9a-z])").matcher(workspace.toString());
         while (variables.find()) {
-            String group = variables.group();
+            String group = variables.group(1);
             workspace.setSpan(new SubscriptSpan(), variables.start(), variables.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             workspace.setSpan(new AbsoluteSizeSpan(10, true), variables.start(), variables.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            workspace.replace(variables.start(), variables.end(), group.substring(1));
+            workspace.replace(variables.start(), variables.end(), group);
         }
 
         return workspace;

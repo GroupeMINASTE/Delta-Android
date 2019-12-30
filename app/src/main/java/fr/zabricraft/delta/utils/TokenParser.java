@@ -1,6 +1,8 @@
 package fr.zabricraft.delta.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import fr.zabricraft.delta.tokens.Fraction;
@@ -17,8 +19,9 @@ public class TokenParser {
     public static final String variables = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΣσςϹϲΤτΥυΦφΧχΨψΩω";
     public static final String variablesAndNumber = variables + "0123456789";
     public static final String productCoefficients = variablesAndNumber + ")";
-    public static final String constants = "i";
+    public static final String constants = "ie";
     public static final String input = variablesAndNumber + "_+-*/%^√,;(){}=<>! ";
+    public static final String[] funcs = {"sin", "cos", "tan", "sqrt", "exp", "log", "ln"};
 
     // Parsing vars
     private String tokens;
@@ -73,16 +76,16 @@ public class TokenParser {
                         // Check if last token is a function
                         if (values.get(0) instanceof Variable) {
                             Variable prevar = ((Variable) values.get(0));
-                            if (process != null && process.variables.containsKey(prevar.getName()) && process.variables.get(prevar.getName()) instanceof FunctionDeclaration) {
+                            if ((process != null && process.variables.containsKey(prevar.getName()) && process.variables.get(prevar.getName()) instanceof FunctionDeclaration) || Arrays.asList(TokenParser.funcs).contains(prevar.getName())) {
                                 // Add a function operator
-                                ops.add(0, "f");
+                                insertOperation("f");
                             } else {
                                 // Add a multiplication operator
-                                ops.add(0, "*");
+                                insertOperation("*");
                             }
                         } else {
                             // Add a multiplication operator
-                            ops.add(0, "*");
+                            insertOperation("*");
                         }
                     }
 
@@ -123,7 +126,7 @@ public class TokenParser {
                     // Check if we have a token before without operator
                     if (values.size() > 0 && productCoefficients.indexOf(previous) != -1) {
                         // Add a multiplication operator
-                        ops.add(0, "*");
+                        insertOperation("*");
                     }
 
                     // Insert into values
@@ -143,21 +146,44 @@ public class TokenParser {
                     StringBuilder name = new StringBuilder();
                     name.append(current);
 
-                    // Check for an index
-                    if (i < tokens.length() - 2 && tokens.charAt(i + 1) == '_' && variablesAndNumber.indexOf(tokens.charAt(i + 2)) != -1) {
-                        // Add index to variable
-                        char index = tokens.charAt(i + 2);
-                        name.append('_');
-                        name.append(index);
+                    // Check for a function name
+                    StringBuilder function = new StringBuilder();
+                    function.append(name.toString());
+                    int j = i;
+                    while (j < tokens.length() - 1 && variablesAndNumber.indexOf(tokens.charAt(j + 1)) != -1) {
+                        // Add character to function name
+                        function.append(tokens.charAt(j + 1));
 
-                        // Increment i 2 times to skip index
-                        i += 2;
+                        // Increment j to continue
+                        j++;
+                    }
+
+                    // Check if a function is recognized
+                    if (Arrays.asList(funcs).contains(function.toString().toLowerCase())) {
+                        // We have a function
+                        name = function;
+
+                        // Set i to j to skip function name
+                        i = j;
+                    } else {
+                        // It's a classic variable, continue
+
+                        // Check for an index
+                        if (i < tokens.length() - 2 && tokens.charAt(i + 1) == '_' && variablesAndNumber.indexOf(tokens.charAt(i + 2)) != -1) {
+                            // Add index to variable
+                            char index = tokens.charAt(i + 2);
+                            name.append('_');
+                            name.append(index);
+
+                            // Increment i 2 times to skip index
+                            i += 2;
+                        }
                     }
 
                     // Check if we have a token before without operator
                     if (values.size() > 0 && productCoefficients.indexOf(previous) != -1) {
                         // Add a multiplication operator
-                        ops.add(0, "*");
+                        insertOperation("*");
                     }
 
                     // Insert into values
@@ -205,44 +231,20 @@ public class TokenParser {
                     // Check if we have a token before without operator
                     if (values.size() > 0 && productCoefficients.indexOf(previous) != -1) {
                         // Add a multiplication operator
-                        ops.add(0, "*");
+                        insertOperation("*");
                     }
 
                     // Insert the 2nd power
                     insertValue(new Number(2));
 
                     // Add current operation
-                    ops.add(0, String.valueOf(current));
+                    insertOperation(String.valueOf(current));
                 }
 
                 // Operation
                 else {
-                    // While first operation has same of greater precedence to current, apply to two first values
-                    while (!ops.isEmpty() && Operation.from(ops.get(0)) != null && Operation.from(String.valueOf(current)) != null && Operation.from(ops.get(0)).getPrecedence() >= Operation.from(String.valueOf(current)).getPrecedence()) {
-                        // Create a token
-                        Token value = createValue();
-                        if (value != null) {
-                            // Insert it into the list
-                            insertValue(value);
-                        }
-                    }
-
-                    // If subtraction with no number before
-                    if (current == '-' && values.isEmpty()) {
-                        insertValue(new Number(0));
-                    }
-
-                    // If next is "="
-                    if (i < tokens.length() - 1 && tokens.charAt(i + 1) == '=') {
-                        // Add it
-                        ops.add(0, String.valueOf(current) + "=");
-
-                        // Increment i
-                        i++;
-                    } else {
-                        // Add current operation
-                        ops.add(0, String.valueOf(current));
-                    }
+                    // Insert operation
+                    insertOperation(String.valueOf(current));
                 }
 
                 // Increment i
@@ -276,6 +278,35 @@ public class TokenParser {
         values.add(0, value);
     }
 
+    private void insertOperation(String op) throws SyntaxError {
+        // While first operation has same of greater precedence to current, apply to two first values
+        while (!ops.isEmpty() && Operation.from(ops.get(0)) != null && Operation.from(op) != null && Operation.from(ops.get(0)).getPrecedence() >= Operation.from(op).getPrecedence()) {
+            // Create a token
+            Token value = createValue();
+            if (value != null) {
+                // Insert it into the list
+                insertValue(value);
+            }
+        }
+
+        // If subtraction with no number before
+        if (op.equals("-") && values.isEmpty()) {
+            insertValue(new Number(0));
+        }
+
+        // If next is "="
+        if (i < tokens.length() - 1 && tokens.charAt(i + 1) == '=') {
+            // Add it
+            ops.add(0, op + "=");
+
+            // Increment i
+            i++;
+        } else {
+            // Add current operation
+            ops.add(0, op);
+        }
+    }
+
     private Token createValue() throws SyntaxError {
         // Get tokens
         Token right = getFirstTokenAndRemove();
@@ -285,9 +316,9 @@ public class TokenParser {
         Operation op = getFirstOperationAndRemove();
         if (op != null) {
             if (op == Operation.root) {
-                return op.join(right, left, ops);
+                return op.join(right, left, ops, process != null ? process.variables : new HashMap<String, Token>());
             } else {
-                return op.join(left, right, ops);
+                return op.join(left, right, ops, process != null ? process.variables : new HashMap<String, Token>());
             }
         }
 
