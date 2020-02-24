@@ -6,11 +6,9 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.views.AlgorithmCell;
 import fr.zabricraft.delta.views.HeaderCell;
-import fr.zabricraft.delta.views.LabelCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
@@ -22,7 +20,7 @@ public class AlgorithmsSection extends Section {
     private int title;
 
     public AlgorithmsSection(int title, AlgorithmContainer container, AlgorithmLoader loader) {
-        super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().footerViewWillBeProvided().build());
+        super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().build());
 
         this.title = title;
         this.container = container;
@@ -39,10 +37,6 @@ public class AlgorithmsSection extends Section {
 
     public View getHeaderView(ViewGroup parent) {
         return new HeaderCell(parent.getContext());
-    }
-
-    public View getFooterView(ViewGroup parent) {
-        return title == R.string.myalgorithms ? new LabelCell(parent.getContext()) : new View(parent.getContext());
     }
 
     public RecyclerView.ViewHolder getItemViewHolder(View view) {
@@ -80,22 +74,6 @@ public class AlgorithmsSection extends Section {
         }
 
         // return an empty instance of ViewHolder for the headers of this section
-        return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
-    }
-
-    public RecyclerView.ViewHolder getFooterViewHolder(View view) {
-        // Check if it's a labelCell
-        if (view instanceof LabelCell) {
-            ((LabelCell) view).with(R.string.new_algorithm);
-            view.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    // Open editor for a new algorithm
-                    container.startEditor(null);
-                }
-            });
-        }
-
-        // return an empty instance of ViewHolder for the footers of this section
         return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
     }
 

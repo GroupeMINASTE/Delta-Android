@@ -19,6 +19,7 @@ import fr.zabricraft.delta.activities.EditorActivity;
 import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.sections.AboutSection;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
+import fr.zabricraft.delta.sections.NewSection;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Database;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
@@ -81,6 +82,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        sectionAdapter.addSection(new NewSection(this));
         sectionAdapter.addSection(new AlgorithmsSection(R.string.myalgorithms, this, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
         sectionAdapter.addSection(new AlgorithmsSection(R.string.downloads, this, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
         sectionAdapter.addSection(new AboutSection());

@@ -8,7 +8,8 @@
     <string name="last_update">Updated on %s</string>
     <string name="about">About</string>
     <string name="help">Help and documentation</string>
-    <string name="about_text">Application developed by Nathan Fallet\n\nThis application has been developed by independent developers, and is provided for free without any warranty.\n\n© 2019 Groupe MINASTE</string>
+    <string name="follow_twitter">Follow us on Twitter</string>
+    <string name="about_text">Application developed by Nathan Fallet\n\nThis application has been developed by independent developers, and is provided for free without any warranty.\n\n© 2020 Groupe MINASTE</string>
     <string name="ok">OK</string>
     <string name="inputs">Inputs</string>
     <string name="outputs">Outputs</string>

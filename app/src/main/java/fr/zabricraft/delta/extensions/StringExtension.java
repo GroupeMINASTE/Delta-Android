@@ -58,7 +58,7 @@ public class StringExtension {
         SpannableStringBuilder workspace = new SpannableStringBuilder(string);
 
         // Powers (numbers)
-        Matcher numbers = Pattern.compile(" ?\\^ ?([0-9]+)").matcher(workspace.toString());
+        Matcher numbers = Pattern.compile(" ?\\^ ?([0-9a-z]+)").matcher(workspace.toString());
         while (numbers.find()) {
             String group = numbers.group(1);
             workspace.setSpan(new SuperscriptSpan(), numbers.start(), numbers.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -75,13 +75,22 @@ public class StringExtension {
             workspace.replace(expressions.start(), expressions.end(), group);
         }
 
-        // Indexes
+        // Indexes (variables)
         Matcher variables = Pattern.compile("_([0-9a-z])").matcher(workspace.toString());
         while (variables.find()) {
             String group = variables.group(1);
             workspace.setSpan(new SubscriptSpan(), variables.start(), variables.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             workspace.setSpan(new AbsoluteSizeSpan(10, true), variables.start(), variables.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             workspace.replace(variables.start(), variables.end(), group);
+        }
+
+        // Indexes (expressions)
+        Matcher expressions2 = Pattern.compile("_\\(([0-9a-z*+\\-/ ]+)\\)").matcher(workspace.toString());
+        while (expressions2.find()) {
+            String group = expressions2.group(1);
+            workspace.setSpan(new SubscriptSpan(), expressions2.start(), expressions2.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            workspace.setSpan(new AbsoluteSizeSpan(10, true), expressions2.start(), expressions2.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            workspace.replace(expressions2.start(), expressions2.end(), group);
         }
 
         return workspace;

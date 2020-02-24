@@ -194,7 +194,11 @@ public class Number implements Token {
                 }
 
                 // Apply power to number
-                return new Number((int) Math.pow(value, ((Number) right).value));
+                if (((Number) right).value >= 0) {
+                    return new Number((int) Math.pow(value, ((Number) right).value));
+                } else {
+                    return new Number((int) Math.pow(value, -((Number) right).value)).inverse();
+                }
             }
 
             // Return the power

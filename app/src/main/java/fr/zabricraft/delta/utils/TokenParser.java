@@ -169,14 +169,45 @@ public class TokenParser {
                         // It's a classic variable, continue
 
                         // Check for an index
-                        if (i < tokens.length() - 2 && tokens.charAt(i + 1) == '_' && variablesAndNumber.indexOf(tokens.charAt(i + 2)) != -1) {
-                            // Add index to variable
-                            char index = tokens.charAt(i + 2);
-                            name.append('_');
-                            name.append(index);
+                        if (i < tokens.length() - 2 && tokens.charAt(i + 1) == '_') {
+                            if (tokens.charAt(i + 2) == '(') {
+                                // Get everything until closing brace
+                                StringBuilder index_builder = new StringBuilder();
+                                j = i + 2;
+                                while (j < tokens.length() - 1 && input.indexOf(tokens.charAt(j + 1)) != -1 && tokens.charAt(j + 1) != ')') {
+                                    // Add character to index
+                                    index_builder.append(tokens.charAt(j + 1));
 
-                            // Increment i 2 times to skip index
-                            i += 2;
+                                    // Increment j to continue
+                                    j++;
+                                }
+
+                                // Increment i to skip brace
+                                i = j + 1;
+
+                                // Trim
+                                String index = index_builder.toString().trim();
+
+                                if (!index.isEmpty()) {
+                                    // Add index to variable
+                                    if (index.length() == 1) {
+                                        name.append('_');
+                                        name.append(index);
+                                    } else {
+                                        name.append("_(");
+                                        name.append(index);
+                                        name.append(')');
+                                    }
+                                }
+                            } else if (input.indexOf(tokens.charAt(i + 2)) != -1) {
+                                // Add index to variable
+                                char index = tokens.charAt(i + 2);
+                                name.append('_');
+                                name.append(index);
+
+                                // Increment i 2 times to skip index
+                                i += 2;
+                            }
                         }
                     }
 
@@ -290,7 +321,7 @@ public class TokenParser {
         }
 
         // If subtraction with no number before
-        if (op.equals("-") && values.isEmpty()) {
+        if (op.equals("-") && (values.isEmpty() || (i > 0 && tokens.charAt(i - 1) == '('))) {
             insertValue(new Number(0));
         }
 

@@ -1,8 +1,5 @@
 package fr.zabricraft.delta.sections;
 
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +11,18 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class AboutSection extends Section {
+public class NewSection extends Section {
 
-    public AboutSection() {
+    private final AlgorithmsSection.AlgorithmContainer container;
+
+    public NewSection(AlgorithmsSection.AlgorithmContainer container) {
         super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().build());
+
+        this.container = container;
     }
 
     public int getContentItemsTotal() {
-        return 3;
+        return 1;
     }
 
     public View getItemView(ViewGroup parent) {
@@ -42,21 +43,11 @@ public class AboutSection extends Section {
 
         // bind your view here
         if (itemHolder.itemView instanceof LabelCell) {
-            ((LabelCell) itemHolder.itemView).with(position == 0 ? R.string.about : position == 1 ? R.string.help : R.string.follow_twitter);
+            ((LabelCell) itemHolder.itemView).with(R.string.new_algorithm);
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    if (position == 0) {
-                        // About
-                        new AlertDialog.Builder(itemHolder.itemView.getContext()).setTitle(R.string.about).setMessage(R.string.about_text).show();
-                    } else if (position == 1) {
-                        // Help and documentation
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.delta-math-helper.com"));
-                        itemHolder.itemView.getContext().startActivity(browserIntent);
-                    } else {
-                        // Follow us on Twitter
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/DeltaMathHelper"));
-                        itemHolder.itemView.getContext().startActivity(browserIntent);
-                    }
+                    // Open editor for a new algorithm
+                    container.startEditor(null);
                 }
             });
         }
@@ -65,7 +56,7 @@ public class AboutSection extends Section {
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         // Check if it's a headerCell
         if (view instanceof HeaderCell) {
-            ((HeaderCell) view).with(R.string.about);
+            ((HeaderCell) view).with(R.string.new_algorithm);
         }
 
         // return an empty instance of ViewHolder for the headers of this section
