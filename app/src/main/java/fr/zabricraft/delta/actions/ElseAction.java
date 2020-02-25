@@ -53,13 +53,13 @@ public class ElseAction implements ActionBlock {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_else, EditorLineCategory.structure, 0, new String[]{}));
+        lines.add(new EditorLine(R.string.action_else, EditorLineCategory.structure, 0, new String[]{}, false));
 
         for (Action action : actions) {
             lines.addAll(ArrayExtension.incrementIndentation(action.toEditorLines()));
         }
 
-        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 1, new String[]{}));
+        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 1, new String[]{}, false));
 
         return lines;
     }

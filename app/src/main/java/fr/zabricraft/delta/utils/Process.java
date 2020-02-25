@@ -29,13 +29,26 @@ public class Process {
     }
 
     public void set(String identifier, Token value) {
-        Matcher f = Pattern.compile("([" + TokenParser.variables + "])\\( *([" + TokenParser.variables + "]) *\\)").matcher(identifier.trim());
+        String trimmed = identifier.trim();
+        Matcher f = Pattern.compile("([" + TokenParser.variables + "])\\( *([" + TokenParser.variables + "]) *\\)").matcher(trimmed);
         if (f.find()) {
             // Take it as a function
             variables.put(f.group(1), new FunctionDeclaration(f.group(2), value));
         } else {
             // Set it as a variable
-            variables.put(identifier.trim(), value.compute(variables, false));
+            variables.put(trimmed, value.compute(variables, false));
+        }
+    }
+
+    public void unset(String identifier) {
+        String trimmed = identifier.trim();
+        Matcher f = Pattern.compile("([" + TokenParser.variables + "])\\( *([" + TokenParser.variables + "]) *\\)").matcher(trimmed);
+        if (f.find()) {
+            // Take it as a function
+            variables.remove(f.group(1));
+        } else {
+            // Unset it as a variable
+            variables.remove(trimmed);
         }
     }
 

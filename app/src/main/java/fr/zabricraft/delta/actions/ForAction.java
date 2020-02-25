@@ -86,14 +86,14 @@ public class ForAction implements ActionBlock {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_for, EditorLineCategory.structure, 0, new String[]{identifier, token}));
+        lines.add(new EditorLine(R.string.action_for, EditorLineCategory.structure, 0, new String[]{identifier, token}, true));
 
         for (Action action : actions) {
             lines.addAll(ArrayExtension.incrementIndentation(action.toEditorLines()));
         }
 
-        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 1, new String[]{}));
-        lines.add(new EditorLine(R.string.action_end, EditorLineCategory.structure, 0, new String[]{}));
+        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 1, new String[]{}, false));
+        lines.add(new EditorLine(R.string.action_end, EditorLineCategory.structure, 0, new String[]{}, false));
 
         return lines;
     }

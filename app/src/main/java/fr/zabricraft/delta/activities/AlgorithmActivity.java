@@ -14,6 +14,8 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.NotificationNameExtension;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;
 import fr.zabricraft.delta.utils.Algorithm;
+import fr.zabricraft.delta.utils.Database;
+import hotchemi.android.rate.AppRate;
 
 public class AlgorithmActivity extends AppCompatActivity {
 
@@ -54,7 +56,7 @@ public class AlgorithmActivity extends AppCompatActivity {
 
     public void startEditor(Algorithm algorithm) {
         Intent intent = new Intent(this, EditorActivity.class);
-        intent.putExtra("algorithm", algorithm);
+        intent.putExtra("algorithm", algorithm != null ? Database.getInstance(this).getAlgorithm(algorithm.getLocalId()) : null);
         startActivityForResult(intent, 667);
     }
 
@@ -70,6 +72,9 @@ public class AlgorithmActivity extends AppCompatActivity {
 
                 // Update home list
                 EventBus.getDefault().post(new NotificationNameExtension.AlgorithmsChanged());
+
+                // Check for a review
+                AppRate.showRateDialogIfMeetsConditions(this);
             }
         }
     }

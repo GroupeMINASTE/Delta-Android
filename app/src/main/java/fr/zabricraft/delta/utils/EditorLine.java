@@ -6,12 +6,14 @@ public class EditorLine {
     private EditorLineCategory category;
     private int indentation;
     private String[] values;
+    private boolean movable;
 
-    public EditorLine(int format, EditorLineCategory category, int indentation, String[] values) {
+    public EditorLine(int format, EditorLineCategory category, int indentation, String[] values, boolean movable) {
         this.format = format;
         this.category = category;
         this.indentation = indentation;
         this.values = values;
+        this.movable = movable;
     }
 
     public int getFormat() {

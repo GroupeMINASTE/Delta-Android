@@ -6,9 +6,11 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.views.AlgorithmCell;
 import fr.zabricraft.delta.views.HeaderCell;
+import fr.zabricraft.delta.views.LabelCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
@@ -20,7 +22,7 @@ public class AlgorithmsSection extends Section {
     private int title;
 
     public AlgorithmsSection(int title, AlgorithmContainer container, AlgorithmLoader loader) {
-        super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().build());
+        super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().emptyViewWillBeProvided().build());
 
         this.title = title;
         this.container = container;
@@ -37,6 +39,10 @@ public class AlgorithmsSection extends Section {
 
     public View getHeaderView(ViewGroup parent) {
         return new HeaderCell(parent.getContext());
+    }
+
+    public View getEmptyView(ViewGroup parent) {
+        return new LabelCell(parent.getContext());
     }
 
     public RecyclerView.ViewHolder getItemViewHolder(View view) {
@@ -71,6 +77,16 @@ public class AlgorithmsSection extends Section {
         // Check if it's a headerCell
         if (view instanceof HeaderCell) {
             ((HeaderCell) view).with(title);
+        }
+
+        // return an empty instance of ViewHolder for the headers of this section
+        return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
+    }
+
+    public RecyclerView.ViewHolder getEmptyViewHolder(View view) {
+        // Check if it's a labelCell
+        if (view instanceof LabelCell) {
+            ((LabelCell) view).with(R.string.no_algorithm);
         }
 
         // return an empty instance of ViewHolder for the headers of this section

@@ -22,6 +22,7 @@ import fr.zabricraft.delta.sections.AlgorithmsSection;
 import fr.zabricraft.delta.sections.NewSection;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Database;
+import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
 public class HomeFragment extends Fragment implements AlgorithmsSection.AlgorithmContainer {
@@ -30,6 +31,10 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
     private List<Algorithm> downloads;
 
     private RecyclerView recyclerView;
+    private SectionedRecyclerViewAdapter sectionAdapter;
+
+    private AlgorithmsSection myalgorithms_section;
+    private AlgorithmsSection downloads_section;
 
     private Algorithm longClickAlgorithm;
 
@@ -65,8 +70,12 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
             loadAlgorithms();
         }
 
+        // Update states
+        myalgorithms_section.setState(myalgorithms.size() == 0 ? Section.State.EMPTY : Section.State.LOADED);
+        downloads_section.setState(downloads.size() == 0 ? Section.State.EMPTY : Section.State.LOADED);
+
         // Update recyclerView
-        recyclerView.getAdapter().notifyDataSetChanged();
+        sectionAdapter.notifyDataSetChanged();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,10 +90,12 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
         recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
 
         // Initialize sections
-        SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        myalgorithms_section = new AlgorithmsSection(R.string.myalgorithms, this, ((AlgorithmsSection.AlgorithmLoader) getActivity()));
+        downloads_section = new AlgorithmsSection(R.string.downloads, this, ((AlgorithmsSection.AlgorithmLoader) getActivity()));
+        sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new NewSection(this));
-        sectionAdapter.addSection(new AlgorithmsSection(R.string.myalgorithms, this, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
-        sectionAdapter.addSection(new AlgorithmsSection(R.string.downloads, this, ((AlgorithmsSection.AlgorithmLoader) getActivity())));
+        sectionAdapter.addSection(myalgorithms_section);
+        sectionAdapter.addSection(downloads_section);
         sectionAdapter.addSection(new AboutSection());
 
         // Bind adapter to recyclerView
@@ -106,7 +117,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
     public void startEditor(Algorithm algorithm) {
         Intent intent = new Intent(getActivity(), EditorActivity.class);
-        intent.putExtra("algorithm", algorithm);
+        intent.putExtra("algorithm", algorithm != null ? Database.getInstance(getActivity()).getAlgorithm(algorithm.getLocalId()) : null);
         startActivityForResult(intent, 667);
     }
 

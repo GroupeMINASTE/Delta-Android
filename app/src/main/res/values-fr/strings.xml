@@ -4,6 +4,7 @@
     <string name="myalgorithms">Mes algorithmes</string>
     <string name="downloads">Téléchargements</string>
     <string name="new_algorithm">Nouvel algorithme</string>
+    <string name="no_algorithm">Pas encore d\'algorithme ici !</string>
     <string name="copy">%s (copie)</string>
     <string name="last_update">Mis à jour le %s</string>
     <string name="about">A propos</string>
@@ -27,8 +28,10 @@
     <string name="action_selector">Selectionner une action</string>
     <string name="action_input">Demander %s avec par défaut %s</string>
     <string name="action_print">Afficher la variable %s</string>
+    <string name="action_print_approximated">Afficher la valeur approchée de %s</string>
     <string name="action_print_text">Afficher le texte %s</string>
     <string name="action_set">Définir %s à %s</string>
+    <string name="action_unset">Supprimer %s</string>
     <string name="action_set_formatted">Définir %s à %s comme format</string>
     <string name="action_if">Si %s</string>
     <string name="action_else">Sinon</string>

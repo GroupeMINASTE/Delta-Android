@@ -103,6 +103,45 @@ public class Database extends SQLiteOpenHelper {
         return list;
     }
 
+    // Get algorithm by id
+    public Algorithm getAlgorithm(int id) {
+        // Declare an algorithm
+        Algorithm algorithm = null;
+
+        // Create a SQL query
+        String query = "SELECT * FROM " + algorithms + " WHERE " + local_id + " = ?";
+
+        // Get the database
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+
+        // Iterate data
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    // Create algorithm in list
+                    algorithm = new AlgorithmParser(
+                            cursor.getInt(cursor.getColumnIndex(local_id)),
+                            cursor.getInt(cursor.getColumnIndex(remote_id)),
+                            cursor.getInt(cursor.getColumnIndex(owner)) == 1,
+                            cursor.getString(cursor.getColumnIndex(name)),
+                            new Date(cursor.getLong(cursor.getColumnIndex(last_update))),
+                            cursor.getString(cursor.getColumnIndex(lines))
+                    ).execute();
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("DELTA", "Error while trying to get algorithms from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
+        // Return found algorithms
+        return algorithm;
+    }
+
     // Add an algorithm into database
     public Algorithm addAlgorithm(Algorithm algorithm) {
         // Create and/or open the database for writing

@@ -59,7 +59,7 @@ public class RootAction implements ActionBlock {
             lines.addAll(action.toEditorLines());
         }
 
-        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 0, new String[]{}));
+        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 0, new String[]{}, false));
 
         return lines;
     }

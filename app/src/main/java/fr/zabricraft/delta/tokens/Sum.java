@@ -213,7 +213,18 @@ public class Sum implements Token {
     }
 
     public Double asDouble() {
-        return null;
+        double val = 0.0;
+
+        for (Token token : values) {
+            Double asDouble = token.asDouble();
+            if (asDouble != null) {
+                val += asDouble;
+            } else {
+                return null;
+            }
+        }
+
+        return val;
     }
 
 }

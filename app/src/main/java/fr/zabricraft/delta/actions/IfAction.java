@@ -98,19 +98,19 @@ public class IfAction implements ActionBlock {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_if, EditorLineCategory.structure, 0, new String[]{condition}));
+        lines.add(new EditorLine(R.string.action_if, EditorLineCategory.structure, 0, new String[]{condition}, true));
 
         for (Action action : actions) {
             lines.addAll(ArrayExtension.incrementIndentation(action.toEditorLines()));
         }
 
-        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 1, new String[]{}));
+        lines.add(new EditorLine(R.string.category_add, EditorLineCategory.add, 1, new String[]{}, false));
 
         if (elseAction != null) {
             lines.addAll(elseAction.toEditorLines());
         }
 
-        lines.add(new EditorLine(R.string.action_end, EditorLineCategory.structure, 0, new String[]{}));
+        lines.add(new EditorLine(R.string.action_end, EditorLineCategory.structure, 0, new String[]{}, false));
 
         return lines;
     }

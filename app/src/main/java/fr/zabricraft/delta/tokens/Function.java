@@ -156,6 +156,38 @@ public class Function implements Token {
     }
 
     public Double asDouble() {
+        Double paramDouble = parameter.asDouble();
+
+        // Check if an input corresponds to this variable
+        if (Arrays.asList(TokenParser.funcs).contains(name) && paramDouble != null) {
+            // Universal func
+
+            // Sin
+            if (name.equals("sin")) {
+                return Math.sin(paramDouble);
+            }
+
+            // Cos
+            if (name.equals("cos")) {
+                return Math.cos(paramDouble);
+            }
+
+            // Tan
+            if (name.equals("tan")) {
+                return Math.tan(paramDouble);
+            }
+
+            // Log
+            if (name.equals("log")) {
+                return Math.log10(paramDouble);
+            }
+
+            // Ln
+            if (name.equals("ln")) {
+                return Math.log(paramDouble);
+            }
+        }
+
         return null;
     }
 

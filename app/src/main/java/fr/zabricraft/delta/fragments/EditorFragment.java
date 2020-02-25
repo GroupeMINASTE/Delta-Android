@@ -112,9 +112,19 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
     }
 
     public void editorLineDeleted(EditorLine line, int index) {
-        if (line != null && algorithm != null) {
+        if (algorithm != null) {
             // Delete the line into algorithm
-            Pair<Integer, Integer> range = algorithm.delete(line, index);
+            Pair<Integer, Integer> range = algorithm.delete(index);
+
+            // Delete old rows
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
+
+    public void editorLineMoved(Action action, int fromIndex, int toIndex) {
+        if (action != null && algorithm != null) {
+            // Add the line into algorithm
+            Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> ranges = algorithm.move(action, fromIndex, toIndex);
 
             // Delete old rows
             recyclerView.getAdapter().notifyDataSetChanged();

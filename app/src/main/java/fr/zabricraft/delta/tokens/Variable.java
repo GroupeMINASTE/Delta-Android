@@ -140,8 +140,13 @@ public class Variable implements Token {
     public Double asDouble() {
         // Exp
         if (name.equals("e")) {
-            // give an aproximated value
+            // give an approximated value
             return Math.exp(1);
+        }
+        // Pi
+        if (name.equals("π")) {
+            // Value of pi
+            return Math.PI;
         }
 
         return null;

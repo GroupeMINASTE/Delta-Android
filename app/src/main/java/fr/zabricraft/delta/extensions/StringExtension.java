@@ -58,7 +58,7 @@ public class StringExtension {
         SpannableStringBuilder workspace = new SpannableStringBuilder(string);
 
         // Powers (numbers)
-        Matcher numbers = Pattern.compile(" ?\\^ ?([0-9a-z]+)").matcher(workspace.toString());
+        Matcher numbers = Pattern.compile(" ?\\^ ?([0-9a-zA-Z]+)").matcher(workspace.toString());
         while (numbers.find()) {
             String group = numbers.group(1);
             workspace.setSpan(new SuperscriptSpan(), numbers.start(), numbers.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -67,7 +67,7 @@ public class StringExtension {
         }
 
         // Powers (expressions)
-        Matcher expressions = Pattern.compile(" ?\\^ ?\\(([0-9a-z*+\\-/ ]+)\\)").matcher(workspace.toString());
+        Matcher expressions = Pattern.compile(" ?\\^ ?\\(([0-9a-zA-Z*+\\-/ ]+)\\)").matcher(workspace.toString());
         while (expressions.find()) {
             String group = expressions.group(1);
             workspace.setSpan(new SuperscriptSpan(), expressions.start(), expressions.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -76,7 +76,7 @@ public class StringExtension {
         }
 
         // Indexes (variables)
-        Matcher variables = Pattern.compile("_([0-9a-z])").matcher(workspace.toString());
+        Matcher variables = Pattern.compile("_([0-9a-zA-Z])").matcher(workspace.toString());
         while (variables.find()) {
             String group = variables.group(1);
             workspace.setSpan(new SubscriptSpan(), variables.start(), variables.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -85,7 +85,7 @@ public class StringExtension {
         }
 
         // Indexes (expressions)
-        Matcher expressions2 = Pattern.compile("_\\(([0-9a-z*+\\-/ ]+)\\)").matcher(workspace.toString());
+        Matcher expressions2 = Pattern.compile("_\\(([0-9a-zA-Z*+\\-/ ]+)\\)").matcher(workspace.toString());
         while (expressions2.find()) {
             String group = expressions2.group(1);
             workspace.setSpan(new SubscriptSpan(), expressions2.start(), expressions2.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

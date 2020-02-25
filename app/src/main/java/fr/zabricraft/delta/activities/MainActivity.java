@@ -25,6 +25,7 @@ import fr.zabricraft.delta.fragments.HomeFragment;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Database;
+import hotchemi.android.rate.AppRate;
 
 public class MainActivity extends AppCompatActivity implements AlgorithmsSection.AlgorithmLoader {
 
@@ -95,6 +96,9 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
             e.printStackTrace();
         }
 
+        // Monitor for review
+        AppRate.with(this).monitor();
+
         // Create views
         EventBus.getDefault().register(this);
 
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
 
     public void startEditor(Algorithm algorithm) {
         Intent intent = new Intent(this, EditorActivity.class);
-        intent.putExtra("algorithm", algorithm);
+        intent.putExtra("algorithm", algorithm != null ? Database.getInstance(this).getAlgorithm(algorithm.getLocalId()) : null);
         startActivityForResult(intent, 667);
     }
 
@@ -147,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
 
                 // Update home list
                 onAlgorithmsChanged(new NotificationNameExtension.AlgorithmsChanged());
+
+                // Check for a review
+                AppRate.showRateDialogIfMeetsConditions(this);
             }
         }
     }

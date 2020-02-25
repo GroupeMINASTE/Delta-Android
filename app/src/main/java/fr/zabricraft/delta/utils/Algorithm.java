@@ -152,7 +152,7 @@ public class Algorithm implements Serializable {
         }
     }
 
-    public Pair<Integer, Integer> delete(EditorLine line, int index) {
+    public Pair<Integer, Integer> delete(int index) {
         // Get where to add it
         Triplet<Action, Action, Integer> result = action(index);
 
@@ -169,11 +169,45 @@ public class Algorithm implements Serializable {
         return Pair.with(0, 0);
     }
 
+    public Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> move(Action action, int fromIndex, int toIndex) {
+        // Check that index is different
+        if (fromIndex != toIndex) {
+            // Check if destination is not in the deleted range
+            Triplet<Action, Action, Integer> sourceAction = this.action(fromIndex);
+            Pair<Integer, Integer> sourceRange = Pair.with(fromIndex, fromIndex + sourceAction.getValue0().editorLinesCount());
+            if (toIndex < sourceRange.getValue0() || toIndex >= sourceRange.getValue1()) {
+                // Delete the old line
+                Pair<Integer, Integer> range = delete(fromIndex);
+
+                // Calculate new destination
+                int destination = toIndex < fromIndex ? toIndex : toIndex - (range.getValue1() - range.getValue0()) + 1;
+
+                // Get action at destination
+                if (destination > 0) {
+                    EditorLine currentDestination = this.root.toEditorLines().get(destination - 1);
+                    if (currentDestination.getCategory() == EditorLineCategory.add) {
+                        // Remove one to skip add button
+                        destination--;
+                    }
+                }
+
+                // Add the new line
+                Pair<Integer, Integer> newRange = insert(action, destination);
+
+                // Return modified ranges
+                return Pair.with(range, newRange);
+            }
+        }
+
+        // Not moved
+        return Pair.with(Pair.with(0, 0), Pair.with(0, 0));
+    }
+
     // Settings editor lines
 
     public List<EditorLine> getSettings() {
         List<EditorLine> list = new ArrayList<>();
-        list.add(new EditorLine(R.string.settings_name, EditorLineCategory.settings, 0, new String[]{name}));
+        list.add(new EditorLine(R.string.settings_name, EditorLineCategory.settings, 0, new String[]{name}, false));
         return list;
     }
 

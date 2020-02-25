@@ -39,7 +39,7 @@ public class SetAction implements Action {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_set, EditorLineCategory.variable, 0, new String[]{identifier, value.toString()}));
+        lines.add(new EditorLine(R.string.action_set, EditorLineCategory.variable, 0, new String[]{identifier, value}, true));
 
         return lines;
     }

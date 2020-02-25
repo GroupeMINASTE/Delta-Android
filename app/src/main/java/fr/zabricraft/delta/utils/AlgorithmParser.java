@@ -16,6 +16,7 @@ import fr.zabricraft.delta.actions.PrintAction;
 import fr.zabricraft.delta.actions.PrintTextAction;
 import fr.zabricraft.delta.actions.RootAction;
 import fr.zabricraft.delta.actions.SetAction;
+import fr.zabricraft.delta.actions.UnsetAction;
 import fr.zabricraft.delta.actions.WhileAction;
 
 public class AlgorithmParser {
@@ -192,7 +193,7 @@ public class AlgorithmParser {
             String first = keywords.remove(0);
 
             // Keyword list
-            Keyword[] alone = {Keyword.If, Keyword.Else, Keyword.Print, Keyword.PrintText, Keyword.While};
+            Keyword[] alone = {Keyword.If, Keyword.Else, Keyword.Print, Keyword.PrintApproximated, Keyword.PrintText, Keyword.Unset, Keyword.While};
             HashMap<Keyword, Keyword[]> grouped = new HashMap<>();
             grouped.put(Keyword.Default, new Keyword[]{Keyword.Input});
             grouped.put(Keyword.In, new Keyword[]{Keyword.For});
@@ -249,11 +250,19 @@ public class AlgorithmParser {
                     } else if (value == Keyword.Print && tokens.size() >= 1) {
                         // Print variable "identifier"
                         String identifier = tokens.remove(0);
-                        return new PrintAction(identifier);
+                        return new PrintAction(identifier, false);
+                    } else if (value == Keyword.PrintApproximated && tokens.size() >= 1) {
+                        // Print approximated value of "identifier"
+                        String identifier = tokens.remove(0);
+                        return new PrintAction(identifier, true);
                     } else if (value == Keyword.PrintText && tokens.size() >= 1) {
                         // Print text "text"
                         String text = tokens.remove(0);
                         return new PrintTextAction(text);
+                    } else if (value == Keyword.Unset && tokens.size() >= 1) {
+                        // Unset "identifier"
+                        String identifier = tokens.remove(0);
+                        return new UnsetAction(identifier);
                     } else if (value == Keyword.While && tokens.size() >= 1) {
                         // While "condition"
                         String condition = tokens.remove(0);

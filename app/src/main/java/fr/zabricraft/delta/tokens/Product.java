@@ -47,6 +47,9 @@ public class Product implements Token, Comparator<Token> {
             } else if (value instanceof Variable) {
                 // No operator for variables
                 op = false;
+            } else if (value instanceof Function) {
+                // No operator for functions
+                op = false;
             } else if (value instanceof Power && !(((Power) value).getToken() instanceof Number)) {
                 // No operator if we have power of not a number
                 op = false;
@@ -245,7 +248,18 @@ public class Product implements Token, Comparator<Token> {
     }
 
     public Double asDouble() {
-        return null;
+        double val = 1.0;
+
+        for (Token token : values) {
+            Double asDouble = token.asDouble();
+            if (asDouble != null) {
+                val *= asDouble;
+            } else {
+                return null;
+            }
+        }
+
+        return val;
     }
 
     public int compare(Token t0, Token t1) {

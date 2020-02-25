@@ -50,7 +50,7 @@ public class PrintTextAction implements Action {
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_print_text, EditorLineCategory.output, 0, new String[]{text}));
+        lines.add(new EditorLine(R.string.action_print_text, EditorLineCategory.output, 0, new String[]{text}, true));
 
         return lines;
     }

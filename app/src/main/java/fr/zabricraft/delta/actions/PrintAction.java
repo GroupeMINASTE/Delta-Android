@@ -16,9 +16,11 @@ import fr.zabricraft.delta.utils.TokenParser;
 public class PrintAction implements Action {
 
     private String identifier;
+    private boolean approximated;
 
-    public PrintAction(String identifier) {
+    public PrintAction(String identifier, boolean approximated) {
         this.identifier = identifier;
+        this.approximated = approximated;
     }
 
     public void execute(Process process) {
@@ -26,17 +28,29 @@ public class PrintAction implements Action {
         Token value = new TokenParser(identifier, process).execute();
 
         // Print it (add it to output)
-        process.outputs.add(identifier + " = " + value.compute(process.variables, true).toString());
+        Double asDouble = null;
+        if (approximated) {
+            asDouble = value.compute(process.variables, false).asDouble();
+        }
+        if (approximated && asDouble != null) {
+            if (Math.floor(asDouble) == asDouble) {
+                process.outputs.add(identifier + " = " + asDouble.intValue());
+            } else {
+                process.outputs.add(identifier + " = " + asDouble);
+            }
+        } else {
+            process.outputs.add(identifier + " = " + value.compute(process.variables, true).toString());
+        }
     }
 
     public String toString() {
-        return "print \"" + identifier + "\"";
+        return (approximated ? "print_approximated" : "print") + " \"" + identifier + "\"";
     }
 
     public List<EditorLine> toEditorLines() {
         List<EditorLine> lines = new ArrayList<>();
 
-        lines.add(new EditorLine(R.string.action_print, EditorLineCategory.output, 0, new String[]{identifier}));
+        lines.add(new EditorLine(approximated ? R.string.action_print_approximated : R.string.action_print, EditorLineCategory.output, 0, new String[]{identifier}, true));
 
         return lines;
     }

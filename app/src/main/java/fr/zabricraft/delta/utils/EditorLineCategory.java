@@ -9,6 +9,7 @@ import fr.zabricraft.delta.actions.InputAction;
 import fr.zabricraft.delta.actions.PrintAction;
 import fr.zabricraft.delta.actions.PrintTextAction;
 import fr.zabricraft.delta.actions.SetAction;
+import fr.zabricraft.delta.actions.UnsetAction;
 import fr.zabricraft.delta.actions.WhileAction;
 
 public enum EditorLineCategory {
@@ -39,7 +40,8 @@ public enum EditorLineCategory {
             case variable:
                 return new Action[]{
                         new InputAction("a", "0"),
-                        new SetAction("a", "0")
+                        new SetAction("a", "0"),
+                        new UnsetAction("a")
                 };
             case structure:
                 return new Action[]{
@@ -49,7 +51,8 @@ public enum EditorLineCategory {
                 };
             case output:
                 return new Action[]{
-                        new PrintAction("a"),
+                        new PrintAction("a", false),
+                        new PrintAction("a", true),
                         new PrintTextAction("Hello world!")
                 };
             default:

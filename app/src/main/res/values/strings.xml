@@ -4,6 +4,7 @@
     <string name="myalgorithms">My algorithms</string>
     <string name="downloads">Downloads</string>
     <string name="new_algorithm">New algorithm</string>
+    <string name="no_algorithm">No algorithm here yet!</string>
     <string name="copy">%s (copy)</string>
     <string name="last_update">Updated on %s</string>
     <string name="about">About</string>
@@ -27,8 +28,10 @@
     <string name="action_selector">Select an action</string>
     <string name="action_input">Ask for %s with default %s</string>
     <string name="action_print">Print variable %s</string>
+    <string name="action_print_approximated">Print approximated value of %s</string>
     <string name="action_print_text">Print text %s</string>
     <string name="action_set">Set %s to %s</string>
+    <string name="action_unset">Unset %s</string>
     <string name="action_set_formatted">Set %s to %s as format</string>
     <string name="action_if">If %s</string>
     <string name="action_else">Else</string>
