@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,18 @@ import fr.zabricraft.delta.sections.SettingsSection;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Database;
 import fr.zabricraft.delta.utils.EditorLine;
+import fr.zabricraft.delta.utils.ItemMoveCallback;
+import fr.zabricraft.delta.views.EditorCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class EditorFragment extends Fragment implements SettingsSection.SettingsContainer, EditorLinesSection.EditorLinesContainer {
+public class EditorFragment extends Fragment implements SettingsSection.SettingsContainer, EditorLinesSection.EditorLinesContainer, ItemMoveCallback.ItemTouchHelperContract {
 
     private Algorithm algorithm;
 
     private RecyclerView recyclerView;
+    private SectionedRecyclerViewAdapter sectionAdapter;
+
+    private EditorLinesSection editorLinesSection;
 
     public static EditorFragment create(Algorithm algorithm) {
         Bundle args = new Bundle();
@@ -61,12 +67,18 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
 
         // Initialize sections
-        SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        editorLinesSection = new EditorLinesSection(this);
+        sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new SettingsSection(this));
-        sectionAdapter.addSection(new EditorLinesSection(this));
+        sectionAdapter.addSection(editorLinesSection);
 
         // Bind adapter to recyclerView
         recyclerView.setAdapter(sectionAdapter);
+
+        // Add support for drag and drop
+        ItemTouchHelper.Callback callback = new ItemMoveCallback(this);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
 
         // Load algorithm
         Object algorithm = getArguments().getSerializable("algorithm");
@@ -107,7 +119,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
             Pair<Integer, Integer> range = algorithm.insert(action, index);
 
             // Insert new rows
-            recyclerView.getAdapter().notifyDataSetChanged();
+            sectionAdapter.notifyDataSetChanged();
         }
     }
 
@@ -117,7 +129,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
             Pair<Integer, Integer> range = algorithm.delete(index);
 
             // Delete old rows
-            recyclerView.getAdapter().notifyDataSetChanged();
+            sectionAdapter.notifyDataSetChanged();
         }
     }
 
@@ -127,7 +139,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
             Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> ranges = algorithm.move(action, fromIndex, toIndex);
 
             // Delete old rows
-            recyclerView.getAdapter().notifyDataSetChanged();
+            sectionAdapter.notifyDataSetChanged();
         }
     }
 
@@ -163,4 +175,50 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
             }
         }
     }
+
+    public boolean canDropOver(int toPosition) {
+        return sectionAdapter.getSectionForPosition(toPosition) == editorLinesSection;
+    }
+
+    public boolean onRowMoved(int fromPosition, int toPosition) {
+        // Check if section is correct
+        if (sectionAdapter.getSectionForPosition(fromPosition) == editorLinesSection && sectionAdapter.getSectionForPosition(toPosition) == editorLinesSection) {
+            // Get indexes
+            int fromIndex = sectionAdapter.getPositionInSection(fromPosition);
+            int toIndex = sectionAdapter.getPositionInSection(toPosition);
+
+            // Get editor line
+            EditorLine line = algorithm.toEditorLines().get(fromIndex);
+
+            // Check if can be moved
+            if (line.isMovable()) {
+                // Get source action
+                Action action = algorithm.action(fromIndex).getValue0();
+
+                // Move lines
+                editorLineMoved(action, fromIndex, toIndex);
+
+                // Return true
+                return true;
+            }
+        }
+
+        // Line was not moved
+        return false;
+    }
+
+    public void onRowSelected(RecyclerView.ViewHolder viewHolder) {
+        if (viewHolder.itemView instanceof EditorCell) {
+            // Scale the cell
+            ((EditorCell) viewHolder.itemView).animate().scaleX(0.9f).scaleY(0.9f).setDuration(500);
+        }
+    }
+
+    public void onRowClear(RecyclerView.ViewHolder viewHolder) {
+        if (viewHolder.itemView instanceof EditorCell) {
+            // Scale the cell
+            ((EditorCell) viewHolder.itemView).animate().scaleX(1f).scaleY(1f).setDuration(500);
+        }
+    }
+
 }

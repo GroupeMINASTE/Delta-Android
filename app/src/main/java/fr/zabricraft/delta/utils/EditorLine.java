@@ -36,6 +36,10 @@ public class EditorLine {
         values[i] = text;
     }
 
+    public boolean isMovable() {
+        return movable;
+    }
+
     public EditorLine incrementIndentation() {
         indentation++;
 
