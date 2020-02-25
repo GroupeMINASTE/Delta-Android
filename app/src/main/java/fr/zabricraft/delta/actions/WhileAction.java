@@ -39,11 +39,8 @@ public class WhileAction implements ActionBlock {
         // Counter
         int i = 0;
 
-        // Parse condition
-        Token condition = new TokenParser(this.condition, process).execute();
-
         // Check if condition is true
-        while (condition.compute(process.variables, false) instanceof Equation && ((Equation) condition.compute(process.variables, false)).isTrue(process.variables)) {
+        while (checkCondition(process)) {
             // Execute actions
             for (Action action : actions) {
                 action.execute(process);
@@ -61,6 +58,11 @@ public class WhileAction implements ActionBlock {
                 return;
             }
         }
+    }
+
+    public boolean checkCondition(Process process) {
+        Token condition = new TokenParser(this.condition, process).execute();
+        return condition.compute(process.variables, false) instanceof Equation && ((Equation) condition.compute(process.variables, false)).isTrue(process.variables);
     }
 
     public String toString() {
