@@ -169,7 +169,7 @@ public class Algorithm implements Serializable {
         return Pair.with(0, 0);
     }
 
-    public Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> move(Action action, int fromIndex, int toIndex) {
+    public Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> move(int fromIndex, int toIndex) {
         // Check that index is different
         if (fromIndex != toIndex) {
             // Check if destination is not in the deleted range
@@ -192,7 +192,7 @@ public class Algorithm implements Serializable {
                 }
 
                 // Add the new line
-                Pair<Integer, Integer> newRange = insert(action, destination);
+                Pair<Integer, Integer> newRange = insert(sourceAction.getValue0(), destination);
 
                 // Return modified ranges
                 return Pair.with(range, newRange);

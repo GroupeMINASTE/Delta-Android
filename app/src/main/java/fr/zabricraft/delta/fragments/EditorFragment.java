@@ -133,10 +133,10 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         }
     }
 
-    public void editorLineMoved(Action action, int fromIndex, int toIndex) {
-        if (action != null && algorithm != null) {
+    public void editorLineMoved(int fromIndex, int toIndex) {
+        if (algorithm != null) {
             // Add the line into algorithm
-            Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> ranges = algorithm.move(action, fromIndex, toIndex);
+            Pair<Pair<Integer, Integer>, Pair<Integer, Integer>> ranges = algorithm.move(fromIndex, toIndex);
 
             // Delete old rows
             sectionAdapter.notifyDataSetChanged();
@@ -192,11 +192,8 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
 
             // Check if can be moved
             if (line.isMovable()) {
-                // Get source action
-                Action action = algorithm.action(fromIndex).getValue0();
-
                 // Move lines
-                editorLineMoved(action, fromIndex, toIndex);
+                editorLineMoved(fromIndex, toIndex);
 
                 // Return true
                 return true;
