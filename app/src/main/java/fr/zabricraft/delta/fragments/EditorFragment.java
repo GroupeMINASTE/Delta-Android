@@ -24,6 +24,7 @@ import fr.zabricraft.delta.activities.ActionSelectionActivity;
 import fr.zabricraft.delta.sections.EditorLinesSection;
 import fr.zabricraft.delta.sections.SettingsSection;
 import fr.zabricraft.delta.utils.Algorithm;
+import fr.zabricraft.delta.utils.AlgorithmIcon;
 import fr.zabricraft.delta.utils.Database;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.ItemMoveCallback;
@@ -52,7 +53,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         // Check if null
         if (algorithm == null) {
             // Create a new algorithm
-            this.algorithm = new Algorithm(0, null, true, getString(R.string.new_algorithm), new Date(), new RootAction());
+            this.algorithm = new Algorithm(0, null, true, getString(R.string.new_algorithm), new Date(), new AlgorithmIcon(), new RootAction());
         } else {
             // Clone for editing
             this.algorithm = algorithm.clone(getActivity());

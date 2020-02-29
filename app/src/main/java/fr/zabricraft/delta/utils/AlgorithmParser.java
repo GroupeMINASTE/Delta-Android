@@ -36,10 +36,11 @@ public class AlgorithmParser {
     private boolean owner;
     private String name;
     private Date last_update;
+    private AlgorithmIcon icon;
     private List<Action> actions;
 
     // Initializer
-    public AlgorithmParser(int local_id, Integer remote_id, boolean owner, String name, Date last_update, String lines) {
+    public AlgorithmParser(int local_id, Integer remote_id, boolean owner, String name, Date last_update, AlgorithmIcon icon, String lines) {
         this.lines = lines;
         this.keywords = new ArrayList<>();
         this.tokens = new ArrayList<>();
@@ -50,6 +51,7 @@ public class AlgorithmParser {
         this.name = name;
         this.owner = owner;
         this.last_update = last_update;
+        this.icon = icon;
         this.actions = new ArrayList<>();
     }
 
@@ -86,7 +88,7 @@ public class AlgorithmParser {
                 }
 
                 // Parse block
-                List<Action> block = new AlgorithmParser(0, null, false, "", null, content.toString()).execute().getRoot().getActions();
+                List<Action> block = new AlgorithmParser(0, null, false, "", null, new AlgorithmIcon(), content.toString()).execute().getRoot().getActions();
 
                 // Create an action from the line
                 Action action = createAction();
@@ -178,7 +180,7 @@ public class AlgorithmParser {
         Collections.reverse(actions);
 
         // Create an algorithm with parsed data
-        return new Algorithm(local_id, remote_id, owner, name, last_update, new RootAction(actions));
+        return new Algorithm(local_id, remote_id, owner, name, last_update, icon, new RootAction(actions));
     }
 
     private void insertAction(Action action) {

@@ -5,4 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="divider_color">#C7C7CC</color>
     <color name="background">#EFEFF4</color>
+    <color name="emerald">#2ECC71</color>
+    <color name="river">#3498DB</color>
+    <color name="amethyst">#9B59B6</color>
+    <color name="asphalt">#34495E</color>
+    <color name="carrot">#E67E22</color>
+    <color name="alizarin">#E74c3C</color>
 </resources>

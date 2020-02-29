@@ -22,8 +22,12 @@ public class Database extends SQLiteOpenHelper {
     private static final String lines = "lines";
     private static final String owner = "owner";
     private static final String last_update = "last_update";
+    private static final String icon = "icon";
+    private static final String color = "color";
+
     // Static instance
     private static Database instance;
+
     // Initialize
     private Database(Context context) {
         super(context, database, null, 1);
@@ -51,16 +55,24 @@ public class Database extends SQLiteOpenHelper {
                 name + " VARCHAR NOT NULL," +
                 lines + " TEXT NOT NULL," +
                 owner + " INTEGER NOT NULL," +
-                last_update + " LONG NOT NULL" +
+                last_update + " LONG NOT NULL," +
+                icon + " VARCHAR NOT NULL DEFAULT '" + AlgorithmIcon.defaultIcon + "'," +
+                color + " VARCHAR NOT NULL DEFAULT '" + AlgorithmIcon.defaultColor + "'" +
                 ");");
     }
 
     // Called when the database needs to be upgraded
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion != newVersion) {
-            // Simplest implementation is to drop all old tables and recreate them
-            db.execSQL("DROP TABLE IF EXISTS " + algorithms);
-            onCreate(db);
+        // Nothing here, we have our own implementation
+    }
+
+    // Update database
+    public void updateDatabase(int build_number) {
+        if (build_number < 24) {
+            // Add icon and color to table
+            SQLiteDatabase db = getWritableDatabase();
+            db.execSQL("ALTER TABLE " + algorithms + " ADD COLUMN " + icon + " VARCHAR NOT NULL DEFAULT '" + AlgorithmIcon.defaultIcon + "'");
+            db.execSQL("ALTER TABLE " + algorithms + " ADD COLUMN " + color + " VARCHAR NOT NULL DEFAULT '" + AlgorithmIcon.defaultColor + "'");
         }
     }
 
@@ -87,6 +99,8 @@ public class Database extends SQLiteOpenHelper {
                             cursor.getInt(cursor.getColumnIndex(owner)) == 1,
                             cursor.getString(cursor.getColumnIndex(name)),
                             new Date(cursor.getLong(cursor.getColumnIndex(last_update))),
+                            new AlgorithmIcon(cursor.getString(cursor.getColumnIndex(icon)),
+                                    cursor.getString(cursor.getColumnIndex(color))),
                             cursor.getString(cursor.getColumnIndex(lines))
                     ).execute());
                 } while (cursor.moveToNext());
@@ -126,6 +140,8 @@ public class Database extends SQLiteOpenHelper {
                             cursor.getInt(cursor.getColumnIndex(owner)) == 1,
                             cursor.getString(cursor.getColumnIndex(name)),
                             new Date(cursor.getLong(cursor.getColumnIndex(last_update))),
+                            new AlgorithmIcon(cursor.getString(cursor.getColumnIndex(icon)),
+                                    cursor.getString(cursor.getColumnIndex(color))),
                             cursor.getString(cursor.getColumnIndex(lines))
                     ).execute();
                 } while (cursor.moveToNext());
@@ -161,6 +177,8 @@ public class Database extends SQLiteOpenHelper {
             values.put(lines, algorithm.toString());
             values.put(owner, algorithm.isOwner() ? 1 : 0);
             values.put(last_update, algorithm.getLastUpdate().getTime());
+            values.put(icon, algorithm.getIcon().getIcon());
+            values.put(color, algorithm.getIcon().getColor());
 
             // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
             long id = db.insertOrThrow(algorithms, null, values);
@@ -203,6 +221,8 @@ public class Database extends SQLiteOpenHelper {
             values.put(lines, algorithm.toString());
             values.put(owner, algorithm.isOwner() ? 1 : 0);
             values.put(last_update, algorithm.getLastUpdate().getTime());
+            values.put(icon, algorithm.getIcon().getIcon());
+            values.put(color, algorithm.getIcon().getColor());
 
             // Update row
             db.update(algorithms, values, local_id + " = ?", new String[]{String.valueOf(algorithm.getLocalId())});

@@ -18,7 +18,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.extensions.NotificationNameExtension;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;
 import fr.zabricraft.delta.fragments.HomeFragment;
@@ -57,14 +56,24 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
 
         // Get build number
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        int build_number = data.getInt("build_number", 0);
+        int current_version = 0;
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            current_version = pInfo.versionCode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int build_number = data.getInt("build_number", current_version);
+
+        // Update database
+        Database.getInstance(this).updateDatabase(build_number);
 
         // Check to update
-        if (build_number < 13) {
+        if (build_number < 24) {
             // Get all algorithms
             List<Algorithm> algorithms = Database.getInstance(this).getAlgorithms();
 
-            // Clear downloaded algorithms and save them again
+            // Clear downloaded algorithms
             for (Algorithm algorithm : algorithms) {
                 // Check id it is a download
                 if (!algorithm.isOwner()) {
@@ -72,29 +81,10 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
                     Database.getInstance(this).deleteAlgorithm(algorithm);
                 }
             }
-
-            // Add again downloads
-            for (Algorithm algorithm : AlgorithmExtension.defaults) {
-                Database.getInstance(this).addAlgorithm(algorithm);
-            }
-
-            // Reload list
-            algorithms = Database.getInstance(this).getAlgorithms();
-
-            // Replace set_formatted by set in code
-            for (Algorithm algorithm : algorithms) {
-                // Just save them again
-                Database.getInstance(this).updateAlgorithm(algorithm);
-            }
         }
 
         // Get current version and save it
-        try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            data.edit().putInt("build_number", pInfo.versionCode).apply();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        data.edit().putInt("build_number", current_version).apply();
 
         // Monitor for review
         AppRate.with(this).monitor();

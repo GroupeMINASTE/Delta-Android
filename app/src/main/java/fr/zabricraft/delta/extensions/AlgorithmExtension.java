@@ -3,11 +3,12 @@ package fr.zabricraft.delta.extensions;
 import java.util.Date;
 
 import fr.zabricraft.delta.utils.Algorithm;
+import fr.zabricraft.delta.utils.AlgorithmIcon;
 import fr.zabricraft.delta.utils.AlgorithmParser;
 
 public class AlgorithmExtension {
 
-    public static final Algorithm secondDegreeEquation = new AlgorithmParser(0, null, false, "2nd degree equations", new Date(),
+    public static final Algorithm secondDegreeEquation = new AlgorithmParser(0, null, false, "2nd degree equations", new Date(), new AlgorithmIcon("square", "alizarin"),
             "input \"a\" default \"1\"\n" +
                     "input \"b\" default \"7\"\n" +
                     "input \"c\" default \"12\"\n" +

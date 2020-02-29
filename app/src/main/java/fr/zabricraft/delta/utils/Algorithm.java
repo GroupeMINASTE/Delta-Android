@@ -23,18 +23,20 @@ public class Algorithm implements Serializable {
     private boolean owner;
     private String name;
     private Date last_update;
+    private AlgorithmIcon icon;
     private List<Pair<String, String>> inputs;
     private RootAction root;
 
     // Initializer
 
-    public Algorithm(int local_id, Integer remote_id, boolean owner, String name, Date last_update, RootAction root) {
+    public Algorithm(int local_id, Integer remote_id, boolean owner, String name, Date last_update, AlgorithmIcon icon, RootAction root) {
         // Init values
         this.local_id = local_id;
         this.remote_id = remote_id;
         this.name = name;
         this.owner = owner;
         this.last_update = last_update;
+        this.icon = icon;
         this.inputs = new ArrayList<>();
         this.root = root;
 
@@ -66,6 +68,14 @@ public class Algorithm implements Serializable {
 
     public boolean isOwner() {
         return owner;
+    }
+
+    public AlgorithmIcon getIcon() {
+        return icon;
+    }
+
+    public void setIcon(AlgorithmIcon icon) {
+        this.icon = icon;
     }
 
     public Date getLastUpdate() {
@@ -229,10 +239,10 @@ public class Algorithm implements Serializable {
         // Check if owned
         if (owner) {
             // Create an instance with same information
-            return new Algorithm(local_id, remote_id, true, name, last_update, root);
+            return new Algorithm(local_id, remote_id, true, name, last_update, icon, root);
         } else {
             // Create a copy
-            return new Algorithm(0, null, true, context.getResources().getString(R.string.copy, name), last_update, root);
+            return new Algorithm(0, null, true, context.getResources().getString(R.string.copy, name), last_update, icon, root);
         }
     }
 

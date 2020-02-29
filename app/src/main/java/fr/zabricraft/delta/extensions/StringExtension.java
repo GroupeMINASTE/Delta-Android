@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.utils.AlgorithmIcon;
+
 public class StringExtension {
 
     public static String indentLines(String string) {
@@ -52,6 +55,48 @@ public class StringExtension {
         }
 
         return parts;
+    }
+
+    public static int toColor(String string) {
+        switch (string) {
+            case "emerald":
+                return R.color.emerald;
+            case "river":
+                return R.color.river;
+            case "amethyst":
+                return R.color.amethyst;
+            case "asphalt":
+                return R.color.asphalt;
+            case "carrot":
+                return R.color.carrot;
+            case "alizarin":
+                return R.color.alizarin;
+            default:
+                return toColor(AlgorithmIcon.defaultColor);
+        }
+    }
+
+    public static int toIcon(String string) {
+        switch (string) {
+            case "fraction":
+                return R.drawable.icon_fraction;
+            case "function":
+                return R.drawable.icon_function;
+            case "integration":
+                return R.drawable.icon_integration;
+            case "n":
+                return R.drawable.icon_n;
+            case "sigma":
+                return R.drawable.icon_sigma;
+            case "square":
+                return R.drawable.icon_square;
+            case "un":
+                return R.drawable.icon_un;
+            case "x":
+                return R.drawable.icon_x;
+            default:
+                return toColor(AlgorithmIcon.defaultIcon);
+        }
     }
 
     public static SpannableStringBuilder attributedMath(String string) {

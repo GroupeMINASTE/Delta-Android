@@ -8,8 +8,8 @@ import java.util.List;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.utils.Algorithm;
-import fr.zabricraft.delta.views.AlgorithmCell;
 import fr.zabricraft.delta.views.HeaderCell;
+import fr.zabricraft.delta.views.HomeCell;
 import fr.zabricraft.delta.views.LabelCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
@@ -34,7 +34,7 @@ public class AlgorithmsSection extends Section {
     }
 
     public View getItemView(ViewGroup parent) {
-        return new AlgorithmCell(parent.getContext());
+        return new HomeCell(parent.getContext());
     }
 
     public View getHeaderView(ViewGroup parent) {
@@ -55,8 +55,8 @@ public class AlgorithmsSection extends Section {
         final Algorithm algorithm = container.getAlgorithms(title).get(position);
 
         // bind your view here
-        if (itemHolder.itemView instanceof AlgorithmCell) {
-            ((AlgorithmCell) itemHolder.itemView).with(algorithm);
+        if (itemHolder.itemView instanceof HomeCell) {
+            ((HomeCell) itemHolder.itemView).with(algorithm);
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     // Load algorithm details
