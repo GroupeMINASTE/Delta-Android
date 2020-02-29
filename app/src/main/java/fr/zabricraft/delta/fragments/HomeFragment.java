@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,17 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.activities.EditorActivity;
-import fr.zabricraft.delta.api.APIAlgorithm;
-import fr.zabricraft.delta.api.APIRequest;
-import fr.zabricraft.delta.api.APIResponseStatus;
-import fr.zabricraft.delta.api.APISyncStatus;
 import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.sections.AboutSection;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
@@ -32,7 +25,7 @@ import fr.zabricraft.delta.utils.Database;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class HomeFragment extends Fragment implements AlgorithmsSection.AlgorithmContainer {
+public class HomeFragment extends Fragment implements AlgorithmsSection.AlgorithmContainer, Algorithm.AlgorithmChanged {
 
     private List<Algorithm> myalgorithms;
     private List<Algorithm> downloads;
@@ -65,7 +58,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
             }
 
             // Check for update
-            checkForUpdate(algorithm);
+            algorithm.checkForUpdate(getActivity(), this);
         }
 
         // If downloads are empty
@@ -79,7 +72,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
                 downloads.add(algorithm);
 
                 // And update it
-                checkForUpdate(algorithm);
+                algorithm.checkForUpdate(getActivity(), this);
             }
         }
 
@@ -111,40 +104,6 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
                 // Update recyclerView
                 sectionAdapter.notifyItemChangedInSection(downloads_section, i);
             }
-        }
-    }
-
-    public void checkForUpdate(final Algorithm algorithm) {
-        // If there is a remote id
-        if (algorithm.getRemoteId() != null && !algorithm.getRemoteId().equals(0)) {
-            // Check for update
-            algorithm.setStatus(APISyncStatus.checkingforupdate);
-            algorithmChanged(algorithm);
-
-            // Download algorithm
-            algorithm.setStatus(APISyncStatus.downloading);
-            algorithmChanged(algorithm);
-            new APIRequest("GET", "/algorithm/algorithm.php", new APIRequest.CompletionHandler() {
-                @Override
-                public void completionHandler(@Nullable JSONObject object, APIResponseStatus status) {
-                    // Check if data was downloaded
-                    if (object != null) {
-                        // Save it to database
-                        APIAlgorithm apiAlgorithm = new APIAlgorithm(object);
-                        Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(getActivity());
-
-                        // Replace it in lists
-                        algorithmChanged(updatedAlgorithm);
-                    } else {
-                        // Update status
-                        algorithm.setStatus(APISyncStatus.failed);
-                        algorithmChanged(algorithm);
-                    }
-                }
-            }).with("id", algorithm.getRemoteId()).execute();
-
-            // Or upload it if it was modified
-            // TODO
         }
     }
 

@@ -1,9 +1,11 @@
 package fr.zabricraft.delta.utils;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +16,11 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.ActionBlock;
 import fr.zabricraft.delta.actions.RootAction;
+import fr.zabricraft.delta.api.APIAlgorithm;
+import fr.zabricraft.delta.api.APIRequest;
+import fr.zabricraft.delta.api.APIResponseStatus;
 import fr.zabricraft.delta.api.APISyncStatus;
+import fr.zabricraft.delta.extensions.StringExtension;
 
 public class Algorithm implements Serializable {
 
@@ -255,6 +261,68 @@ public class Algorithm implements Serializable {
             // Create a copy
             return new Algorithm(0, null, true, context.getResources().getString(R.string.copy, name), last_update, icon, root);
         }
+    }
+
+    // Check for update from server
+
+    public void checkForUpdate(final Context context, final AlgorithmChanged algorithmChanged) {
+        // If there is a remote id
+        if (getRemoteId() != null && !getRemoteId().equals(0)) {
+            // Check for update
+            setStatus(APISyncStatus.checkingforupdate);
+            algorithmChanged.algorithmChanged(this);
+            new APIRequest("GET", "/algorithm/checkforupdate.php", new APIRequest.CompletionHandler() {
+                @Override
+                public void completionHandler(@Nullable JSONObject object, APIResponseStatus status) {
+                    // Check if data was downloaded
+                    if (object != null) {
+                        // Convert it to APIAlgorithm
+                        APIAlgorithm data = new APIAlgorithm(object);
+                        Date last_update = StringExtension.toDate(data.last_update);
+                        if (last_update != null) {
+                            // Compare last update date
+                            int compare = Algorithm.this.last_update.compareTo(last_update);
+                            if (compare < 0) {
+                                // Download algorithm
+                                setStatus(APISyncStatus.downloading);
+                                algorithmChanged.algorithmChanged(Algorithm.this);
+                                new APIRequest("GET", "/algorithm/algorithm.php", new APIRequest.CompletionHandler() {
+                                    @Override
+                                    public void completionHandler(@Nullable JSONObject object, APIResponseStatus status) {
+                                        // Check if data was downloaded
+                                        if (object != null) {
+                                            // Save it to database
+                                            APIAlgorithm apiAlgorithm = new APIAlgorithm(object);
+                                            Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(context);
+
+                                            // Replace it in lists
+                                            algorithmChanged.algorithmChanged(updatedAlgorithm);
+                                        } else {
+                                            // Update status
+                                            setStatus(APISyncStatus.failed);
+                                            algorithmChanged.algorithmChanged(Algorithm.this);
+                                        }
+                                    }
+                                }).with("id", getRemoteId()).execute();
+                            } else if (compare > 0) {
+                                // Or upload it if it was modified
+                                // TODO
+                            } else {
+                                // Algorithm is up to date
+                                setStatus(APISyncStatus.synchro);
+                                algorithmChanged.algorithmChanged(Algorithm.this);
+                            }
+                        }
+                    }
+                }
+            }).with("id", getRemoteId()).execute();
+        }
+    }
+
+    public interface AlgorithmChanged {
+
+        void algorithmChanged(Algorithm updatedAlgorithm);
+
     }
 
 }
