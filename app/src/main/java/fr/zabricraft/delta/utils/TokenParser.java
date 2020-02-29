@@ -100,13 +100,13 @@ public class TokenParser {
                 }
 
                 // Number
-                else if (isInt(String.valueOf(current))) {
-                    int val = 0;
-                    int powerOfTen = 0;
+                else if (isLong(String.valueOf(current))) {
+                    long val = 0;
+                    long powerOfTen = 0;
 
                     // Get other digits
-                    while (i < tokens.length() && isInt(String.valueOf(tokens.charAt(i)))) {
-                        val = (val * 10) + Integer.parseInt(String.valueOf(tokens.charAt(i)));
+                    while (i < tokens.length() && isLong(String.valueOf(tokens.charAt(i)))) {
+                        val = (val * 10) + Long.parseLong(String.valueOf(tokens.charAt(i)));
                         i++;
                     }
 
@@ -116,8 +116,8 @@ public class TokenParser {
                         i++;
 
                         // And start getting numbers after the dot
-                        while (i < tokens.length() && isInt(String.valueOf(tokens.charAt(i)))) {
-                            val = (val * 10) + Integer.parseInt(String.valueOf(tokens.charAt(i)));
+                        while (i < tokens.length() && isLong(String.valueOf(tokens.charAt(i)))) {
+                            val = (val * 10) + Long.parseLong(String.valueOf(tokens.charAt(i)));
                             i++;
                             powerOfTen++;
                         }
@@ -386,9 +386,9 @@ public class TokenParser {
     }
 
     // Check if a number is an integer
-    private boolean isInt(String str) {
+    private boolean isLong(String str) {
         try {
-            Integer.parseInt(str);
+            Long.parseLong(str);
         } catch (NumberFormatException | NullPointerException nfe) {
             return false;
         }

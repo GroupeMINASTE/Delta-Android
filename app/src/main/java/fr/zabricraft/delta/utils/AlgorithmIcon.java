@@ -1,6 +1,8 @@
 package fr.zabricraft.delta.utils;
 
-public class AlgorithmIcon {
+import java.io.Serializable;
+
+public class AlgorithmIcon implements Serializable {
 
     public static final String defaultIcon = "x";
     public static final String defaultColor = "river";

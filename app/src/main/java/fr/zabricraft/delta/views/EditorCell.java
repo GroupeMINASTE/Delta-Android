@@ -201,13 +201,7 @@ public class EditorCell extends LinearLayout {
         category.setText(line.getCategory().title);
 
         // Delete button
-        if (line.getCategory() == EditorLineCategory.settings || line.getFormat() == R.string.action_else || line.getFormat() == R.string.action_end) {
-            // Hide button
-            delete.setVisibility(INVISIBLE);
-        } else {
-            // Show button
-            delete.setVisibility(VISIBLE);
-        }
+        delete.setVisibility(line.isMovable() ? VISIBLE : INVISIBLE);
     }
 
 }

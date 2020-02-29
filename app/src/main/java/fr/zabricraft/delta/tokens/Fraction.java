@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.zabricraft.delta.extensions.IntExtension;
+import fr.zabricraft.delta.extensions.LongExtension;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Fraction implements Token {
@@ -27,7 +27,7 @@ public class Fraction implements Token {
     }
 
     public String toString() {
-        if (numerator instanceof Number && denominator instanceof Number && IntExtension.isPowerOfTen(((Number) denominator).getValue())) {
+        if (numerator instanceof Number && denominator instanceof Number && LongExtension.isPowerOfTen(((Number) denominator).getValue())) {
             // Print it as decimal
             return String.valueOf(((double) ((Number) numerator).getValue()) / ((double) ((Number) denominator).getValue()));
         }

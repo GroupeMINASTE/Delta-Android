@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import fr.zabricraft.delta.extensions.IntExtension;
+import fr.zabricraft.delta.extensions.LongExtension;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Number implements Token {
 
-    private int value;
+    private long value;
 
-    public Number(int value) {
+    public Number(long value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 
@@ -151,12 +151,12 @@ public class Number implements Token {
                 }
 
                 // Get the greatest common divisor
-                int gcd = IntExtension.greatestCommonDivisor(value, ((Number) right).value);
+                long gcd = LongExtension.greatestCommonDivisor(value, ((Number) right).value);
 
                 // If it's greater than one
                 if (gcd > 1) {
-                    int numerator = value / gcd;
-                    int denominator = ((Number) right).value / gcd;
+                    long numerator = value / gcd;
+                    long denominator = ((Number) right).value / gcd;
 
                     // Return the simplified fraction
                     return new Fraction(new Number(numerator), new Number(denominator));
@@ -195,9 +195,9 @@ public class Number implements Token {
 
                 // Apply power to number
                 if (((Number) right).value >= 0) {
-                    return new Number((int) Math.pow(value, ((Number) right).value));
+                    return new Number((long) Math.pow(value, ((Number) right).value));
                 } else {
-                    return new Number((int) Math.pow(value, -((Number) right).value)).inverse();
+                    return new Number((long) Math.pow(value, -((Number) right).value)).inverse();
                 }
             }
 
@@ -218,7 +218,7 @@ public class Number implements Token {
                         return new CalculError();
                     } else if (value == Math.floor(value)) {
                         // Simplified root
-                        return new Number((int) value);
+                        return new Number((long) value);
                     }
                 } else {
                     // Negative
@@ -229,7 +229,7 @@ public class Number implements Token {
                         return new CalculError();
                     } else if (value == Math.floor(value)) {
                         // Simplified root
-                        return new Product(new Number((int) value), new Variable("i"));
+                        return new Product(new Number((long) value), new Variable("i"));
                     } else {
                         // Root of negative as i * sqrt(-value)
                         return new Product(new Root(new Number(-this.value), right), new Variable("i"));
