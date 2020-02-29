@@ -4,31 +4,32 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.api.APIAlgorithm;
-import fr.zabricraft.delta.utils.Algorithm;
-import fr.zabricraft.delta.views.CloudDetailsCell;
+import fr.zabricraft.delta.utils.EditorLine;
+import fr.zabricraft.delta.views.EditorPreviewCell;
 import fr.zabricraft.delta.views.HeaderCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class CloudDetailsSection extends Section {
+public class AlgorithmPreviewSection extends Section {
 
-    private final CloudDetailsContainer container;
+    private final AlgorithmPreviewContainer container;
 
-    public CloudDetailsSection(CloudDetailsContainer container) {
+    public AlgorithmPreviewSection(AlgorithmPreviewContainer container) {
         super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().build());
 
         this.container = container;
     }
 
     public int getContentItemsTotal() {
-        return container.getAlgorithm() != null ? 1 : 0;
+        return container.getPreview() != null ? container.getPreview().size() : 0;
     }
 
     public View getItemView(ViewGroup parent) {
-        return new CloudDetailsCell(parent.getContext());
+        return new EditorPreviewCell(parent.getContext());
     }
 
     public View getHeaderView(ViewGroup parent) {
@@ -40,19 +41,20 @@ public class CloudDetailsSection extends Section {
         return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
     }
 
-    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-        SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
+    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        final SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
+        final EditorLine line = container.getPreview().get(position);
 
         // bind your view here
-        if (itemHolder.itemView instanceof CloudDetailsCell) {
-            ((CloudDetailsCell) itemHolder.itemView).with(container.getAlgorithm(), container.getOnDevice());
+        if (itemHolder.itemView instanceof EditorPreviewCell) {
+            ((EditorPreviewCell) itemHolder.itemView).with(line);
         }
     }
 
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         // Check if it's a headerCell
         if (view instanceof HeaderCell) {
-            ((HeaderCell) view).with(R.string.cloud_details);
+            ((HeaderCell) view).with(R.string.cloud_preview);
         }
 
         // return an empty instance of ViewHolder for the headers of this section
@@ -60,9 +62,7 @@ public class CloudDetailsSection extends Section {
     }
 
     // Container interface
-    public interface CloudDetailsContainer {
-        APIAlgorithm getAlgorithm();
-
-        Algorithm getOnDevice();
+    public interface AlgorithmPreviewContainer {
+        List<EditorLine> getPreview();
     }
 }

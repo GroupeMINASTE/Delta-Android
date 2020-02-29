@@ -19,6 +19,7 @@ public class APIAlgorithm implements Serializable {
     public APIUser owner;
     public String last_update;
     public String lines;
+    public String notes;
     public AlgorithmIcon icon;
 
     public APIAlgorithm(JSONObject object) {
@@ -28,15 +29,20 @@ public class APIAlgorithm implements Serializable {
             this.owner = object.has("owner") ? new APIUser(object.getJSONObject("owner")) : null;
             this.last_update = object.has("last_update") ? object.getString("last_update") : null;
             this.lines = object.has("lines") ? object.getString("lines") : null;
+            this.notes = object.has("notes") ? object.getString("notes") : null;
             this.icon = object.has("icon") ? new AlgorithmIcon(object.getJSONObject("icon")) : null;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public Algorithm toAlgorithm() {
+        return new AlgorithmParser(0, id, false, name, StringExtension.toDate(last_update), icon, lines).execute();
+    }
+
     public Algorithm saveToDatabase(Context context) {
         // Parse algorithm from downloaded data
-        Algorithm algorithm = new AlgorithmParser(0, id, false, name, StringExtension.toDate(last_update), icon, lines).execute();
+        Algorithm algorithm = toAlgorithm();
 
         // Check if algorithm is already in database
         Algorithm fromDatabase = Database.getInstance(context).getAlgorithm(-1, id);

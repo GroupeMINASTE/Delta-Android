@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.utils.EditorLineCategory;
-import fr.zabricraft.delta.views.ActionSelectorCell;
+import fr.zabricraft.delta.views.EditorPreviewCell;
 import fr.zabricraft.delta.views.HeaderCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
@@ -29,7 +29,7 @@ public class ActionSelectorSection extends Section {
     }
 
     public View getItemView(ViewGroup parent) {
-        return new ActionSelectorCell(parent.getContext());
+        return new EditorPreviewCell(parent.getContext());
     }
 
     public View getHeaderView(ViewGroup parent) {
@@ -46,8 +46,8 @@ public class ActionSelectorSection extends Section {
         final Action action = category.catalog()[position];
 
         // bind your view here
-        if (itemHolder.itemView instanceof ActionSelectorCell) {
-            ((ActionSelectorCell) itemHolder.itemView).with(action.toEditorLines().get(0));
+        if (itemHolder.itemView instanceof EditorPreviewCell) {
+            ((EditorPreviewCell) itemHolder.itemView).with(action.toEditorLines().get(0));
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     container.selectAndClose(action);

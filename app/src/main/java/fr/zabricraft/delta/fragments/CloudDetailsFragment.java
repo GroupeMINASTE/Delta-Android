@@ -11,17 +11,26 @@ import android.view.ViewGroup;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.api.APIAlgorithm;
 import fr.zabricraft.delta.api.APIRequest;
 import fr.zabricraft.delta.api.APIResponseStatus;
+import fr.zabricraft.delta.sections.AlgorithmPreviewSection;
 import fr.zabricraft.delta.sections.CloudDetailsSection;
+import fr.zabricraft.delta.utils.Algorithm;
+import fr.zabricraft.delta.utils.Database;
+import fr.zabricraft.delta.utils.EditorLine;
+import fr.zabricraft.delta.utils.EditorLineCategory;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class CloudDetailsFragment extends Fragment implements CloudDetailsSection.CloudDetailsContainer {
+public class CloudDetailsFragment extends Fragment implements CloudDetailsSection.CloudDetailsContainer, AlgorithmPreviewSection.AlgorithmPreviewContainer {
 
-    private APIAlgorithm algorithm;
     private APIResponseStatus status = APIResponseStatus.ok;
+    private APIAlgorithm algorithm;
+    private Algorithm onDevice;
+    private ArrayList<EditorLine> preview;
 
     private RecyclerView recyclerView;
 
@@ -50,8 +59,22 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
 
                 // Check data
                 if (object instanceof JSONObject) {
+                    // Read algorithm
+                    APIAlgorithm data = new APIAlgorithm((JSONObject) object);
+
                     // Set algorithm
-                    CloudDetailsFragment.this.algorithm = new APIAlgorithm((JSONObject) object);
+                    CloudDetailsFragment.this.algorithm = data;
+
+                    // Set preview
+                    preview = new ArrayList<>();
+                    for (EditorLine line : data.toAlgorithm().toEditorLines()) {
+                        if (line.getCategory() != EditorLineCategory.add) {
+                            preview.add(line);
+                        }
+                    }
+
+                    // Get it on device if exists
+                    onDevice = Database.getInstance(getActivity()).getAlgorithm(-1, data.id);
 
                     // Update title
                     getActivity().setTitle(CloudDetailsFragment.this.algorithm.name);
@@ -73,6 +96,7 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new CloudDetailsSection(this));
+        sectionAdapter.addSection(new AlgorithmPreviewSection(this));
 
         // Bind adapter to recyclerView
         recyclerView.setAdapter(sectionAdapter);
@@ -86,8 +110,15 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
         return recyclerView;
     }
 
-    @Override
     public APIAlgorithm getAlgorithm() {
         return algorithm;
+    }
+
+    public Algorithm getOnDevice() {
+        return onDevice;
+    }
+
+    public ArrayList<EditorLine> getPreview() {
+        return preview;
     }
 }

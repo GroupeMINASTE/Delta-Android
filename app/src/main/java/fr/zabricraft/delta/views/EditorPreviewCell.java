@@ -13,7 +13,7 @@ import android.widget.TextView;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.utils.EditorLine;
 
-public class ActionSelectorCell extends LinearLayout {
+public class EditorPreviewCell extends LinearLayout {
 
     private ImageView icon;
     private TextView category;
@@ -21,7 +21,7 @@ public class ActionSelectorCell extends LinearLayout {
 
     private EditorLine line;
 
-    public ActionSelectorCell(Context context) {
+    public EditorPreviewCell(Context context) {
         // Init linearLayout
         super(context);
 
@@ -88,6 +88,13 @@ public class ActionSelectorCell extends LinearLayout {
         icon.setImageResource(line.getCategory().image);
         category.setText(line.getCategory().title);
         label.setText(String.format(getResources().getString(line.getFormat()), (Object[]) line.getValues()));
+
+        // Update left space
+        int left = IntExtension.dpToPixel(32 * line.getIndentation(), getResources());
+        int dp16 = IntExtension.dpToPixel(16, getResources());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(dp16 + left, 0, dp16, dp16);
+        setLayoutParams(params);
     }
 
 }

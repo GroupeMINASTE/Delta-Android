@@ -57,9 +57,6 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
                 // Add to Downloads
                 downloads.add(algorithm);
             }
-
-            // Check for update
-            algorithm.checkForUpdate(getActivity(), this);
         }
 
         // If downloads are empty
@@ -71,9 +68,6 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
                 // Add to Downloads
                 downloads.add(algorithm);
-
-                // And update it
-                algorithm.checkForUpdate(getActivity(), this);
             }
         }
 
@@ -83,6 +77,15 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
         // Update recyclerView
         sectionAdapter.notifyDataSetChanged();
+
+        // Check for update for all algorithms
+        List<Algorithm> all = new ArrayList<>();
+        all.addAll(myalgorithms);
+        all.addAll(downloads);
+        for (Algorithm algorithm : all) {
+            // Check for update
+            algorithm.checkForUpdate(getActivity(), this);
+        }
     }
 
     public void algorithmChanged(Algorithm updatedAlgorithm) {

@@ -8,6 +8,9 @@
     <string name="download_algorithm">Download from Cloud</string>
     <string name="cloud">Cloud</string>
     <string name="cloud_algorithms">Algorithms on the Cloud</string>
+    <string name="cloud_details">Details of the selected algorithm</string>
+    <string name="cloud_preview">Preview of this algorithm</string>
+    <string name="cloud_no_notes">No notes were written for this algorithm.</string>
     <string name="copy">%s (copy)</string>
     <string name="about">About</string>
     <string name="help">Help and documentation</string>
@@ -22,6 +25,9 @@
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="download">Download</string>
+    <string name="update">Update</string>
+    <string name="open">Open</string>
     <string name="status_local">Saved locally</string>
     <string name="status_synchro">Synchronized</string>
     <string name="status_checkingforupdate">Checking for update…</string>
