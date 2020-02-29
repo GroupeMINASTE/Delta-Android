@@ -16,6 +16,7 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.api.APIAlgorithm;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
+import fr.zabricraft.delta.sections.CloudDetailsSection;
 import fr.zabricraft.delta.utils.Algorithm;
 
 public class CloudDetailsCell extends LinearLayout {
@@ -27,6 +28,7 @@ public class CloudDetailsCell extends LinearLayout {
     private Button button;
     private APIAlgorithm algorithm;
     private Algorithm onDevice;
+    private CloudDetailsSection.CloudDetailsContainer delegate;
 
     public CloudDetailsCell(Context context) {
         // Init linearLayout
@@ -120,10 +122,11 @@ public class CloudDetailsCell extends LinearLayout {
         addView(button);
     }
 
-    public void with(APIAlgorithm algorithm, Algorithm onDevice) {
+    public void with(APIAlgorithm algorithm, Algorithm onDevice, CloudDetailsSection.CloudDetailsContainer delegate) {
         // Set algorithms
         this.algorithm = algorithm;
         this.onDevice = onDevice;
+        this.delegate = delegate;
 
         // Set views
         name.setText(algorithm.name);
@@ -178,7 +181,9 @@ public class CloudDetailsCell extends LinearLayout {
 
     public void open(Algorithm algorithm) {
         // Open it
-
+        if (algorithm != null && delegate != null) {
+            delegate.open(algorithm);
+        }
     }
 
 }

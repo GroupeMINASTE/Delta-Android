@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
     public void openCloud() {
         Intent intent = new Intent(getActivity(), CloudHomeActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 668);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -172,6 +172,18 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
             if (algorithm instanceof Algorithm) {
                 // Update with new algorithm
                 loadAlgorithms();
+            }
+        } else if (requestCode == 668 && resultCode == Activity.RESULT_OK) {
+            // Get data from Intent
+            Object algorithm = data.getSerializableExtra("algorithm");
+
+            // Check if data is valid
+            if (algorithm instanceof Algorithm) {
+                // Update with new algorithm
+                loadAlgorithms();
+
+                // Open the algorithm
+                ((AlgorithmsSection.AlgorithmLoader) getActivity()).load((Algorithm) algorithm);
             }
         }
     }

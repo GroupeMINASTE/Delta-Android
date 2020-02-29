@@ -45,7 +45,7 @@ public class CloudDetailsSection extends Section {
 
         // bind your view here
         if (itemHolder.itemView instanceof CloudDetailsCell) {
-            ((CloudDetailsCell) itemHolder.itemView).with(container.getAlgorithm(), container.getOnDevice());
+            ((CloudDetailsCell) itemHolder.itemView).with(container.getAlgorithm(), container.getOnDevice(), container);
         }
     }
 
@@ -64,5 +64,7 @@ public class CloudDetailsSection extends Section {
         APIAlgorithm getAlgorithm();
 
         Algorithm getOnDevice();
+
+        void open(Algorithm algorithm);
     }
 }

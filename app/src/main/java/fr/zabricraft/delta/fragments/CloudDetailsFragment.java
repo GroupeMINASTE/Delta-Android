@@ -1,6 +1,8 @@
 package fr.zabricraft.delta.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -116,6 +118,16 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
 
     public Algorithm getOnDevice() {
         return onDevice;
+    }
+
+    public void open(Algorithm algorithm) {
+        // Use delegate to close cloud and open algorithm
+        Intent result = new Intent();
+        result.putExtra("algorithm", algorithm);
+        getActivity().setResult(Activity.RESULT_OK, result);
+
+        // Dismiss activity
+        getActivity().finish();
     }
 
     public ArrayList<EditorLine> getPreview() {
