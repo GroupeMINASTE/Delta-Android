@@ -6,8 +6,12 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -139,6 +143,19 @@ public class StringExtension {
         }
 
         return workspace;
+    }
+
+    public static Date toDate(String string) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        format.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+
+        try {
+            return format.parse(string);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

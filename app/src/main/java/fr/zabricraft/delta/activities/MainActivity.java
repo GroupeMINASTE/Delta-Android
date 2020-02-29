@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
 
             // Clear downloaded algorithms
             for (Algorithm algorithm : algorithms) {
-                // Check id it is a download
+                // Check if it is a download
                 if (!algorithm.isOwner()) {
                     // Remove it
                     Database.getInstance(this).deleteAlgorithm(algorithm);

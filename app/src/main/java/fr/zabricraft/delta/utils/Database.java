@@ -118,16 +118,16 @@ public class Database extends SQLiteOpenHelper {
     }
 
     // Get algorithm by id
-    public Algorithm getAlgorithm(int id) {
+    public Algorithm getAlgorithm(int id_local, int id_remote) {
         // Declare an algorithm
         Algorithm algorithm = null;
 
         // Create a SQL query
-        String query = "SELECT * FROM " + algorithms + " WHERE " + local_id + " = ?";
+        String query = "SELECT * FROM " + algorithms + " WHERE " + local_id + " = ? OR " + remote_id + " = ?";
 
         // Get the database
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id_local), String.valueOf(id_remote)});
 
         // Iterate data
         try {
@@ -158,6 +158,10 @@ public class Database extends SQLiteOpenHelper {
         return algorithm;
     }
 
+    public Algorithm getAlgorithm(int id_local) {
+        return getAlgorithm(id_local, -1);
+    }
+
     // Add an algorithm into database
     public Algorithm addAlgorithm(Algorithm algorithm) {
         // Create and/or open the database for writing
@@ -167,9 +171,6 @@ public class Database extends SQLiteOpenHelper {
         // consistency of the database.
         db.beginTransaction();
         try {
-            // Update last update
-            algorithm.setLastUpdate(new Date());
-
             // Get data
             ContentValues values = new ContentValues();
             values.put(remote_id, algorithm.getRemoteId());
@@ -211,9 +212,6 @@ public class Database extends SQLiteOpenHelper {
         // consistency of the database.
         db.beginTransaction();
         try {
-            // Update last update
-            algorithm.setLastUpdate(new Date());
-
             // Get data
             ContentValues values = new ContentValues();
             values.put(remote_id, algorithm.getRemoteId());

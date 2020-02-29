@@ -145,6 +145,9 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
     }
 
     public void saveAndClose() {
+        // Update last update
+        algorithm.setLastUpdate(new Date());
+
         // Save algorithm to database
         Algorithm newAlgorithm = Database.getInstance(getActivity()).updateAlgorithm(algorithm);
 

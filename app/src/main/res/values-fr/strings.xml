@@ -6,7 +6,6 @@
     <string name="new_algorithm">Nouvel algorithme</string>
     <string name="no_algorithm">Pas encore d\'algorithme ici !</string>
     <string name="copy">%s (copie)</string>
-    <string name="last_update">Mis à jour le %s</string>
     <string name="about">A propos</string>
     <string name="help">Aide et documentation</string>
     <string name="follow_twitter">Nous suivre sur Twitter</string>
@@ -20,6 +19,11 @@
     <string name="delete">Supprimer</string>
     <string name="save">Enregistrer</string>
     <string name="cancel">Annuler</string>
+    <string name="status_local">Sauvegardé localement</string>
+    <string name="status_synchro">Synchronisé</string>
+    <string name="status_checkingforupdate">Recherche de mise à jour…</string>
+    <string name="status_downloading">Téléchargement…</string>
+    <string name="status_failed">Echec du téléchargement !</string>
     <string name="error_calcul">Erreur de calcul</string>
     <string name="error_syntax">Erreur de syntaxe</string>
     <string name="error_constant">Impossible d\'attribuer la valeur : %s est une constante</string>
@@ -44,5 +48,4 @@
     <string name="category_output">Sortie</string>
     <string name="category_settings">Paramètres</string>
     <string name="category_add">Ajouter une action</string>
-    <string name="algo1_name">Equations du 2nd degré</string>
 </resources>

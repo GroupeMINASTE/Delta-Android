@@ -1,5 +1,7 @@
 package fr.zabricraft.delta.utils;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 public class AlgorithmIcon implements Serializable {
@@ -17,6 +19,15 @@ public class AlgorithmIcon implements Serializable {
 
     public AlgorithmIcon() {
         this(defaultIcon, defaultColor);
+    }
+
+    public AlgorithmIcon(JSONObject object) {
+        try {
+            this.icon = object.has("icon") ? object.getString("icon") : null;
+            this.color = object.has("color") ? object.getString("color") : null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getIcon() {

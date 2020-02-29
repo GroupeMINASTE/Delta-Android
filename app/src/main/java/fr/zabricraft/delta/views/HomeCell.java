@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.extensions.DateExtension;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.utils.Algorithm;
@@ -85,7 +84,8 @@ public class HomeCell extends LinearLayout implements View.OnCreateContextMenuLi
 
     public void with(Algorithm algorithm) {
         name.setText(algorithm.getName());
-        desc.setText(String.format(getResources().getString(R.string.last_update), DateExtension.toRenderedString(algorithm.getLastUpdate())));
+        desc.setText(algorithm.getStatus().text());
+        desc.setTextColor(getResources().getColor(algorithm.getStatus().colorForText()));
         icon.setImageResource(StringExtension.toIcon(algorithm.getIcon().getIcon()));
 
         GradientDrawable background = new GradientDrawable();

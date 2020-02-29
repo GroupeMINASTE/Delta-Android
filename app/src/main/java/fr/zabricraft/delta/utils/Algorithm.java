@@ -14,6 +14,7 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.ActionBlock;
 import fr.zabricraft.delta.actions.RootAction;
+import fr.zabricraft.delta.api.APISyncStatus;
 
 public class Algorithm implements Serializable {
 
@@ -26,6 +27,7 @@ public class Algorithm implements Serializable {
     private AlgorithmIcon icon;
     private List<Pair<String, String>> inputs;
     private RootAction root;
+    private APISyncStatus status;
 
     // Initializer
 
@@ -39,6 +41,7 @@ public class Algorithm implements Serializable {
         this.icon = icon;
         this.inputs = new ArrayList<>();
         this.root = root;
+        this.status = remote_id != null && remote_id != 0 ? APISyncStatus.synchro : APISyncStatus.local;
 
         // Extract inputs from actions
         this.extractInputs();
@@ -92,6 +95,14 @@ public class Algorithm implements Serializable {
 
     public RootAction getRoot() {
         return root;
+    }
+
+    public APISyncStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(APISyncStatus status) {
+        this.status = status;
     }
 
     // Inputs

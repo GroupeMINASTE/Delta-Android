@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,11 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.activities.EditorActivity;
+import fr.zabricraft.delta.api.APIAlgorithm;
+import fr.zabricraft.delta.api.APIRequest;
+import fr.zabricraft.delta.api.APIResponseStatus;
+import fr.zabricraft.delta.api.APISyncStatus;
 import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.sections.AboutSection;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
@@ -56,18 +63,24 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
                 // Add to Downloads
                 downloads.add(algorithm);
             }
+
+            // Check for update
+            checkForUpdate(algorithm);
         }
 
         // If downloads are empty
         if (downloads.isEmpty()) {
-            // TODO: download them from API and save them
-            for (Algorithm algorithm : AlgorithmExtension.defaults) {
+            // Download default algorithms
+            for (Algorithm download : AlgorithmExtension.defaults) {
                 // Save it locally
-                Database.getInstance(getActivity()).addAlgorithm(algorithm);
-            }
+                Algorithm algorithm = Database.getInstance(getActivity()).addAlgorithm(download);
 
-            // Reload algorithms
-            loadAlgorithms();
+                // Add to Downloads
+                downloads.add(algorithm);
+
+                // And update it
+                checkForUpdate(algorithm);
+            }
         }
 
         // Update states
@@ -76,6 +89,63 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
         // Update recyclerView
         sectionAdapter.notifyDataSetChanged();
+    }
+
+    public void algorithmChanged(Algorithm updatedAlgorithm) {
+        for (int i = 0; i < myalgorithms.size(); i++) {
+            if ((myalgorithms.get(i).getLocalId() == updatedAlgorithm.getLocalId() && myalgorithms.get(i).getLocalId() != 0) || (myalgorithms.get(i).getRemoteId() != null && !myalgorithms.get(i).getRemoteId().equals(0) && myalgorithms.get(i).getRemoteId().equals(updatedAlgorithm.getRemoteId()))) {
+                // Replace
+                myalgorithms.remove(i);
+                myalgorithms.add(i, updatedAlgorithm);
+
+                // Update recyclerView
+                sectionAdapter.notifyItemChangedInSection(myalgorithms_section, i);
+            }
+        }
+        for (int i = 0; i < downloads.size(); i++) {
+            if ((downloads.get(i).getLocalId() == updatedAlgorithm.getLocalId() && downloads.get(i).getLocalId() != 0) || (downloads.get(i).getRemoteId() != null && !downloads.get(i).getRemoteId().equals(0) && downloads.get(i).getRemoteId().equals(updatedAlgorithm.getRemoteId()))) {
+                // Replace
+                downloads.remove(i);
+                downloads.add(i, updatedAlgorithm);
+
+                // Update recyclerView
+                sectionAdapter.notifyItemChangedInSection(downloads_section, i);
+            }
+        }
+    }
+
+    public void checkForUpdate(final Algorithm algorithm) {
+        // If there is a remote id
+        if (algorithm.getRemoteId() != null && !algorithm.getRemoteId().equals(0)) {
+            // Check for update
+            algorithm.setStatus(APISyncStatus.checkingforupdate);
+            algorithmChanged(algorithm);
+
+            // Download algorithm
+            algorithm.setStatus(APISyncStatus.downloading);
+            algorithmChanged(algorithm);
+            new APIRequest("GET", "/algorithm/algorithm.php", new APIRequest.CompletionHandler() {
+                @Override
+                public void completionHandler(@Nullable JSONObject object, APIResponseStatus status) {
+                    // Check if data was downloaded
+                    if (object != null) {
+                        // Save it to database
+                        APIAlgorithm apiAlgorithm = new APIAlgorithm(object);
+                        Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(getActivity());
+
+                        // Replace it in lists
+                        algorithmChanged(updatedAlgorithm);
+                    } else {
+                        // Update status
+                        algorithm.setStatus(APISyncStatus.failed);
+                        algorithmChanged(algorithm);
+                    }
+                }
+            }).with("id", algorithm.getRemoteId()).execute();
+
+            // Or upload it if it was modified
+            // TODO
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
