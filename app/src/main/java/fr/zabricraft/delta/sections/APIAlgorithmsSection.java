@@ -4,29 +4,34 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.api.APIAlgorithm;
 import fr.zabricraft.delta.views.HeaderCell;
-import fr.zabricraft.delta.views.LabelCell;
+import fr.zabricraft.delta.views.HomeCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class NewSection extends Section {
+public class APIAlgorithmsSection extends Section {
 
-    private final AlgorithmsSection.AlgorithmsContainer container;
+    private final APIAlgorithmLoader loader;
+    private final APIAlgorithmsContainer container;
 
-    public NewSection(AlgorithmsSection.AlgorithmsContainer container) {
+    public APIAlgorithmsSection(APIAlgorithmsContainer container, APIAlgorithmLoader loader) {
         super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().build());
 
         this.container = container;
+        this.loader = loader;
     }
 
     public int getContentItemsTotal() {
-        return 2;
+        return container.getAlgorithms().size();
     }
 
     public View getItemView(ViewGroup parent) {
-        return new LabelCell(parent.getContext());
+        return new HomeCell(parent.getContext());
     }
 
     public View getHeaderView(ViewGroup parent) {
@@ -38,21 +43,17 @@ public class NewSection extends Section {
         return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
     }
 
-    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
+    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+        SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
+        final APIAlgorithm apiAlgorithm = container.getAlgorithms().get(position);
 
         // bind your view here
-        if (itemHolder.itemView instanceof LabelCell) {
-            ((LabelCell) itemHolder.itemView).with(position == 0 ? R.string.new_algorithm : R.string.download_algorithm);
+        if (itemHolder.itemView instanceof HomeCell) {
+            ((HomeCell) itemHolder.itemView).with(apiAlgorithm);
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    if (position == 0) {
-                        // Open editor for a new algorithm
-                        container.startEditor(null);
-                    } else {
-                        // Open the cloud
-                        container.openCloud();
-                    }
+                    // Load algorithm details
+                    loader.load(apiAlgorithm);
                 }
             });
         }
@@ -61,11 +62,20 @@ public class NewSection extends Section {
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         // Check if it's a headerCell
         if (view instanceof HeaderCell) {
-            ((HeaderCell) view).with(R.string.new_algorithm);
+            ((HeaderCell) view).with(R.string.cloud_algorithms);
         }
 
         // return an empty instance of ViewHolder for the headers of this section
         return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
     }
 
+    // Loader interface
+    public interface APIAlgorithmLoader {
+        void load(APIAlgorithm apiAlgorithm);
+    }
+
+    // Container interface
+    public interface APIAlgorithmsContainer {
+        List<APIAlgorithm> getAlgorithms();
+    }
 }

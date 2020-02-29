@@ -5,6 +5,9 @@
     <string name="downloads">Downloads</string>
     <string name="new_algorithm">New algorithm</string>
     <string name="no_algorithm">No algorithm here yet!</string>
+    <string name="download_algorithm">Download from Cloud</string>
+    <string name="cloud">Cloud</string>
+    <string name="cloud_algorithms">Algorithms on the Cloud</string>
     <string name="copy">%s (copy)</string>
     <string name="about">About</string>
     <string name="help">Help and documentation</string>

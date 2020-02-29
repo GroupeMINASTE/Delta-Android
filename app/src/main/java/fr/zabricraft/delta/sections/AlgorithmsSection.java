@@ -18,10 +18,10 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 public class AlgorithmsSection extends Section {
 
     private final AlgorithmLoader loader;
-    private final AlgorithmContainer container;
+    private final AlgorithmsContainer container;
     private int title;
 
-    public AlgorithmsSection(int title, AlgorithmContainer container, AlgorithmLoader loader) {
+    public AlgorithmsSection(int title, AlgorithmsContainer container, AlgorithmLoader loader) {
         super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().emptyViewWillBeProvided().build());
 
         this.title = title;
@@ -99,12 +99,14 @@ public class AlgorithmsSection extends Section {
     }
 
     // Container interface
-    public interface AlgorithmContainer {
+    public interface AlgorithmsContainer {
         List<Algorithm> getAlgorithms(int title);
 
         void startEditor(Algorithm algorithm);
 
         void setLongClickAlgorithm(Algorithm algorithm);
+
+        void openCloud();
     }
 
 }

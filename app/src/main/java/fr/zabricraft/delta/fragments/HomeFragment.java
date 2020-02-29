@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.activities.CloudHomeActivity;
 import fr.zabricraft.delta.activities.EditorActivity;
 import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.sections.AboutSection;
@@ -25,7 +26,7 @@ import fr.zabricraft.delta.utils.Database;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class HomeFragment extends Fragment implements AlgorithmsSection.AlgorithmContainer, Algorithm.AlgorithmChanged {
+public class HomeFragment extends Fragment implements AlgorithmsSection.AlgorithmsContainer, Algorithm.AlgorithmChanged {
 
     private List<Algorithm> myalgorithms;
     private List<Algorithm> downloads;
@@ -152,6 +153,11 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
     public void setLongClickAlgorithm(Algorithm algorithm) {
         this.longClickAlgorithm = algorithm;
+    }
+
+    public void openCloud() {
+        Intent intent = new Intent(getActivity(), CloudHomeActivity.class);
+        startActivity(intent);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

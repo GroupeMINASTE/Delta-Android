@@ -273,11 +273,11 @@ public class Algorithm implements Serializable {
             algorithmChanged.algorithmChanged(this);
             new APIRequest("GET", "/algorithm/checkforupdate.php", new APIRequest.CompletionHandler() {
                 @Override
-                public void completionHandler(@Nullable JSONObject object, APIResponseStatus status) {
+                public void completionHandler(@Nullable Object object, APIResponseStatus status) {
                     // Check if data was downloaded
-                    if (object != null) {
+                    if (object instanceof JSONObject) {
                         // Convert it to APIAlgorithm
-                        APIAlgorithm data = new APIAlgorithm(object);
+                        APIAlgorithm data = new APIAlgorithm((JSONObject) object);
                         Date last_update = StringExtension.toDate(data.last_update);
                         if (last_update != null) {
                             // Compare last update date
@@ -288,11 +288,11 @@ public class Algorithm implements Serializable {
                                 algorithmChanged.algorithmChanged(Algorithm.this);
                                 new APIRequest("GET", "/algorithm/algorithm.php", new APIRequest.CompletionHandler() {
                                     @Override
-                                    public void completionHandler(@Nullable JSONObject object, APIResponseStatus status) {
+                                    public void completionHandler(@Nullable Object object, APIResponseStatus status) {
                                         // Check if data was downloaded
-                                        if (object != null) {
+                                        if (object instanceof JSONObject) {
                                             // Save it to database
-                                            APIAlgorithm apiAlgorithm = new APIAlgorithm(object);
+                                            APIAlgorithm apiAlgorithm = new APIAlgorithm((JSONObject) object);
                                             Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(context);
 
                                             // Replace it in lists

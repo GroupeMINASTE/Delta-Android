@@ -3,6 +3,7 @@ package fr.zabricraft.delta.api;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class APIRequest extends AsyncTask<Void, Void, JSONObject> {
+public class APIRequest extends AsyncTask<Void, Void, Object> {
 
     private String method;
     private String path;
@@ -87,7 +88,7 @@ public class APIRequest extends AsyncTask<Void, Void, JSONObject> {
     }
 
     @Override
-    protected JSONObject doInBackground(Void... objects) {
+    protected Object doInBackground(Void... objects) {
         try {
             // Create the request based on give parameters
             HttpsURLConnection con = (HttpsURLConnection) getURL().openConnection();
@@ -127,7 +128,13 @@ public class APIRequest extends AsyncTask<Void, Void, JSONObject> {
                 }
                 br.close();
 
-                return new JSONObject(sb.toString());
+                String json = sb.toString().trim();
+
+                if (json.startsWith("{")) {
+                    return new JSONObject(json);
+                } else if (json.startsWith("[")) {
+                    return new JSONArray(json);
+                }
             }
 
         } catch (Exception e) {
@@ -140,7 +147,7 @@ public class APIRequest extends AsyncTask<Void, Void, JSONObject> {
     }
 
     @Override
-    protected void onPostExecute(JSONObject object) {
+    protected void onPostExecute(Object object) {
         super.onPostExecute(object);
 
         completionHandler.completionHandler(object, statusForCode(httpResult));
@@ -165,7 +172,7 @@ public class APIRequest extends AsyncTask<Void, Void, JSONObject> {
 
     public interface CompletionHandler {
 
-        void completionHandler(@Nullable JSONObject object, APIResponseStatus status);
+        void completionHandler(@Nullable Object object, APIResponseStatus status);
 
     }
 

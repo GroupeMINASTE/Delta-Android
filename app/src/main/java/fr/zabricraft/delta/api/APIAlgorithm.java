@@ -4,17 +4,19 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.AlgorithmIcon;
 import fr.zabricraft.delta.utils.AlgorithmParser;
 import fr.zabricraft.delta.utils.Database;
 
-public class APIAlgorithm {
+public class APIAlgorithm implements Serializable {
 
     public Integer id;
     public String name;
-
+    public APIUser owner;
     public String last_update;
     public String lines;
     public AlgorithmIcon icon;
@@ -23,7 +25,7 @@ public class APIAlgorithm {
         try {
             this.id = object.has("id") ? object.getInt("id") : null;
             this.name = object.has("name") ? object.getString("name") : null;
-
+            this.owner = object.has("owner") ? new APIUser(object.getJSONObject("owner")) : null;
             this.last_update = object.has("last_update") ? object.getString("last_update") : null;
             this.lines = object.has("lines") ? object.getString("lines") : null;
             this.icon = object.has("icon") ? new AlgorithmIcon(object.getJSONObject("icon")) : null;
@@ -45,6 +47,11 @@ public class APIAlgorithm {
 
         // Update (or insert) this algorithm
         return Database.getInstance(context).updateAlgorithm(algorithm);
+    }
+
+    public void fetchMissingData(APIRequest.CompletionHandler completionHandler) {
+        // Make a request to API
+        new APIRequest("GET", "/algorithm/algorithm.php", completionHandler).with("id", id != null ? id : 0).execute();
     }
 
 }

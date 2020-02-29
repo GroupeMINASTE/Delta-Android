@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.api.APIAlgorithm;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.utils.Algorithm;
@@ -92,6 +93,19 @@ public class HomeCell extends LinearLayout implements View.OnCreateContextMenuLi
         background.setShape(GradientDrawable.RECTANGLE);
         background.setCornerRadius(IntExtension.dpToPixel(8, getResources()));
         background.setColor(getResources().getColor(StringExtension.toColor(algorithm.getIcon().getColor())));
+        icon.setBackground(background);
+    }
+
+    public void with(APIAlgorithm algorithm) {
+        name.setText(algorithm.name);
+        desc.setText(algorithm.owner != null ? algorithm.owner.name : "");
+        desc.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        icon.setImageResource(StringExtension.toIcon(algorithm.icon.getIcon()));
+
+        GradientDrawable background = new GradientDrawable();
+        background.setShape(GradientDrawable.RECTANGLE);
+        background.setCornerRadius(IntExtension.dpToPixel(8, getResources()));
+        background.setColor(getResources().getColor(StringExtension.toColor(algorithm.icon.getColor())));
         icon.setBackground(background);
     }
 
