@@ -3,6 +3,7 @@ package fr.zabricraft.delta.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,14 +25,26 @@ public class CloudHomeActivity extends AppCompatActivity implements APIAlgorithm
         return super.onCreateOptionsMenu(menu);
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.close:
-                finish();
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem searchViewMenuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchViewMenuItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Set search query and load algorithms
+                fragment.search(newText);
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+            }
+        });
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

@@ -80,4 +80,12 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
     public List<APIAlgorithm> getAlgorithms() {
         return algorithms;
     }
+
+    public void search(String search) {
+        // Update search
+        this.search = search;
+
+        // Reload algorithms
+        loadAlgorithms();
+    }
 }
