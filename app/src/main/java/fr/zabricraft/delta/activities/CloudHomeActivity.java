@@ -1,5 +1,6 @@
 package fr.zabricraft.delta.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -68,7 +69,17 @@ public class CloudHomeActivity extends AppCompatActivity implements APIAlgorithm
         } else {
             Intent intent = new Intent(this, CloudDetailsActivity.class);
             intent.putExtra("apiAlgorithm", apiAlgorithm);
-            startActivity(intent);
+            startActivityForResult(intent, 669);
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 669 && resultCode == Activity.RESULT_OK) {
+            // Transfer intent
+            setResult(Activity.RESULT_OK, data);
+
+            // Dismiss activity
+            finish();
         }
     }
 
