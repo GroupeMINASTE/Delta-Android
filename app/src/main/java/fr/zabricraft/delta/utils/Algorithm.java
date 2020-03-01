@@ -312,7 +312,15 @@ public class Algorithm implements Serializable {
                                 setStatus(APISyncStatus.synchro);
                                 algorithmChanged.algorithmChanged(Algorithm.this);
                             }
+                        } else {
+                            // Update status
+                            setStatus(APISyncStatus.failed);
+                            algorithmChanged.algorithmChanged(Algorithm.this);
                         }
+                    } else {
+                        // Update status
+                        setStatus(APISyncStatus.failed);
+                        algorithmChanged.algorithmChanged(Algorithm.this);
                     }
                 }
             }).with("id", getRemoteId()).execute();
