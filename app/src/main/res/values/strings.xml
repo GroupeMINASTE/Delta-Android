@@ -33,6 +33,11 @@
     <string name="status_checkingforupdate">Checking for update…</string>
     <string name="status_downloading">Downloading…</string>
     <string name="status_failed">Failed to update!</string>
+    <string name="status_invalidRequest">Something went wrong during the request…</string>
+    <string name="status_offline">It seems that you\'re offline!</string>
+    <string name="status_notFound">The content you\'re looking for doesn\'t exist</string>
+    <string name="status_unauthorized">You don\'t have the right to access to this content</string>
+    <string name="status_loading">Loading…</string>
     <string name="error_calcul">Calcul error</string>
     <string name="error_syntax">Syntax error</string>
     <string name="error_constant">Cannot set value: %s is a constant</string>

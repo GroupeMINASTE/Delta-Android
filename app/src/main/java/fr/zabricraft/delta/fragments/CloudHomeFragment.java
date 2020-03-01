@@ -3,6 +3,7 @@ package fr.zabricraft.delta.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,13 +20,16 @@ import fr.zabricraft.delta.api.APIAlgorithm;
 import fr.zabricraft.delta.api.APIRequest;
 import fr.zabricraft.delta.api.APIResponseStatus;
 import fr.zabricraft.delta.sections.APIAlgorithmsSection;
+import fr.zabricraft.delta.sections.StatusSection;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.APIAlgorithmsContainer {
+public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.APIAlgorithmsContainer, StatusSection.StatusContainer {
 
+    private APIResponseStatus status = APIResponseStatus.ok;
     private List<APIAlgorithm> algorithms;
     private String search = "";
 
+    private SwipeRefreshLayout layout;
     private RecyclerView recyclerView;
 
     public void loadAlgorithms() {
@@ -46,12 +50,26 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
                             e.printStackTrace();
                         }
                     }
-
-                    // Refresh recyclerView
-                    recyclerView.getAdapter().notifyDataSetChanged();
+                } else {
+                    // Clear data
+                    algorithms.clear();
                 }
+
+                // Refresh recyclerView
+                reloadData(status);
             }
         }).with("search", search).execute();
+    }
+
+    public void reloadData(APIResponseStatus status) {
+        // Reload recyclerView
+        this.status = status;
+        recyclerView.getAdapter().notifyDataSetChanged();
+
+        // End refreshing
+        if (layout.isRefreshing()) {
+            layout.setRefreshing(false);
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,15 +84,27 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
 
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        sectionAdapter.addSection(new StatusSection(this));
         sectionAdapter.addSection(new APIAlgorithmsSection(this, ((APIAlgorithmsSection.APIAlgorithmLoader) getActivity())));
 
         // Bind adapter to recyclerView
         recyclerView.setAdapter(sectionAdapter);
 
+        // Add refresh
+        layout = new SwipeRefreshLayout(getActivity());
+        recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.addView(recyclerView);
+        layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadAlgorithms();
+            }
+        });
+
         // Load algorithms
         loadAlgorithms();
 
-        return recyclerView;
+        return layout;
     }
 
     public List<APIAlgorithm> getAlgorithms() {
@@ -87,5 +117,9 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
 
         // Reload algorithms
         loadAlgorithms();
+    }
+
+    public APIResponseStatus getStatus() {
+        return status;
     }
 }

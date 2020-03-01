@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
     private List<Algorithm> myalgorithms;
     private List<Algorithm> downloads;
 
+    private SwipeRefreshLayout layout;
     private RecyclerView recyclerView;
     private SectionedRecyclerViewAdapter sectionAdapter;
 
@@ -86,6 +88,11 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
             // Check for update
             algorithm.checkForUpdate(getActivity(), this);
         }
+
+        // End refreshing
+        if (layout.isRefreshing()) {
+            layout.setRefreshing(false);
+        }
     }
 
     public void algorithmChanged(Algorithm updatedAlgorithm) {
@@ -134,10 +141,21 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
         // Bind adapter to recyclerView
         recyclerView.setAdapter(sectionAdapter);
 
+        // Add refresh
+        layout = new SwipeRefreshLayout(getActivity());
+        recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.addView(recyclerView);
+        layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadAlgorithms();
+            }
+        });
+
         // Load algorithms
         loadAlgorithms();
 
-        return recyclerView;
+        return layout;
     }
 
     public List<Algorithm> getAlgorithms(int title) {
