@@ -50,7 +50,6 @@
     <string name="action_print_text">Print text %s</string>
     <string name="action_set">Set %s to %s</string>
     <string name="action_unset">Unset %s</string>
-    <string name="action_set_formatted">Set %s to %s as format</string>
     <string name="action_if">If %s</string>
     <string name="action_else">Else</string>
     <string name="action_end">End</string>

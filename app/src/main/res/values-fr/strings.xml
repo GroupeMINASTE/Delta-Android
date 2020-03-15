@@ -50,7 +50,6 @@
     <string name="action_print_text">Afficher le texte %s</string>
     <string name="action_set">Définir %s à %s</string>
     <string name="action_unset">Supprimer %s</string>
-    <string name="action_set_formatted">Définir %s à %s comme format</string>
     <string name="action_if">Si %s</string>
     <string name="action_else">Sinon</string>
     <string name="action_end">Fin</string>
