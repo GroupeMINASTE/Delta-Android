@@ -55,9 +55,9 @@ public class APIAlgorithm implements Serializable {
         return Database.getInstance(context).updateAlgorithm(algorithm);
     }
 
-    public void fetchMissingData(APIRequest.CompletionHandler completionHandler) {
+    public void fetchMissingData(Context context, APIRequest.CompletionHandler completionHandler) {
         // Make a request to API
-        new APIRequest("GET", "/algorithm/algorithm.php", completionHandler).with("id", id != null ? id : 0).execute();
+        new APIRequest("GET", "/algorithm/algorithm.php", context, completionHandler).with("id", id != null ? id : 0).execute();
     }
 
 }

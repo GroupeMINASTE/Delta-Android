@@ -34,7 +34,7 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
 
     public void loadAlgorithms() {
         // Load algorithms from API
-        new APIRequest("GET", "/algorithm/search.php", new APIRequest.CompletionHandler() {
+        new APIRequest("GET", "/algorithm/search.php", getActivity(), new APIRequest.CompletionHandler() {
             @Override
             public void completionHandler(@Nullable Object object, APIResponseStatus status) {
                 if (object instanceof JSONArray) {

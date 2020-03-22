@@ -21,7 +21,7 @@ public class TokenParser {
     public static final String productCoefficients = variablesAndNumber + ")";
     public static final String constants = "ieπ";
     public static final String input = variablesAndNumber + "_+-*/%^√,;(){}=<>! ";
-    public static final String[] funcs = {"sin", "cos", "tan", "sqrt", "exp", "log", "ln"};
+    public static final String[] funcs = {"sin", "cos", "tan", "sqrt", "exp", "log", "ln", "random"};
 
     // Parsing vars
     private String tokens;

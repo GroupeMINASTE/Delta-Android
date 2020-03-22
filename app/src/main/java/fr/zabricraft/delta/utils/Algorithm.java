@@ -271,7 +271,7 @@ public class Algorithm implements Serializable {
             // Check for update
             setStatus(APISyncStatus.checkingforupdate);
             algorithmChanged.algorithmChanged(this);
-            new APIRequest("GET", "/algorithm/checkforupdate.php", new APIRequest.CompletionHandler() {
+            new APIRequest("GET", "/algorithm/checkforupdate.php", context, new APIRequest.CompletionHandler() {
                 @Override
                 public void completionHandler(@Nullable Object object, APIResponseStatus status) {
                     // Check if data was downloaded
@@ -286,7 +286,7 @@ public class Algorithm implements Serializable {
                                 // Download algorithm
                                 setStatus(APISyncStatus.downloading);
                                 algorithmChanged.algorithmChanged(Algorithm.this);
-                                new APIRequest("GET", "/algorithm/algorithm.php", new APIRequest.CompletionHandler() {
+                                new APIRequest("GET", "/algorithm/algorithm.php", context, new APIRequest.CompletionHandler() {
                                     @Override
                                     public void completionHandler(@Nullable Object object, APIResponseStatus status) {
                                         // Check if data was downloaded

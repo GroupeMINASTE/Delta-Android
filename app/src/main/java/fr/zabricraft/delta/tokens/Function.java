@@ -2,8 +2,10 @@ package fr.zabricraft.delta.tokens;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import fr.zabricraft.delta.utils.Operation;
 import fr.zabricraft.delta.utils.TokenParser;
@@ -23,6 +25,7 @@ public class Function implements Token {
     }
 
     public Token compute(Map<String, Token> inputs, boolean format) {
+        Token parameter = this.parameter.compute(inputs, format);
         Token expression;
         String variable;
 
@@ -52,6 +55,11 @@ public class Function implements Token {
 
             // Ln
 
+            // Random
+            else if (name.equals("random") && parameter instanceof Number && ((Number) parameter).getValue() > 0) {
+                return new Number(Math.abs(new Random().nextLong()) % ((Number) parameter).getValue());
+            }
+
             // Cannot be simplified
             else {
                 return this;
@@ -67,7 +75,7 @@ public class Function implements Token {
         }
 
         // Get inputs and current parameter of function
-        Map<String, Token> values = inputs;
+        Map<String, Token> values = new HashMap<>(inputs);
         if (parameter instanceof Variable) {
             if (!((Variable) parameter).getName().equals(variable)) {
                 values.put(variable, parameter);

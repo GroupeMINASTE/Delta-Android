@@ -56,7 +56,7 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
         recyclerView.getAdapter().notifyDataSetChanged();
 
         // Fetch data
-        algorithm.fetchMissingData(new APIRequest.CompletionHandler() {
+        algorithm.fetchMissingData(getActivity(), new APIRequest.CompletionHandler() {
             @Override
             public void completionHandler(@Nullable Object object, APIResponseStatus status) {
                 // Update status

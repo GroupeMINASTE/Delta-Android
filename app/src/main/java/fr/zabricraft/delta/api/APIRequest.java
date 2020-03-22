@@ -1,5 +1,7 @@
 package fr.zabricraft.delta.api;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
@@ -13,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -20,6 +23,7 @@ public class APIRequest extends AsyncTask<Void, Void, Object> {
 
     private String method;
     private String path;
+    private Context context;
     private String access_token;
     private HashMap<String, Object> queryItems;
     private JSONObject body;
@@ -28,10 +32,11 @@ public class APIRequest extends AsyncTask<Void, Void, Object> {
     private CompletionHandler completionHandler;
     private int httpResult;
 
-    public APIRequest(String method, String path, CompletionHandler completionHandler) {
+    public APIRequest(String method, String path, Context context, CompletionHandler completionHandler) {
         // Get request parameters
         this.method = method;
         this.path = path;
+        this.context = context;
         this.queryItems = new HashMap<>();
         this.completionHandler = completionHandler;
 
@@ -99,6 +104,17 @@ public class APIRequest extends AsyncTask<Void, Void, Object> {
             if (username != null && password != null) {
                 con.setRequestProperty("username", username);
                 con.setRequestProperty("password", password);
+            }
+
+            // Locale and version information
+            try {
+                PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+                con.setRequestProperty("client-version", String.valueOf(pInfo.versionCode));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (!Locale.getDefault().getLanguage().isEmpty()) {
+                con.setRequestProperty("Accept-Language", Locale.getDefault().getLanguage());
             }
 
             // Set body
