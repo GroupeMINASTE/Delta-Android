@@ -9,7 +9,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class Product implements Token, Comparator<Token> {
+public class Product extends Token implements Comparator<Token> {
 
     private List<Token> values;
 
@@ -181,30 +181,12 @@ public class Product implements Token, Comparator<Token> {
             return new Sum(this, right);
         }
 
-        // If subtraction
-        if (operation == Operation.subtraction) {
-            // Add token to sum
-            return new Sum(this, right.opposite()).compute(inputs, format);
-        }
-
         // If product
         if (operation == Operation.multiplication) {
             // Add token to product
             List<Token> values = new ArrayList<>(getValues());
             values.add(right);
             return new Product(values);
-        }
-
-        // If fraction
-        if (operation == Operation.division) {
-            // Add token to fraction
-            return new Fraction(this, right);
-        }
-
-        // Modulo
-        if (operation == Operation.modulo) {
-            // Return the modulo
-            return new Modulo(this, right);
         }
 
         // Power
@@ -225,8 +207,8 @@ public class Product implements Token, Comparator<Token> {
             return new Product(values);
         }
 
-        // Unknown, return a calcul error
-        return new CalculError();
+        // Delegate to default
+        return defaultApply(operation, right, inputs, format);
     }
 
     public boolean needBrackets(Operation operation) {

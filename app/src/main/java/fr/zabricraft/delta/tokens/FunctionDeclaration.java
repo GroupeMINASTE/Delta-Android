@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class FunctionDeclaration implements Token {
+public class FunctionDeclaration extends Token {
 
     private String variable;
     private Token token;

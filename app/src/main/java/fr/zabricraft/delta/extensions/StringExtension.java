@@ -90,6 +90,8 @@ public class StringExtension {
                 return R.drawable.icon_integration;
             case "n":
                 return R.drawable.icon_n;
+            case "question":
+                return R.drawable.icon_question;
             case "sigma":
                 return R.drawable.icon_sigma;
             case "square":

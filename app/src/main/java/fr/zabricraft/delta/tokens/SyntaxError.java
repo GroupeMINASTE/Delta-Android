@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class SyntaxError extends Throwable implements Token {
+public class SyntaxError extends Token {
 
     public String toString() {
         return "Syntax error";

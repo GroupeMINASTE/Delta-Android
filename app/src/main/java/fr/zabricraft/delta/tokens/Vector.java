@@ -6,7 +6,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class Vector implements Token {
+public class Vector extends Token {
 
     private List<Token> values;
 

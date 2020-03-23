@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class Interval implements Token {
+public class Interval extends Token {
 
     private Token left;
     private Token right;

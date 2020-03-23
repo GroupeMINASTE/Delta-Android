@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class Power implements Token {
+public class Power extends Token {
 
     private Token token;
     private Token power;
@@ -49,46 +49,16 @@ public class Power implements Token {
     }
 
     public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
-        // Compute right
-        right = right.compute(inputs, format);
-
-        // Sum
-        if (operation == Operation.addition) {
-            return new Sum(this, right);
-        }
-
-        // Difference
-        if (operation == Operation.subtraction) {
-            return new Sum(this, right.opposite()).compute(inputs, format);
-        }
-
         // Product
         if (operation == Operation.multiplication) {
-            return new Product(this, right);
+            // Token and right are the same
+            if (token.toString().equals(right.toString())) {
+                return new Power(token, new Sum(power, new Number(1))).compute(inputs, format);
+            }
         }
 
-        // Fraction
-        if (operation == Operation.division) {
-            return new Fraction(this, right);
-        }
-
-        // Modulo
-        if (operation == Operation.modulo) {
-            return new Modulo(this, right);
-        }
-
-        // Power
-        if (operation == Operation.power) {
-            return new Power(this, new Product(power, right));
-        }
-
-        // Root
-        if (operation == Operation.root) {
-            return new Root(this, right);
-        }
-
-        // Unknown, return a calcul error
-        return new CalculError();
+        // Delegate to default
+        return defaultApply(operation, right, inputs, format);
     }
 
     public boolean needBrackets(Operation operation) {

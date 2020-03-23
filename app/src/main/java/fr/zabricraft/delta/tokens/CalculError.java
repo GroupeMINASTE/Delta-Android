@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class CalculError implements Token {
+public class CalculError extends Token {
 
     public String toString() {
         return "Calcul error";

@@ -82,13 +82,28 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
             // Count outputs before
             int before = currentOutputs.size();
 
-            // Execute algorithm
-            Process process = algorithm.execute(getActivity());
-            currentOutputs = process.outputs;
+            // Clear current outputs
+            currentOutputs.clear();
 
             // Refresh the output section
             ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeRemovedFromSection(outputsSection, 0, before);
-            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeInsertedInSection(outputsSection, 0, currentOutputs.size());
+
+            // Execute algorithm
+            algorithm.execute(getActivity(), new Algorithm.CompletionHandler() {
+                @Override
+                public void completionHandler(Process process) {
+                    // Get outputs
+                    currentOutputs = process.outputs;
+
+                    // Refresh the output section
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeInsertedInSection(outputsSection, 0, currentOutputs.size());
+                        }
+                    });
+                }
+            });
         }
     }
 

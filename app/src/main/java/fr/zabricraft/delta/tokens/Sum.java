@@ -7,7 +7,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class Sum implements Token {
+public class Sum extends Token {
 
     private java.util.List<Token> values;
 
@@ -162,34 +162,28 @@ public class Sum implements Token {
 
         // If product
         if (operation == Operation.multiplication) {
+            // If we keep format
+            if (format) {
+                return new Product(this, right);
+            }
+
+            // Right is a sum
+            if (right instanceof Sum) {
+                List<Token> values = new ArrayList<>();
+
+                for (Token token : getValues()) {
+                    values.add(token.apply(Operation.multiplication, right, inputs, format));
+                }
+
+                return new Sum(values).compute(inputs, false);
+            }
+
             // Add token to product
             return new Product(this, right);
         }
 
-        // If fraction
-        if (operation == Operation.division) {
-            // Add token to fraction
-            return new Fraction(this, right);
-        }
-
-        // Modulo
-        if (operation == Operation.modulo) {
-            // Return the modulo
-            return new Modulo(this, right);
-        }
-
-        // Power
-        if (operation == Operation.power) {
-            return new Power(this, right);
-        }
-
-        // Root
-        if (operation == Operation.root) {
-            return new Root(this, right);
-        }
-
-        // Unknown, return a calcul error
-        return new CalculError();
+        // Delegate to default
+        return defaultApply(operation, right, inputs, format);
     }
 
     public boolean needBrackets(Operation operation) {

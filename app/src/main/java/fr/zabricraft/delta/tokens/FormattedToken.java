@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class FormattedToken implements Token {
+public class FormattedToken extends Token {
 
     private Token token;
 

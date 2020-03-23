@@ -8,7 +8,7 @@ import java.util.Map;
 import fr.zabricraft.delta.extensions.LongExtension;
 import fr.zabricraft.delta.utils.Operation;
 
-public class Fraction implements Token {
+public class Fraction extends Token {
 
     private Token numerator;
     private Token denominator;
@@ -148,12 +148,6 @@ public class Fraction implements Token {
             return new Product(this, right.inverse()).compute(inputs, false);
         }
 
-        // Modulo
-        if (operation == Operation.modulo) {
-            // Return the modulo
-            return new Modulo(this, right);
-        }
-
         // Power
         if (operation == Operation.power) {
             // If we keep format
@@ -176,8 +170,8 @@ public class Fraction implements Token {
             return new Fraction(new Root(getNumerator(), right), new Root(getDenominator(), right)).compute(inputs, false);
         }
 
-        // Unknown, return a calcul error
-        return new CalculError();
+        // Delegate to default
+        return defaultApply(operation, right, inputs, format);
     }
 
     public boolean needBrackets(Operation operation) {

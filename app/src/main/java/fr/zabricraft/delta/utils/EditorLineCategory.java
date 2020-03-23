@@ -8,6 +8,9 @@ import fr.zabricraft.delta.actions.IfAction;
 import fr.zabricraft.delta.actions.InputAction;
 import fr.zabricraft.delta.actions.PrintAction;
 import fr.zabricraft.delta.actions.PrintTextAction;
+import fr.zabricraft.delta.actions.QuizAddAction;
+import fr.zabricraft.delta.actions.QuizInitAction;
+import fr.zabricraft.delta.actions.QuizShowAction;
 import fr.zabricraft.delta.actions.SetAction;
 import fr.zabricraft.delta.actions.UnsetAction;
 import fr.zabricraft.delta.actions.WhileAction;
@@ -18,6 +21,7 @@ public enum EditorLineCategory {
     variable(R.string.category_variable, R.drawable.variable),
     structure(R.string.category_structure, R.drawable.structure),
     output(R.string.category_output, R.drawable.output),
+    quiz(R.string.category_quiz, R.drawable.quiz),
     settings(R.string.category_settings, R.drawable.settings),
     add(R.string.category_add, 0);
 
@@ -32,7 +36,7 @@ public enum EditorLineCategory {
     }
 
     // List
-    public static final EditorLineCategory[] list = {variable, structure, output};
+    public static final EditorLineCategory[] list = {variable, structure, output, quiz};
 
     // Catalog
     public Action[] catalog() {
@@ -54,6 +58,12 @@ public enum EditorLineCategory {
                         new PrintAction("a", false),
                         new PrintAction("a", true),
                         new PrintTextAction("Hello world!")
+                };
+            case quiz:
+                return new Action[]{
+                        new QuizInitAction("Your question..."),
+                        new QuizAddAction("x", "x"),
+                        new QuizShowAction()
                 };
             default:
                 return new Action[]{};

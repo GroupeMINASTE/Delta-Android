@@ -296,7 +296,7 @@ public class TokenParser {
             if (!values.isEmpty()) {
                 return values.get(0);
             }
-        } catch (SyntaxError e) {
+        } catch (SyntaxException e) {
             // We have a syntax error, do nothing
         }
 
@@ -309,7 +309,7 @@ public class TokenParser {
         values.add(0, value);
     }
 
-    private void insertOperation(String op) throws SyntaxError {
+    private void insertOperation(String op) throws SyntaxException {
         // While first operation has same of greater precedence to current, apply to two first values
         while (!ops.isEmpty() && Operation.from(ops.get(0)) != null && Operation.from(op) != null && Operation.from(ops.get(0)).getPrecedence() >= Operation.from(op).getPrecedence()) {
             // Create a token
@@ -338,7 +338,7 @@ public class TokenParser {
         }
     }
 
-    private Token createValue() throws SyntaxError {
+    private Token createValue() throws SyntaxException {
         // Get tokens
         Token right = getFirstTokenAndRemove();
         Token left = getFirstTokenAndRemove();
@@ -357,14 +357,14 @@ public class TokenParser {
         return null;
     }
 
-    private Token getFirstTokenAndRemove() throws SyntaxError {
+    private Token getFirstTokenAndRemove() throws SyntaxException {
         // Check if exists
         if (!values.isEmpty()) {
             return values.remove(0);
         }
 
         // Return a syntax error
-        throw new SyntaxError();
+        throw new SyntaxException();
     }
 
     private Operation getFirstOperationAndRemove() {

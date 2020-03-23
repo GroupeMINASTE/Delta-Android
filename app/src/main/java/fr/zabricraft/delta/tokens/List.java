@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class List implements Token {
+public class List extends Token {
 
     private java.util.List<Token> values;
 

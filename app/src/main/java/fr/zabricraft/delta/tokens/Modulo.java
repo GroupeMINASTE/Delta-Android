@@ -1,12 +1,10 @@
 package fr.zabricraft.delta.tokens;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class Modulo implements Token {
+public class Modulo extends Token {
 
     private Token dividend;
     private Token divisor;
@@ -53,64 +51,7 @@ public class Modulo implements Token {
     }
 
     public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
-        // Compute right
-        right = right.compute(inputs, format);
-
-        // If addition
-        if (operation == Operation.addition) {
-            // Right is a sum
-            if (right instanceof Sum) {
-                List<Token> values = new ArrayList<>(((Sum) right).getValues());
-                values.add(this);
-                return new Sum(values);
-            }
-
-            // Return the sum
-            return new Sum(this, right);
-        }
-
-        // Difference
-        if (operation == Operation.subtraction) {
-            return new Sum(this, right.opposite());
-        }
-
-        // Product
-        if (operation == Operation.multiplication) {
-            // Right is a product
-            if (right instanceof Product) {
-                List<Token> values = new ArrayList<>(((Product) right).getValues());
-                values.add(this);
-                return new Product(values);
-            }
-
-            return new Product(this, right);
-        }
-
-        // Fraction
-        if (operation == Operation.division) {
-            return new Fraction(this, right);
-        }
-
-        // Modulo
-        if (operation == Operation.modulo) {
-            // Return the modulo
-            return new Modulo(this, right);
-        }
-
-        // Power
-        if (operation == Operation.power) {
-            // Return the power
-            return new Power(this, right);
-        }
-
-        // Root
-        if (operation == Operation.root) {
-            // Return the root
-            return new Root(this, right);
-        }
-
-        // Unknown, return a calcul error
-        return new CalculError();
+        return defaultApply(operation, right, inputs, format);
     }
 
     public boolean needBrackets(Operation operation) {

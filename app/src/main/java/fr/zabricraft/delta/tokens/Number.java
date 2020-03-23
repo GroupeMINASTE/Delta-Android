@@ -1,13 +1,11 @@
 package fr.zabricraft.delta.tokens;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import fr.zabricraft.delta.extensions.LongExtension;
 import fr.zabricraft.delta.utils.Operation;
 
-public class Number implements Token {
+public class Number extends Token {
 
     private long value;
 
@@ -43,16 +41,6 @@ public class Number implements Token {
             if (right instanceof Number) {
                 return new Number(value + ((Number) right).value);
             }
-
-            // Right is a sum
-            if (right instanceof Sum) {
-                List<Token> values = new ArrayList<>(((Sum) right).getValues());
-                values.add(this);
-                return new Sum(values);
-            }
-
-            // Return the sum
-            return new Sum(this, right);
         }
 
         // Difference
@@ -67,9 +55,6 @@ public class Number implements Token {
             if (right instanceof Number) {
                 return new Number(value - ((Number) right).value);
             }
-
-            // Return the sum
-            return new Sum(this, right.opposite());
         }
 
         // Product
@@ -90,43 +75,6 @@ public class Number implements Token {
             if (right instanceof Number) {
                 return new Number(value * ((Number) right).value);
             }
-
-            // Right is a product
-            if (right instanceof Product) {
-                List<Token> values = new ArrayList<>(((Product) right).getValues());
-                values.add(this);
-                return new Product(values);
-            }
-
-            // If we keep format
-            if (format) {
-                return new Product(this, right);
-            }
-
-            // Right is a fraction
-            if (right instanceof Fraction) {
-                // a/b * c = ac/b
-                return new Fraction(new Product(this, ((Fraction) right).getNumerator()), ((Fraction) right).getDenominator()).compute(inputs, false);
-            }
-
-            // Right is a sum
-            if (right instanceof Sum) {
-                List<Token> values = new ArrayList<>();
-
-                for (Token token : ((Sum) right).getValues()) {
-                    values.add(new Product(token, this));
-                }
-
-                return new Sum(values).compute(inputs, false);
-            }
-
-            // Right is a vector
-            if (right instanceof Vector) {
-                return right.apply(operation, this, inputs, false);
-            }
-
-            // Return the product
-            return new Product(this, right);
         }
 
         // Fraction
@@ -162,9 +110,6 @@ public class Number implements Token {
                     return new Fraction(new Number(numerator), new Number(denominator));
                 }
             }
-
-            // Return the fraction
-            return new Fraction(this, right);
         }
 
         // Modulo
@@ -179,9 +124,6 @@ public class Number implements Token {
 
                 return new Number(value % ((Number) right).value);
             }
-
-            // Return the modulo
-            return new Modulo(this, right);
         }
 
         // Power
@@ -200,9 +142,6 @@ public class Number implements Token {
                     return new Number((long) Math.pow(value, -((Number) right).value)).inverse();
                 }
             }
-
-            // Return the power
-            return new Power(this, right);
         }
 
         // Root
@@ -236,13 +175,10 @@ public class Number implements Token {
                     }
                 }
             }
-
-            // Return root
-            return new Root(this, right);
         }
 
-        // Unknown, return a calcul error
-        return new CalculError();
+        // Delegate to default
+        return defaultApply(operation, right, inputs, format);
     }
 
     public boolean needBrackets(Operation operation) {

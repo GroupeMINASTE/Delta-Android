@@ -14,6 +14,9 @@ import fr.zabricraft.delta.actions.IfAction;
 import fr.zabricraft.delta.actions.InputAction;
 import fr.zabricraft.delta.actions.PrintAction;
 import fr.zabricraft.delta.actions.PrintTextAction;
+import fr.zabricraft.delta.actions.QuizAddAction;
+import fr.zabricraft.delta.actions.QuizInitAction;
+import fr.zabricraft.delta.actions.QuizShowAction;
 import fr.zabricraft.delta.actions.RootAction;
 import fr.zabricraft.delta.actions.SetAction;
 import fr.zabricraft.delta.actions.UnsetAction;
@@ -195,11 +198,12 @@ public class AlgorithmParser {
             String first = keywords.remove(0);
 
             // Keyword list
-            Keyword[] alone = {Keyword.If, Keyword.Else, Keyword.Print, Keyword.PrintApproximated, Keyword.PrintText, Keyword.Unset, Keyword.While};
+            Keyword[] alone = {Keyword.If, Keyword.Else, Keyword.Print, Keyword.PrintApproximated, Keyword.PrintText, Keyword.Unset, Keyword.While, Keyword.QuizInit, Keyword.QuizShow};
             HashMap<Keyword, Keyword[]> grouped = new HashMap<>();
             grouped.put(Keyword.Default, new Keyword[]{Keyword.Input});
             grouped.put(Keyword.In, new Keyword[]{Keyword.For});
             grouped.put(Keyword.To, new Keyword[]{Keyword.Set});
+            grouped.put(Keyword.Correct, new Keyword[]{Keyword.QuizAdd});
 
             // Iterate values
             for (Keyword key : grouped.keySet()) {
@@ -230,6 +234,11 @@ public class AlgorithmParser {
                                     String token = tokens.remove(0);
                                     String identifier = tokens.remove(0);
                                     return new SetAction(identifier, token);
+                                } else if (value == Keyword.QuizAdd && tokens.size() >= 2) {
+                                    // Add input "text" with "correct" as correct answer
+                                    String correct = tokens.remove(0);
+                                    String text = tokens.remove(0);
+                                    return new QuizAddAction(text, correct);
                                 }
                             }
                         }
@@ -269,6 +278,13 @@ public class AlgorithmParser {
                         // While "condition"
                         String condition = tokens.remove(0);
                         return new WhileAction(condition);
+                    } else if (value == Keyword.QuizInit && tokens.size() >= 1) {
+                        // Init quiz "text"
+                        String text = tokens.remove(0);
+                        return new QuizInitAction(text);
+                    } else if (value == Keyword.QuizShow) {
+                        // Show quiz
+                        return new QuizShowAction();
                     }
                 }
             }

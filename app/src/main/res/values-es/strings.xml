@@ -55,10 +55,14 @@
     <string name="action_end">Fin</string>
     <string name="action_while">Mientras %s</string>
     <string name="action_for">Para %s en %s</string>
+    <string name="action_quiz_init">Crear un concurso %s</string>
+    <string name="action_quiz_add">Añadir la entrada %s con %s como buena respuesta</string>
+    <string name="action_quiz_show">Mostrar el concurso</string>
     <string name="settings_name">Nombre: %s</string>
     <string name="category_variable">Variable</string>
     <string name="category_structure">Estructura</string>
     <string name="category_output">Salida</string>
+    <string name="category_quiz">Concurso</string>
     <string name="category_settings">Ajustes</string>
     <string name="category_add">Añadir una acción</string>
 </resources>

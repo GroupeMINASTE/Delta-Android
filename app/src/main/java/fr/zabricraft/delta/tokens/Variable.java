@@ -1,12 +1,10 @@
 package fr.zabricraft.delta.tokens;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class Variable implements Token {
+public class Variable extends Token {
 
     private String name;
 
@@ -36,46 +34,6 @@ public class Variable implements Token {
         // Compute right
         right = right.compute(inputs, format);
 
-        // Sum
-        if (operation == Operation.addition) {
-            // Right is a sum
-            if (right instanceof Sum) {
-                List<Token> values = new ArrayList<>(((Sum) right).getValues());
-                values.add(this);
-                return new Sum(values);
-            }
-
-            return new Sum(this, right);
-        }
-
-        // Difference
-        if (operation == Operation.subtraction) {
-            return new Sum(this, right.opposite());
-        }
-
-        // Product
-        if (operation == Operation.multiplication) {
-            // Right is a product
-            if (right instanceof Product) {
-                List<Token> values = new ArrayList<>(((Product) right).getValues());
-                values.add(this);
-                return new Product(values);
-            }
-
-            return new Product(this, right);
-        }
-
-        // Fraction
-        if (operation == Operation.division) {
-            return new Fraction(this, right);
-        }
-
-        // Modulo
-        if (operation == Operation.modulo) {
-            // Return the modulo
-            return new Modulo(this, right);
-        }
-
         // Power
         if (operation == Operation.power) {
             // Check for i
@@ -91,7 +49,7 @@ public class Variable implements Token {
                         return new Number(-1);
                     }
                     // i^3 = -i
-                    if (((Number) right).getValue() % 4 == 2) {
+                    if (((Number) right).getValue() % 4 == 3) {
                         return new Product(new Number(-1), this);
                     }
                     // Simplified power of i
@@ -112,13 +70,8 @@ public class Variable implements Token {
             return new Power(this, right);
         }
 
-        // Root
-        if (operation == Operation.root) {
-            return new Root(this, right);
-        }
-
-        // Unknown, return a calcul error
-        return new CalculError();
+        // Delegate to default
+        return defaultApply(operation, right, inputs, format);
     }
 
     public boolean needBrackets(Operation operation) {

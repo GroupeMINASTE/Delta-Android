@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.zabricraft.delta.utils.Operation;
 
-public class Equation implements Token {
+public class Equation extends Token {
 
     private Token left;
     private Token right;
