@@ -1,13 +1,16 @@
 package fr.zabricraft.delta.actions;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.activities.QuizActivity;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
@@ -15,27 +18,16 @@ import fr.zabricraft.delta.utils.Process;
 public class QuizShowAction implements Action {
 
     public void execute(final Process process) {
-        if (process.quiz != null) {
-            // Create a semaphore for thread management
-            final Semaphore semaphore = new Semaphore(0);
-
+        if (process.quiz != null && process.context instanceof Activity) {
             // Show quiz to user
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // Add it to outputs
-                    process.outputs.add(process.quiz);
-
-                    // And continue process
-                    semaphore.release();
-                }
-            }).start();
+            Intent intent = new Intent(process.context, QuizActivity.class);
+            intent.putExtra("quiz", process.quiz);
+            ((Activity) process.context).startActivityForResult(intent, 668);
 
             // Wait for quiz to finish
             try {
-                semaphore.acquire();
-                semaphore.release();
+                process.semaphore.acquire();
+                process.semaphore.release();
             } catch (Exception e) {
                 e.printStackTrace();
             }

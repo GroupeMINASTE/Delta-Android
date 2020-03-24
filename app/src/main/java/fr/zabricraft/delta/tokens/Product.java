@@ -175,7 +175,7 @@ public class Product extends Token implements Comparator<Token> {
         right = right.compute(inputs, format);
 
         // If addition
-        if (operation == Operation.addition) {
+        if (operation == Operation.addition && !format) {
             // Right is a product
             Product rightProduct = right instanceof Product ? ((Product) right) : new Product(right);
 

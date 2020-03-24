@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.quiz.Quiz;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
@@ -21,7 +22,7 @@ public class QuizInitAction implements Action {
     }
 
     public void execute(Process process) {
-        process.quiz = new Quiz(text);
+        process.quiz = new Quiz(StringExtension.replaceTokens(text, process));
     }
 
     public String toString() {

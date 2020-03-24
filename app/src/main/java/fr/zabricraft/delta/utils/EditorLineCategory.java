@@ -61,7 +61,8 @@ public enum EditorLineCategory {
                 };
             case quiz:
                 return new Action[]{
-                        new QuizInitAction("Your question..."),
+                        new QuizInitAction("Solve equations:"),
+                        new QuizAddAction("2x + 1 = 0"),
                         new QuizAddAction("x", "x"),
                         new QuizShowAction()
                 };

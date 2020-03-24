@@ -42,11 +42,11 @@ public class OutputsSection extends Section {
 
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
         SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
-        String output = container.getOutputs().get(position);
+        Object output = container.getOutputs().get(position);
 
         // bind your view here
-        if (itemHolder.itemView instanceof OutputCell) {
-            ((OutputCell) itemHolder.itemView).with(output);
+        if (itemHolder.itemView instanceof OutputCell && output instanceof String) {
+            ((OutputCell) itemHolder.itemView).with((String) output);
         }
     }
 
@@ -62,7 +62,7 @@ public class OutputsSection extends Section {
 
     // Container interface
     public interface OutputsContainer {
-        List<String> getOutputs();
+        List<Object> getOutputs();
     }
 
 }

@@ -22,7 +22,8 @@
         <activity android:name=".activities.EditorActivity" />
         <activity android:name=".activities.ActionSelectionActivity" />
         <activity android:name=".activities.CloudHomeActivity" />
-        <activity android:name=".activities.CloudDetailsActivity"></activity>
+        <activity android:name=".activities.CloudDetailsActivity" />
+        <activity android:name=".activities.QuizActivity" />
     </application>
 
 </manifest>

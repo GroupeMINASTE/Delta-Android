@@ -1,6 +1,8 @@
 package fr.zabricraft.delta.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +25,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 public class AlgorithmFragment extends Fragment implements InputsSection.InputsContainer, OutputsSection.OutputsContainer {
 
     private Algorithm algorithm;
-    private List<String> currentOutputs = new ArrayList<>();
+    private Process lastProcess;
 
     private RecyclerView recyclerView;
     private OutputsSection outputsSection;
@@ -80,26 +82,23 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
     public void updateResult() {
         if (algorithm != null) {
             // Count outputs before
-            int before = currentOutputs.size();
+            int before = lastProcess != null ? lastProcess.outputs.size() : 0;
 
-            // Clear current outputs
-            currentOutputs.clear();
+            // Clear last process
+            lastProcess = null;
 
             // Refresh the output section
             ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeRemovedFromSection(outputsSection, 0, before);
 
-            // Execute algorithm
-            algorithm.execute(getActivity(), new Algorithm.CompletionHandler() {
+            // Execute algorithm with a new process
+            lastProcess = algorithm.execute(getActivity(), new Algorithm.CompletionHandler() {
                 @Override
-                public void completionHandler(Process process) {
-                    // Get outputs
-                    currentOutputs = process.outputs;
-
-                    // Refresh the output section
+                public void completionHandler() {
+                    // Refresh the process
                     recyclerView.post(new Runnable() {
                         @Override
                         public void run() {
-                            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeInsertedInSection(outputsSection, 0, currentOutputs.size());
+                            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeInsertedInSection(outputsSection, 0, lastProcess.outputs.size());
                         }
                     });
                 }
@@ -136,8 +135,15 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         return algorithm != null ? algorithm.getInputs() : new ArrayList<Pair<String, String>>();
     }
 
-    public List<String> getOutputs() {
-        return currentOutputs;
+    public List<Object> getOutputs() {
+        return lastProcess != null ? lastProcess.outputs : new ArrayList<>();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 668 && resultCode == Activity.RESULT_OK) {
+            // And continue process
+            lastProcess.semaphore.release();
+        }
     }
 
 }

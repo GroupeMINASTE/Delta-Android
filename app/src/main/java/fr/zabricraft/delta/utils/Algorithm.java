@@ -120,20 +120,23 @@ public class Algorithm implements Serializable {
 
     // Execute
 
-    public void execute(final Context context, final CompletionHandler completionHandler) {
+    public Process execute(final Context context, final CompletionHandler completionHandler) {
+        // Create a process with inputs
+        final Process process = new Process(inputs, context);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // Create a process with inputs
-                Process process = new Process(inputs, context);
-
                 // Execute root
                 root.execute(process);
 
-                // Return the process
-                completionHandler.completionHandler(process);
+                // End execution
+                completionHandler.completionHandler();
             }
         }).start();
+
+        // Return the process
+        return process;
     }
 
     // Export
@@ -340,7 +343,7 @@ public class Algorithm implements Serializable {
 
     public interface CompletionHandler {
 
-        void completionHandler(Process process);
+        void completionHandler();
 
     }
 

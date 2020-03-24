@@ -1,20 +1,26 @@
 package fr.zabricraft.delta.quiz;
 
-import org.javatuples.Triplet;
-
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Quiz {
+import fr.zabricraft.delta.tokens.Token;
+
+public class Quiz implements Serializable {
 
     public String text;
-    public ArrayList<Triplet<String, String, String>> questions;
+    public List<QuizElement> elements = new ArrayList<>();
 
     public Quiz(String text) {
         this.text = text;
     }
 
-    public void addQuestion(String text, String correct) {
-        questions.add(Triplet.with(text, correct, ""));
+    public void addQuestion(String text, Token correct) {
+        elements.add(new QuizQuestion(text, correct));
+    }
+
+    public void addParagraph(String text) {
+        elements.add(new QuizParagraph(text));
     }
 
 }

@@ -28,6 +28,8 @@
     <string name="download">Descargar</string>
     <string name="update">Actualizar</string>
     <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
+    <string name="check">Verificar</string>
     <string name="status_local">Guardado localmente</string>
     <string name="status_synchro">Sincronizado</string>
     <string name="status_checkingforupdate">Verificación de actualización…</string>
@@ -56,7 +58,8 @@
     <string name="action_while">Mientras %s</string>
     <string name="action_for">Para %s en %s</string>
     <string name="action_quiz_init">Crear un concurso %s</string>
-    <string name="action_quiz_add">Añadir la entrada %s con %s como buena respuesta</string>
+    <string name="action_quiz_add_question">Añadir la entrada %s con %s como buena respuesta</string>
+    <string name="action_quiz_add_paragraph">Añadir el texto %s</string>
     <string name="action_quiz_show">Mostrar el concurso</string>
     <string name="settings_name">Nombre: %s</string>
     <string name="category_variable">Variable</string>

@@ -28,6 +28,8 @@
     <string name="download">Download</string>
     <string name="update">Update</string>
     <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="check">Check</string>
     <string name="status_local">Saved locally</string>
     <string name="status_synchro">Synchronized</string>
     <string name="status_checkingforupdate">Checking for update…</string>
@@ -56,7 +58,8 @@
     <string name="action_while">While %s</string>
     <string name="action_for">For %s in %s</string>
     <string name="action_quiz_init">Init quiz %s</string>
-    <string name="action_quiz_add">Add input %s with %s as correct answer</string>
+    <string name="action_quiz_add_question">Add input %s with %s as correct answer</string>
+    <string name="action_quiz_add_paragraph">Add text %s</string>
     <string name="action_quiz_show">Show quiz</string>
     <string name="settings_name">Name: %s</string>
     <string name="category_variable">Variable</string>

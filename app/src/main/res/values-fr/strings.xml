@@ -28,6 +28,8 @@
     <string name="download">Télécharger</string>
     <string name="update">Mettre à jour</string>
     <string name="open">Ouvrir</string>
+    <string name="close">Fermer</string>
+    <string name="check">Vérifier</string>
     <string name="status_local">Sauvegardé localement</string>
     <string name="status_synchro">Synchronisé</string>
     <string name="status_checkingforupdate">Recherche de mise à jour…</string>
@@ -56,7 +58,8 @@
     <string name="action_while">Tant que %s</string>
     <string name="action_for">Pour tout %s de %s</string>
     <string name="action_quiz_init">Créer le quiz %s</string>
-    <string name="action_quiz_add">Ajouter l\'entrée %s avec %s comme bonne réponse</string>
+    <string name="action_quiz_add_question">Ajouter l\'entrée %s avec %s comme bonne réponse</string>
+    <string name="action_quiz_add_paragraph">Ajouter le texte %s</string>
     <string name="action_quiz_show">Afficher le quiz</string>
     <string name="settings_name">Nom : %s</string>
     <string name="category_variable">Variable</string>

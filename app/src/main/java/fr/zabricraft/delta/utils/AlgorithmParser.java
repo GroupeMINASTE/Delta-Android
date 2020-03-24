@@ -198,7 +198,7 @@ public class AlgorithmParser {
             String first = keywords.remove(0);
 
             // Keyword list
-            Keyword[] alone = {Keyword.If, Keyword.Else, Keyword.Print, Keyword.PrintApproximated, Keyword.PrintText, Keyword.Unset, Keyword.While, Keyword.QuizInit, Keyword.QuizShow};
+            Keyword[] alone = {Keyword.If, Keyword.Else, Keyword.Print, Keyword.PrintApproximated, Keyword.PrintText, Keyword.Unset, Keyword.While, Keyword.QuizInit, Keyword.QuizAdd, Keyword.QuizShow};
             HashMap<Keyword, Keyword[]> grouped = new HashMap<>();
             grouped.put(Keyword.Default, new Keyword[]{Keyword.Input});
             grouped.put(Keyword.In, new Keyword[]{Keyword.For});
@@ -282,6 +282,10 @@ public class AlgorithmParser {
                         // Init quiz "text"
                         String text = tokens.remove(0);
                         return new QuizInitAction(text);
+                    } else if (value == Keyword.QuizAdd && tokens.size() >= 1) {
+                        // Add text "text"
+                        String text = tokens.remove(0);
+                        return new QuizAddAction(text);
                     } else if (value == Keyword.QuizShow) {
                         // Show quiz
                         return new QuizShowAction();

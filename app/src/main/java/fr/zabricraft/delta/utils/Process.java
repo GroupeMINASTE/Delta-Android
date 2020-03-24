@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ public class Process {
     public List<Pair<String, String>> inputs;
     public Map<String, Token> variables;
     public List<Object> outputs;
+    public Semaphore semaphore = new Semaphore(0);
     public Quiz quiz;
     public Context context;
 
