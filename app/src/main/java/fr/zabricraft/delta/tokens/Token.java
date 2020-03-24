@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import fr.zabricraft.delta.extensions.LongExtension;
 import fr.zabricraft.delta.utils.Operation;
 
 public abstract class Token implements Serializable {
@@ -36,6 +37,11 @@ public abstract class Token implements Serializable {
                 java.util.List<Token> values = new ArrayList<>(((Sum) right).getValues());
                 values.add(this);
                 return new Sum(values);
+            }
+
+            // Left and right are the same
+            if (toString().equals(right.toString())) {
+                return new Product(this, new Number(2)).compute(inputs, format);
             }
 
             return new Sum(this, right);
@@ -92,7 +98,52 @@ public abstract class Token implements Serializable {
 
         // Fraction
         if (operation == Operation.division) {
-            return new Fraction(this, right);
+            // Left and right are products
+            Product leftProduct = this instanceof Product ? ((Product) this) : new Product(this);
+            Product rightProduct = right instanceof Product ? ((Product) right) : new Product(right);
+
+            // Check for a common factor
+            ArrayList<Token> leftValues = new ArrayList<>(leftProduct.getValues());
+            ArrayList<Token> rightValues = new ArrayList<>(rightProduct.getValues());
+            int leftIndex = 0;
+            while (leftIndex < leftValues.size()) {
+                // Iterate right values
+                int rightIndex = 0;
+                while (rightIndex < rightValues.size()) {
+                    // Check if left and right are the same
+                    if (leftValues.get(leftIndex).toString().equals(rightValues.get(rightIndex).toString())) {
+                        // We have a common factor
+                        leftValues.remove(leftIndex);
+                        leftValues.add(leftIndex, new Number(1));
+                        rightValues.remove(rightIndex);
+                        rightValues.add(rightIndex, new Number(1));
+                    }
+
+                    // Check if both are numbers with gcd != 1
+                    if (leftValues.get(leftIndex) instanceof Number && rightValues.get(rightIndex) instanceof Number) {
+                        Number leftNumber = ((Number) leftValues.get(leftIndex));
+                        Number rightNumber = ((Number) rightValues.get(rightIndex));
+                        long gcd = LongExtension.greatestCommonDivisor(leftNumber.getValue(), rightNumber.getValue());
+
+                        if (gcd != 1) {
+                            // We have a common factor
+                            leftValues.remove(leftIndex);
+                            leftValues.add(leftIndex, new Number(leftNumber.getValue() / gcd));
+                            rightValues.remove(rightIndex);
+                            rightValues.add(rightIndex, new Number(rightNumber.getValue() / gcd));
+                        }
+                    }
+
+                    // Increment
+                    rightIndex++;
+                }
+
+                // Increment
+                leftIndex++;
+            }
+
+            // Return the fraction
+            return new Fraction(new Product(leftValues).compute(inputs, format), new Product(rightValues).compute(inputs, format));
         }
 
         // Modulo

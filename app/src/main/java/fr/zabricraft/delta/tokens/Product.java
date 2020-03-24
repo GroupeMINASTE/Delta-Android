@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import fr.zabricraft.delta.extensions.LongExtension;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Product extends Token implements Comparator<Token> {
@@ -175,10 +176,58 @@ public class Product extends Token implements Comparator<Token> {
 
         // If addition
         if (operation == Operation.addition) {
-            // TODO: Check for common factor
+            // Right is a product
+            Product rightProduct = right instanceof Product ? ((Product) right) : new Product(right);
 
-            // Add token to sum
-            return new Sum(this, right);
+            // Check for common factor
+            ArrayList<Token> factors = new ArrayList<>();
+            ArrayList<Token> leftValues = new ArrayList<>(values);
+            ArrayList<Token> rightValues = new ArrayList<>(rightProduct.values);
+            int leftIndex = 0;
+            while (leftIndex < leftValues.size()) {
+                // Iterate right values
+                int rightIndex = 0;
+                while (rightIndex < rightValues.size()) {
+                    // Check if left and right are the same
+                    if (leftValues.get(leftIndex).toString().equals(rightValues.get(rightIndex).toString())) {
+                        // We have a common factor
+                        factors.add(leftValues.get(leftIndex));
+                        leftValues.remove(leftIndex);
+                        leftValues.add(leftIndex, new Number(1));
+                        rightValues.remove(rightIndex);
+                        rightValues.add(rightIndex, new Number(1));
+                    }
+
+                    // Check if both are numbers with gcd != 1
+                    if (leftValues.get(leftIndex) instanceof Number && rightValues.get(rightIndex) instanceof Number) {
+                        Number leftNumber = ((Number) leftValues.get(leftIndex));
+                        Number rightNumber = ((Number) rightValues.get(rightIndex));
+                        long gcd = LongExtension.greatestCommonDivisor(leftNumber.getValue(), rightNumber.getValue());
+
+                        if (gcd != 1) {
+                            // We have a common factor
+                            factors.add(new Number(gcd));
+                            leftValues.remove(leftIndex);
+                            leftValues.add(leftIndex, new Number(leftNumber.getValue() / gcd));
+                            rightValues.remove(rightIndex);
+                            rightValues.add(rightIndex, new Number(rightNumber.getValue() / gcd));
+                        }
+                    }
+
+                    // Increment
+                    rightIndex++;
+                }
+
+                // Increment
+                leftIndex++;
+            }
+
+            // Check if factors are not empty
+            if (!factors.isEmpty()) {
+                // Create a product with common factors
+                factors.add(new Sum(new Product(leftValues), new Product(rightValues)));
+                return new Product(factors).compute(inputs, format);
+            }
         }
 
         // If product
