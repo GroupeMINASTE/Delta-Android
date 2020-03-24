@@ -14,22 +14,35 @@ import fr.zabricraft.delta.utils.Process;
 
 public class QuizShowAction implements Action {
 
-    public void execute(Process process) {
-        final Semaphore semaphore = new Semaphore(0);
+    public void execute(final Process process) {
+        if (process.quiz != null) {
+            // Create a semaphore for thread management
+            final Semaphore semaphore = new Semaphore(0);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+            // Show quiz to user
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // Add it to outputs
+                    process.outputs.add(process.quiz);
+
+                    // And continue process
+                    semaphore.release();
+                }
+            }).start();
+
+            // Wait for quiz to finish
+            try {
+                semaphore.acquire();
                 semaphore.release();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }).start();
-
-        try {
-            semaphore.acquire();
-            semaphore.release();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+        // Reset quiz
+        process.quiz = null;
     }
 
     public String toString() {

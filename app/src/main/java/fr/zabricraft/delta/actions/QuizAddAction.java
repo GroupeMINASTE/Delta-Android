@@ -22,7 +22,9 @@ public class QuizAddAction implements Action {
     }
 
     public void execute(Process process) {
-
+        if (process.quiz != null) {
+            process.quiz.addQuestion(text, correct);
+        }
     }
 
     public String toString() {

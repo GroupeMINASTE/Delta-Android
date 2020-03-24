@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fr.zabricraft.delta.quiz.Quiz;
 import fr.zabricraft.delta.tokens.FunctionDeclaration;
 import fr.zabricraft.delta.tokens.Token;
 
@@ -18,7 +19,8 @@ public class Process {
 
     public List<Pair<String, String>> inputs;
     public Map<String, Token> variables;
-    public List<String> outputs;
+    public List<Object> outputs;
+    public Quiz quiz;
     public Context context;
 
     public Process(List<Pair<String, String>> inputs, Context context) {
