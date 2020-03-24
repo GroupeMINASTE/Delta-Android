@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
@@ -24,6 +26,10 @@ import fr.zabricraft.delta.quiz.Quiz;
 import fr.zabricraft.delta.quiz.QuizElement;
 import fr.zabricraft.delta.quiz.QuizParagraph;
 import fr.zabricraft.delta.quiz.QuizQuestion;
+import fr.zabricraft.delta.tokens.Equation;
+import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.utils.Operation;
+import fr.zabricraft.delta.utils.TokenParser;
 
 public class QuizFragment extends Fragment {
 
@@ -93,7 +99,33 @@ public class QuizFragment extends Fragment {
                     getActivity().finish();
                 } else {
                     // Get fields
+                    for (int i = 0; i < stack.getChildCount(); i++) {
+                        // Extract field if exists
+                        if (stack.getChildAt(i) instanceof LinearLayout && quiz.elements.get(i) instanceof QuizQuestion) {
+                            // Get views
+                            LinearLayout subview = (LinearLayout) stack.getChildAt(i);
+                            TextView label = (TextView) subview.getChildAt(0);
+                            EditText field = (EditText) subview.getChildAt(1);
+                            QuizQuestion question = (QuizQuestion) quiz.elements.get(i);
 
+                            // Check the question
+                            Token answer = new TokenParser(field.getText().toString()).execute();
+                            Equation condition = new Equation(answer, question.correct, Operation.equals);
+
+                            if (condition.isTrue(new HashMap<String, Token>())) {
+                                // Answer is correct
+                                label.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                                field.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                            } else {
+                                // Answer is not correct
+                                label.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                                field.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                            }
+
+                            // Disable the field
+                            field.setEnabled(false);
+                        }
+                    }
 
                     // Set as checked
                     checked = true;
@@ -104,14 +136,15 @@ public class QuizFragment extends Fragment {
         main.addView(button);
 
         // Load quiz
-        Object quiz = getArguments().getSerializable("quiz");
-        if (quiz instanceof Quiz) {
+        Object object = getArguments().getSerializable("quiz");
+        if (object instanceof Quiz) {
             // Set header
-            header.setText(((Quiz) quiz).text);
+            quiz = (Quiz) object;
+            header.setText(quiz.text);
 
             // Iterate elements
-            for (int i = 0; i < ((Quiz) quiz).elements.size(); i++) {
-                QuizElement element = ((Quiz) quiz).elements.get(i);
+            for (int i = 0; i < quiz.elements.size(); i++) {
+                QuizElement element = quiz.elements.get(i);
 
                 if (element instanceof QuizQuestion) {
                     QuizQuestion question = (QuizQuestion) element;
