@@ -21,7 +21,7 @@ public class Process {
     public List<Pair<String, String>> inputs;
     public Map<String, Token> variables;
     public List<Object> outputs;
-    public Semaphore semaphore = new Semaphore(0);
+    public Semaphore semaphore;
     public Quiz quiz;
     public Context context;
 
@@ -30,6 +30,7 @@ public class Process {
         this.variables = new HashMap<>();
         this.outputs = new ArrayList<>();
         this.context = context;
+        this.semaphore = new Semaphore(0);
     }
 
     public void set(String identifier, Token value) {

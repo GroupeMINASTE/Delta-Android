@@ -225,8 +225,8 @@ public class Product extends Token implements Comparator<Token> {
             // Check if factors are not empty
             if (!factors.isEmpty()) {
                 // Create a product with common factors
-                factors.add(new Sum(new Product(leftValues), new Product(rightValues)));
-                return new Product(factors).compute(inputs, format);
+                factors.add(new Sum(new Product(leftValues), new Product(rightValues)).compute(inputs, format));
+                return new Product(factors);
             }
         }
 

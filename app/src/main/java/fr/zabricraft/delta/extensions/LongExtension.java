@@ -9,7 +9,7 @@ public class LongExtension {
             b = c;
         }
 
-        return a;
+        return Math.abs(a);
     }
 
     public static boolean isPowerOfTen(long input) {

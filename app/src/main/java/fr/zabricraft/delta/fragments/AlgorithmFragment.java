@@ -25,6 +25,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 public class AlgorithmFragment extends Fragment implements InputsSection.InputsContainer, OutputsSection.OutputsContainer {
 
     private Algorithm algorithm;
+    private Process currentProcess;
     private Process lastProcess;
 
     private RecyclerView recyclerView;
@@ -91,13 +92,14 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
             ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeRemovedFromSection(outputsSection, 0, before);
 
             // Execute algorithm with a new process
-            lastProcess = algorithm.execute(getActivity(), new Algorithm.CompletionHandler() {
+            currentProcess = algorithm.execute(getActivity(), new Algorithm.CompletionHandler() {
                 @Override
                 public void completionHandler() {
                     // Refresh the process
                     recyclerView.post(new Runnable() {
                         @Override
                         public void run() {
+                            lastProcess = currentProcess;
                             ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeInsertedInSection(outputsSection, 0, lastProcess.outputs.size());
                         }
                     });
@@ -140,9 +142,9 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 668 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 668 && resultCode == Activity.RESULT_OK && currentProcess != null) {
             // And continue process
-            lastProcess.semaphore.release();
+            currentProcess.semaphore.release();
         }
     }
 

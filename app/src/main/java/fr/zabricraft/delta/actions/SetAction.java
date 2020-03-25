@@ -26,6 +26,7 @@ public class SetAction implements Action {
         // Check if variable is not a constant
         if (TokenParser.constants.contains(identifier)) {
             process.outputs.add(process.context.getString(R.string.error_constant, identifier));
+            return;
         }
 
         // Set value with process environment

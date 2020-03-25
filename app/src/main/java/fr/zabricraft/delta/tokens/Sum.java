@@ -62,7 +62,7 @@ public class Sum extends Token {
 
     public Token compute(Map<String, Token> inputs, boolean format) {
         // Compute all values
-        java.util.List<Token> values = new ArrayList<>();
+        List<Token> values = new ArrayList<>();
         for (Token value : this.values) {
             values.add(value.compute(inputs, format));
         }
