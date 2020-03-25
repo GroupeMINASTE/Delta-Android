@@ -31,7 +31,7 @@ public class QuizAddAction implements Action {
     public void execute(Process process) {
         if (process.quiz != null) {
             if (correct != null) {
-                process.quiz.addQuestion(StringExtension.replaceTokens(text, process), new TokenParser(correct, process).execute());
+                process.quiz.addQuestion(StringExtension.replaceTokens(text, process), new TokenParser(correct, process).execute().compute(process.variables, false));
             } else {
                 process.quiz.addParagraph(StringExtension.replaceTokens(text, process));
             }
