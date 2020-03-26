@@ -1,2 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="category_quiz">Задача</string>
+    <string name="action_quiz_show">Показать задачу</string>
+    <string name="action_quiz_init">Ввести задачу %s</string>
+    <string name="action_input">Присвоить переменной %s значение %s</string>
+    <string name="outputs">Вывод</string>
+    <string name="inputs">Ввод</string>
+    <string name="category_add">Добавить действие</string>
+    <string name="category_settings">Настройки</string>
+    <string name="category_output">Вывод</string>
+    <string name="category_structure">Структура</string>
+    <string name="category_variable">Переменная</string>
+    <string name="settings_name">Имя: %s</string>
+    <string name="action_quiz_add_paragraph">Добавить текст %s</string>
+    <string name="action_quiz_add_question">Добавить ввод %s с %s в качестве правильного ответа</string>
+    <string name="action_for">Для %s в %s</string>
+    <string name="action_while">Пока %s</string>
+    <string name="action_end">Конец</string>
+    <string name="action_else">Иначе</string>
+    <string name="action_if">Если %s</string>
+    <string name="action_unset">Сброс %s</string>
+    <string name="action_set">Присвоить значение %s для %s</string>
+    <string name="action_print_text">Вывести текст %s</string>
+    <string name="action_print_approximated">Вывести приблизительное значение %s</string>
+    <string name="action_print">Вывести переменную %s</string>
+    <string name="action_selector">Выбрать действие</string>
+    <string name="editor">Редактор алгоритмов</string>
+    <string name="error_while_limit">Прервался с ошибкой: Более 1000 итераций</string>
+    <string name="error_constant">Невозможно установить значение: %s - константа</string>
+    <string name="error_syntax">Синтаксическая ошибка</string>
+    <string name="error_calcul">Вычислительная ошибка</string>
+    <string name="status_loading">Загрузка…</string>
+    <string name="status_unauthorized">У вас нет прав доступа к этому контенту</string>
+    <string name="status_notFound">Контент, который вы ищете, не существует</string>
+    <string name="status_offline">Кажется, что вы оффлайн!</string>
+    <string name="status_invalidRequest">Ошибка во время запроса…</string>
+    <string name="status_failed">Не удалось обновить!</string>
+    <string name="status_downloading">Загрузка…</string>
+    <string name="status_checkingforupdate">Проверка наличия обновлений…</string>
+    <string name="status_synchro">Синхронизировано</string>
+    <string name="status_local">Сохранено локально</string>
+    <string name="check">Проверить</string>
+    <string name="close">Закрыть</string>
+    <string name="open">Открыть</string>
+    <string name="update">Обновить</string>
+    <string name="download">Загрузить</string>
+    <string name="cancel">Отменить</string>
+    <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
+    <string name="settings">Настройки</string>
+    <string name="instructions">Инструкции</string>
+    <string name="ok">ОК</string>
+    <string name="about_text">Приложение разработано Натаном Фаллетом
+\n
+\nЭто приложение было разработано независимыми разработчиками и предоставляется бесплатно, без каких-либо гарантий.
+\n
+\n© 2020 Groupe MINASTE</string>
+    <string name="follow_twitter">Следите за нами в Твиттере</string>
+    <string name="help">Помощь и документация</string>
+    <string name="about">Подробнее</string>
+    <string name="copy">%s (копировать)</string>
+    <string name="cloud_no_notes">Для этого алгоритма не было написано никаких заметок.</string>
+    <string name="cloud_preview">Предпросмотр этого алгоритма</string>
+    <string name="cloud_details">Подробная информация о выбранном алгоритме</string>
+    <string name="cloud_algorithms">Алгоритмы на Облаке</string>
+    <string name="cloud">Облако</string>
+    <string name="download_algorithm">Загрузить с Облака</string>
+    <string name="no_algorithm">Здесь ещё нет алгоритма!</string>
+    <string name="new_algorithm">Новый алгоритм</string>
+    <string name="downloads">Загрузки</string>
+    <string name="myalgorithms">Мои алгоритмы</string>
+    <string name="name">Delta: Математический помощник</string>
+</resources>
