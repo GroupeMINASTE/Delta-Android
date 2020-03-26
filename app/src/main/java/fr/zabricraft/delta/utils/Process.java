@@ -24,6 +24,7 @@ public class Process {
     public Semaphore semaphore;
     public Quiz quiz;
     public Context context;
+    public boolean cancelled;
 
     public Process(List<Pair<String, String>> inputs, Context context) {
         this.inputs = inputs;
@@ -31,6 +32,7 @@ public class Process {
         this.outputs = new ArrayList<>();
         this.context = context;
         this.semaphore = new Semaphore(0);
+        this.cancelled = false;
     }
 
     public void set(String identifier, Token value) {
@@ -55,6 +57,10 @@ public class Process {
             // Unset it as a variable
             variables.remove(trimmed);
         }
+    }
+
+    public void cancel() {
+        this.cancelled = true;
     }
 
 }

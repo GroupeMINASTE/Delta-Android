@@ -85,8 +85,11 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
             // Count outputs before
             int before = lastProcess != null ? lastProcess.outputs.size() : 0;
 
-            // Clear last process
+            // Clear last process and current process
             lastProcess = null;
+            if (currentProcess != null) {
+                currentProcess.cancel();
+            }
 
             // Refresh the output section
             ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeRemovedFromSection(outputsSection, 0, before);

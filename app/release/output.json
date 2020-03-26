@@ -6,7 +6,7 @@
     "apkInfo": {
       "type": "MAIN",
       "splits": [],
-      "versionCode": 31,
+      "versionCode": 32,
       "versionName": "3.5.1",
       "enabled": true,
       "outputFile": "app-release.apk",

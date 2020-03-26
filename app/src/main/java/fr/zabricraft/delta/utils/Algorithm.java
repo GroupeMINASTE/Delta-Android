@@ -131,7 +131,9 @@ public class Algorithm implements Serializable {
                 root.execute(process);
 
                 // End execution
-                completionHandler.completionHandler();
+                if (!process.cancelled) {
+                    completionHandler.completionHandler();
+                }
             }
         }).start();
 
