@@ -1,2 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="instructions">Инструкцији</string>
+    <string name="name">Делта: Математички Помоћник</string>
+    <string name="myalgorithms">Мој алгоритми</string>
+    <string name="downloads">Преузимања</string>
+    <string name="cloud_algorithms">Алгоритми на Клауду</string>
+    <string name="cloud_details">Детаље за изабрано алгоритму</string>
+    <string name="help">Помоћ и документација</string>
+    <string name="outputs">Излазаке</string>
+    <string name="settings">Поставке</string>
+    <string name="edit">Промени</string>
+    <string name="delete">Избриши</string>
+    <string name="download">Преузми</string>
+    <string name="update">Ажурирај</string>
+    <string name="open">Отвори</string>
+    <string name="close">Затвори</string>
+    <string name="status_checkingforupdate">Провера за ажурирање…</string>
+    <string name="status_downloading">Преузимање…</string>
+    <string name="status_notFound">Садржај ко тражите не постоји</string>
+    <string name="category_settings">Поставке</string>
+    <string name="category_add">Додај акцију</string>
+    <string name="new_algorithm">Нову алгоритму</string>
+    <string name="no_algorithm">Овде још нема ниједан алгоритму!</string>
+    <string name="download_algorithm">Преузимате од Клауда</string>
+    <string name="cloud">Клауд</string>
+    <string name="cloud_preview">Преглед за ову алгоритму</string>
+    <string name="cloud_no_notes">Белешке нису уписани за овај алгоритму.</string>
+    <string name="about">О нама</string>
+    <string name="follow_twitter">Пратите нам на Твитеру</string>
+    <string name="about_text">Апликација направено од Натан Фале
+\n
+\nОва апликација је девелопирана од независне девелопере, и је доступна бесплатна без никакву гаранцију.
+\n
+\n© 2020 Groupe MINASTE</string>
+    <string name="ok">У реду</string>
+    <string name="save">Сачувај</string>
+    <string name="cancel">Откажи</string>
+    <string name="check">Провери</string>
+    <string name="status_local">Сачувано локално</string>
+    <string name="status_synchro">Синхронизовано</string>
+    <string name="status_failed">Неуспех ажурирања!</string>
+    <string name="status_invalidRequest">Дошло је до грешка у захтев…</string>
+    <string name="status_offline">Изгледа да нисте повезан!</string>
+    <string name="error_while_limit">Стопирање док петље: више од 1000 итерације</string>
+    <string name="editor">Алгоритмички издавач</string>
+    <string name="action_selector">Одаберите акцију</string>
+    <string name="action_input">Питај %s са подразумевано %s</string>
+    <string name="action_print">Прикажи вариаблу %s</string>
+    <string name="action_print_approximated">Прикажи приближна вредност од %s</string>
+    <string name="action_print_text">Прикажи текст %s</string>
+    <string name="action_set">Поставите %s на %s</string>
+    <string name="action_unset">Избриши %s</string>
+    <string name="action_if">Ако %s</string>
+    <string name="action_else">Ако не</string>
+    <string name="action_end">Крај</string>
+    <string name="action_while">Док %s</string>
+    <string name="action_for">За %s у %s</string>
+    <string name="action_quiz_init">Нови Квиз %s</string>
+    <string name="action_quiz_add_question">Додај улазак %s са добра одговор %s</string>
+    <string name="action_quiz_add_paragraph">Додај текст %s</string>
+    <string name="action_quiz_show">Прикажи Квиз</string>
+    <string name="settings_name">Име: %s</string>
+    <string name="category_variable">Варијабла</string>
+    <string name="category_structure">Структура</string>
+    <string name="category_output">Излазак</string>
+    <string name="category_quiz">Квиз</string>
+    <string name="copy">%s (копија)</string>
+    <string name="inputs">Улазаке</string>
+    <string name="status_unauthorized">Не смете да приступите ову садржај</string>
+    <string name="status_loading">Учитавање…</string>
+    <string name="error_calcul">Грешка у калкулацију</string>
+    <string name="error_syntax">Синтаксикална грешка</string>
+    <string name="error_constant">Подесавање вредност неуспешно: %s је константа</string>
+</resources>
