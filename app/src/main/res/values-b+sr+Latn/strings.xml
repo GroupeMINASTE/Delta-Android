@@ -1,2 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="myalgorithms">Moj algoritmi</string>
+    <string name="downloads">Preuzimanja</string>
+    <string name="new_algorithm">Novu algoritmu</string>
+    <string name="no_algorithm">Ovde još nema nijedan algoritmu!</string>
+    <string name="download_algorithm">Preuzimate od Clouda</string>
+    <string name="cloud_algorithms">Algoritmi na Cloudu</string>
+    <string name="cloud_details">Detalje za izabrano algoritmu</string>
+    <string name="cloud_preview">Pregled za ovu algoritmu</string>
+    <string name="cloud_no_notes">Beleške nisu upisani za ovaj algoritmu.</string>
+    <string name="copy">%s (kopija)</string>
+    <string name="about">O nama</string>
+    <string name="help">Pomoć i dokumentacija</string>
+    <string name="follow_twitter">Pratite nam na Twitteru</string>
+    <string name="name">Delta: Matematički Pomoćnik</string>
+    <string name="about_text">Aplikacija napraveno od Nathan Fallet
+\n
+\nOva aplikacija je developirana od nezavisne developere, i je dostupna besplatna bez nikakvu garanciju.
+\n
+\n© 2020 Groupe MINASTE</string>
+    <string name="ok">U redu</string>
+    <string name="inputs">Ulazake</string>
+    <string name="outputs">Izlazake</string>
+    <string name="instructions">Instrukciji</string>
+    <string name="settings">Postavke</string>
+    <string name="edit">Promeni</string>
+    <string name="delete">Izbriši</string>
+    <string name="save">Sačuvaj</string>
+    <string name="cancel">Otkaži</string>
+    <string name="download">Preuzmi</string>
+    <string name="update">Ažuriraj</string>
+    <string name="open">Otvori</string>
+    <string name="close">Zatvori</string>
+    <string name="check">Proveri</string>
+    <string name="status_local">Sačuvano lokalno</string>
+    <string name="status_synchro">Sinhronizovano</string>
+    <string name="status_checkingforupdate">Provera za ažuriranje…</string>
+    <string name="status_downloading">Preuzimanje…</string>
+    <string name="status_failed">Neuspeh ažuriranja!</string>
+    <string name="status_invalidRequest">Došlo je do greška u zahtev…</string>
+    <string name="status_offline">Izgleda da niste povezan!</string>
+    <string name="status_notFound">Sadržaj ko tražite ne postoji</string>
+    <string name="status_unauthorized">Ne smete da pristupite ovu sadržaj</string>
+    <string name="status_loading">Učitavanje…</string>
+    <string name="error_calcul">Greška u kalkulaciju</string>
+    <string name="error_syntax">Sintaksikalna greška</string>
+    <string name="error_constant">Podesavanje vrednost neuspešno: %s je konstanta</string>
+    <string name="error_while_limit">Stopiranje dok petlje: više od 1000 iteracije</string>
+    <string name="action_selector">Odaberite akciju</string>
+    <string name="action_input">Pitaj %s sa podrazumevano %s</string>
+    <string name="action_print">Prikaži variablu %s</string>
+    <string name="action_print_approximated">Prikaži približna vrednost od %s</string>
+    <string name="action_print_text">Prikaži tekst %s</string>
+    <string name="action_unset">Izbriši %s</string>
+    <string name="action_if">Ako %s</string>
+    <string name="action_else">Ako ne</string>
+    <string name="action_end">Kraj</string>
+    <string name="action_while">Dok %s</string>
+    <string name="action_for">Za %s u %s</string>
+    <string name="action_quiz_init">Novi Kviz %s</string>
+    <string name="action_quiz_add_question">Dodaj ulazak %s sa dobra odgovor %s</string>
+    <string name="action_quiz_add_paragraph">Dodaj tekst %s</string>
+    <string name="action_quiz_show">Prikaži Kviz</string>
+    <string name="settings_name">Ime: %s</string>
+    <string name="category_variable">Varijabla</string>
+    <string name="category_structure">Struktura</string>
+    <string name="category_output">Izlazak</string>
+    <string name="cloud">Cloud</string>
+    <string name="editor">Algoritmički izdavač</string>
+    <string name="action_set">Postavite %s na %s</string>
+    <string name="category_quiz">Kviz</string>
+    <string name="category_settings">Postavke</string>
+    <string name="category_add">Dodaj akciju</string>
+</resources>
