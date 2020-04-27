@@ -1,2 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="category_add">Aktion hinzufügen</string>
+    <string name="category_settings">Einstellungen</string>
+    <string name="category_output">Austrag</string>
+    <string name="category_structure">Struktur</string>
+    <string name="category_variable">Variabel</string>
+    <string name="action_quiz_show">Quiz zeigen</string>
+    <string name="action_end">Ende</string>
+    <string name="action_else">Sonst</string>
+    <string name="action_selector">Wählen Sie eine Aktion</string>
+    <string name="editor">Algorithmus Bearbeiter</string>
+    <string name="error_while_limit">Schleife gestoppt: mehr als 1000 iterationen</string>
+    <string name="error_syntax">Syntaxproblem</string>
+    <string name="error_calcul">Rechnungsfelhler</string>
+    <string name="status_loading">Es lädt…</string>
+    <string name="status_unauthorized">Sie Dürfen nicht dieses Inhalt Zugriffen</string>
+    <string name="status_notFound">Der Inhalt die Sie suchen existiert nicht</string>
+    <string name="status_offline">Es scheint dass Sie Offline sind!</string>
+    <string name="status_invalidRequest">Etwas ist schiefgelaufen in dem Anfrage…</string>
+    <string name="status_downloading">Wird heruntergeladet…</string>
+    <string name="status_checkingforupdate">Sucht nach Aktualisierungen…</string>
+    <string name="status_synchro">Synchronisiert</string>
+    <string name="status_local">Lokal gespeichert</string>
+    <string name="check">Überprüfen</string>
+    <string name="close">Schließen</string>
+    <string name="open">Öffnen</string>
+    <string name="update">Aktualisieren</string>
+    <string name="download">Herunterladen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="save">Speichern</string>
+    <string name="delete">Löschen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="settings">Einstellungen</string>
+    <string name="instructions">Instruktionen</string>
+    <string name="outputs">Austräge</string>
+    <string name="inputs">Eintrag</string>
+    <string name="ok">OK</string>
+    <string name="about_text">Applikation von Nathan Fallet entwickelt
+\n
+\nDiese app wurde von unabhängig Entwicklern entwickelt, und is Kostenkos gestellt, ohne Garantie.
+\n
+\n© 2020 Groupe MINASTE</string>
+    <string name="follow_twitter">Folgen Sie uns auf Twitter</string>
+    <string name="help">Hilfe und Dokumentation</string>
+    <string name="about">Über uns</string>
+    <string name="category_quiz">Quiz</string>
+    <string name="cloud_no_notes">Keine Noten wurden geschrieben für dieses Algorithmus.</string>
+    <string name="cloud_preview">Übersicht des Algorithmus</string>
+    <string name="cloud_details">Details zum selektionierten Algorithmus</string>
+    <string name="cloud_algorithms">Algorithmen auf dem Cloud</string>
+    <string name="cloud">Cloud</string>
+    <string name="download_algorithm">Aus dem Cloud Herunterladen</string>
+    <string name="no_algorithm">Noch kein Algorithmus hier!</string>
+    <string name="new_algorithm">Neues Algorithmus</string>
+    <string name="downloads">Heruntergeladen</string>
+    <string name="myalgorithms">Meine Algorithmen</string>
+    <string name="name">Delta: Mathe Hilfe</string>
+    <string name="settings_name">Name: %@</string>
+    <string name="action_quiz_add_paragraph">Text hinzufügen: %@</string>
+    <string name="action_quiz_add_question">%@ als Eintrag setzen mit %@ als richtige Antwort</string>
+    <string name="action_quiz_init">Neues Quiz %@</string>
+    <string name="action_for">Für %@ in %@</string>
+    <string name="action_while">So lange %@</string>
+    <string name="action_if">Wenn %@</string>
+    <string name="action_unset">%@ löschen</string>
+    <string name="action_set">%@ auf %@ setzen</string>
+    <string name="action_print_text">Text drucken: %@</string>
+    <string name="action_print_approximated">Ungefähr Wert von %@ drucken</string>
+    <string name="action_print">Variabel %@ drucken</string>
+    <string name="action_input">%@ Fragen mit Standard %@</string>
+    <string name="error_constant">Könnte nicht die Wert zuweisen: %@ ist Konstant</string>
+    <string name="copy">%@ (Kopie)</string>
+    <string name="status_failed">Aktualisierungsfehler!</string>
+</resources>
