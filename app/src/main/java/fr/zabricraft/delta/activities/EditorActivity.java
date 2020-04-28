@@ -1,11 +1,11 @@
 package fr.zabricraft.delta.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.fragments.EditorFragment;
 import fr.zabricraft.delta.utils.Algorithm;

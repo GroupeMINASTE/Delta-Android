@@ -3,13 +3,13 @@ package fr.zabricraft.delta.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import org.greenrobot.eventbus.EventBus;
 
+import androidx.appcompat.app.AppCompatActivity;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.NotificationNameExtension;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;

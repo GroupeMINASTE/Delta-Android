@@ -1,7 +1,6 @@
 package fr.zabricraft.delta.utils;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.ActionBlock;

@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +12,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.activities.CloudHomeActivity;
 import fr.zabricraft.delta.activities.EditorActivity;
@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
                 myalgorithms.add(i, updatedAlgorithm);
 
                 // Update recyclerView
-                sectionAdapter.notifyItemChangedInSection(myalgorithms_section, i);
+                sectionAdapter.getAdapterForSection(myalgorithms_section).notifyItemChanged(i);
             }
         }
         for (int i = 0; i < downloads.size(); i++) {
@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
                 downloads.add(i, updatedAlgorithm);
 
                 // Update recyclerView
-                sectionAdapter.notifyItemChangedInSection(downloads_section, i);
+                sectionAdapter.getAdapterForSection(downloads_section).notifyItemChanged(i);
             }
         }
     }
@@ -145,12 +145,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
         layout = new SwipeRefreshLayout(getActivity());
         recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(recyclerView);
-        layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadAlgorithms();
-            }
-        });
+        layout.setOnRefreshListener(this::loadAlgorithms);
 
         // Load algorithms
         loadAlgorithms();

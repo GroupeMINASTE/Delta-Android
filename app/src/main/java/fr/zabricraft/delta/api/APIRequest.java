@@ -3,7 +3,6 @@ package fr.zabricraft.delta.api;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,6 +17,8 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import androidx.annotation.Nullable;
 
 public class APIRequest extends AsyncTask<Void, Void, Object> {
 

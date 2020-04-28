@@ -1,14 +1,14 @@
 package fr.zabricraft.delta.sections;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
 import fr.zabricraft.delta.api.APIResponseStatus;
 import fr.zabricraft.delta.views.StatusCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder;
 
 public class StatusSection extends Section {
 
@@ -30,11 +30,11 @@ public class StatusSection extends Section {
 
     public RecyclerView.ViewHolder getItemViewHolder(View view) {
         // return a custom instance of ViewHolder for the items of this section
-        return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
+        return new EmptyViewHolder(view);
     }
 
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
+        final EmptyViewHolder itemHolder = (EmptyViewHolder) holder;
 
         // bind your view here
         if (itemHolder.itemView instanceof StatusCell) {

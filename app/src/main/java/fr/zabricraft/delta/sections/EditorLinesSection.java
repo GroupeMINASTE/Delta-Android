@@ -1,11 +1,11 @@
 package fr.zabricraft.delta.sections;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.utils.EditorLine;
@@ -13,7 +13,7 @@ import fr.zabricraft.delta.views.EditorCell;
 import fr.zabricraft.delta.views.HeaderCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder;
 
 public class EditorLinesSection extends Section {
 
@@ -39,11 +39,11 @@ public class EditorLinesSection extends Section {
 
     public RecyclerView.ViewHolder getItemViewHolder(View view) {
         // return a custom instance of ViewHolder for the items of this section
-        return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
+        return new EmptyViewHolder(view);
     }
 
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final SectionedRecyclerViewAdapter.EmptyViewHolder itemHolder = (SectionedRecyclerViewAdapter.EmptyViewHolder) holder;
+        final EmptyViewHolder itemHolder = (EmptyViewHolder) holder;
         EditorLine line = container.toEditorLines().get(position);
 
         // bind your view here
@@ -59,7 +59,7 @@ public class EditorLinesSection extends Section {
         }
 
         // return an empty instance of ViewHolder for the headers of this section
-        return new SectionedRecyclerViewAdapter.EmptyViewHolder(view);
+        return new EmptyViewHolder(view);
     }
 
     // Container interface

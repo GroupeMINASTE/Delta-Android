@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,8 @@ import org.javatuples.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.sections.InputsSection;
 import fr.zabricraft.delta.sections.OutputsSection;
@@ -92,21 +92,15 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
             }
 
             // Refresh the output section
-            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeRemovedFromSection(outputsSection, 0, before);
+            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).getAdapterForSection(outputsSection).notifyItemRangeRemoved(0, before);
 
             // Execute algorithm with a new process
-            currentProcess = algorithm.execute(getActivity(), new Algorithm.CompletionHandler() {
-                @Override
-                public void completionHandler() {
-                    // Refresh the process
-                    recyclerView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            lastProcess = currentProcess;
-                            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).notifyItemRangeInsertedInSection(outputsSection, 0, lastProcess.outputs.size());
-                        }
-                    });
-                }
+            currentProcess = algorithm.execute(getActivity(), () -> {
+                // Refresh the process
+                recyclerView.post(() -> {
+                    lastProcess = currentProcess;
+                    ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).getAdapterForSection(outputsSection).notifyItemRangeInserted(0, lastProcess.outputs.size());
+                });
             });
         }
     }
