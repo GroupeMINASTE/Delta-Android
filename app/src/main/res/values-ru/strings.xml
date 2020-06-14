@@ -72,4 +72,14 @@
     <string name="downloads">Загрузки</string>
     <string name="myalgorithms">Мои алгоритмы</string>
     <string name="name">Delta: Математический помощник</string>
+    <string name="welcome_paragraph2">Выберите \"Новый алгоритм\" на главном экране, чтобы открыть редактор. Затем добавьте некоторые действия для решения проблемы и сохраните свой алгоритм.</string>
+    <string name="welcome_button">Давайте начнем!</string>
+    <string name="welcome_header4">Готовы создать свой первый алгоритм\?</string>
+    <string name="welcome_title">Добро пожаловать в Delta: Математический помошник!</string>
+    <string name="donate">Пожертвовать</string>
+    <string name="welcome_header1">Как это работает\?</string>
+    <string name="welcome_header2">Создайте алгоритм</string>
+    <string name="welcome_header3">Или загрузите его из облака</string>
+    <string name="welcome_paragraph3">Загрузите готовые к использованию алгоритмы из Delta Cloud или поделитесь тем, который вы только что создали.</string>
+    <string name="welcome_paragraph1">Дельта работает с алгоритмами. Каждый алгоритм решает определенную задачу. (напр. решение уравнений)</string>
 </resources>
