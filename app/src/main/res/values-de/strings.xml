@@ -72,4 +72,14 @@
     <string name="error_constant">Könnte nicht die Wert zuweisen: %@ ist Konstant</string>
     <string name="copy">%@ (Kopie)</string>
     <string name="status_failed">Aktualisierungsfehler!</string>
+    <string name="welcome_paragraph2">Wählen Sie \"Neu Algorithmus\" auf die Startseite um der Editor zu öffnen. Dann, fügen Sie ein paar Aktionen ein um ein Problem zu lösen, und Speichern Sie ihren Algorithmus.</string>
+    <string name="welcome_header1">Wie funktioniert es\?</string>
+    <string name="welcome_paragraph1">Delta funktioniert mit Algorithmen. Jeder Algorithmus löst ein Problem. (z.B.: eine Gleichung lösen)</string>
+    <string name="welcome_header2">Ein Algorithmus einstellen</string>
+    <string name="donate">Spenden</string>
+    <string name="welcome_button">Los get\'s!</string>
+    <string name="welcome_title">Willkommen auf Delta: Math helper!</string>
+    <string name="welcome_header4">Bereit ihren ersten Algorithmus zu einstellen\?</string>
+    <string name="welcome_paragraph3">Herrunterladen fertiggestellt Algorithmen aus Delta Cloud oder teilen Sie dem Sie grade eingestellt haben.</string>
+    <string name="welcome_header3">Oder herunterladen Sie ein aus dem Cloud</string>
 </resources>
