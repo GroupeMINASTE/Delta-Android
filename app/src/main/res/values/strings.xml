@@ -72,7 +72,7 @@
     <string name="welcome_header1">How it works?</string>
     <string name="welcome_paragraph1">Delta works with algorithms. Each algorithm solves a problem. (eg. solve an equation)</string>
     <string name="welcome_header2">Create an algorithm</string>
-    <string name="welcome_paragraph2">Select "New algorithm" on home screen to open editor. Then add some actions to solve a problem, and save your algorithm.</string>
+    <string name="welcome_paragraph2">Select \"New algorithm\" on home screen to open editor. Then add some actions to solve a problem, and save your algorithm.</string>
     <string name="welcome_header3">Or download one from the cloud</string>
     <string name="welcome_paragraph3">Download ready to use algorithms from Delta Cloud or share the one you just created.</string>
     <string name="welcome_header4">Ready to create your first algorithm?</string>
