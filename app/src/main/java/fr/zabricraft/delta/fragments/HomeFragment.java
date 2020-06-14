@@ -3,7 +3,9 @@ package fr.zabricraft.delta.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.activities.CloudHomeActivity;
 import fr.zabricraft.delta.activities.EditorActivity;
+import fr.zabricraft.delta.activities.WelcomeActivity;
 import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.sections.AboutSection;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
@@ -149,6 +152,14 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
         // Load algorithms
         loadAlgorithms();
+
+        // Check for first time
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if (!data.getBoolean("welcomeShown", false)) {
+            // Show welcome screen
+            Intent intent = new Intent(getActivity(), WelcomeActivity.class);
+            startActivity(intent);
+        }
 
         return layout;
     }
