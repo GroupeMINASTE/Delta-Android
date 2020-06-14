@@ -72,4 +72,14 @@
     <string name="error_calcul">Грешка у калкулацију</string>
     <string name="error_syntax">Синтаксикална грешка</string>
     <string name="error_constant">Подесавање вредност неуспешно: %s је константа</string>
+    <string name="welcome_paragraph2">Изаберите \"Нову алгоритму\" на почетна страна да отворите уредник. Па додајте неке актције да решите проблем, и сачувајте своју алгоритму.</string>
+    <string name="welcome_paragraph1">Делра ради с алгоритми. Сваку алгоритму реши једну проблем. (нпр.: једначине решење)</string>
+    <string name="welcome_paragraph3">Преузмите већ направени алгоритми из Делта Клауд или објавите овај што сте сам направили.</string>
+    <string name="welcome_header4">Спремно да направите ваш прву алгоритму\?</string>
+    <string name="welcome_button">Ајдемо!</string>
+    <string name="donate">Дајте донацију</string>
+    <string name="welcome_header1">Како ради\?</string>
+    <string name="welcome_title">Добро дошли на Делта: Математички помоћник!</string>
+    <string name="welcome_header3">Или преузмите једну од Клауда</string>
+    <string name="welcome_header2">Направи једну алгоритму</string>
 </resources>
