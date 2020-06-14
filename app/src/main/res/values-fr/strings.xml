@@ -68,4 +68,14 @@
     <string name="category_quiz">Quiz</string>
     <string name="category_settings">Paramètres</string>
     <string name="category_add">Ajouter une action</string>
+    <string name="welcome_paragraph2">Sélectionnez \"Nouvel algorithme\" sur la page d’accueil pour ouvrir l’éditeur. Ensuite, ajoutez quelques actions pour résoudre un problème, et enregistrez votre algorithme.</string>
+    <string name="donate">Faire un don</string>
+    <string name="welcome_header3">Ou téléchargez en un depuis le Cloud</string>
+    <string name="welcome_header4">Prêt à créer votre premier algorithme \?</string>
+    <string name="welcome_title">Bienvenue sur Delta: Math helper</string>
+    <string name="welcome_button">Commencer !</string>
+    <string name="welcome_paragraph3">Téléchargez des algorithmes prêts à l’usage depuis le Delta Cloud ou partagez celui que vous venez de créer.</string>
+    <string name="welcome_paragraph1">Delta fonctionne avec des algorithmes. Chaque algorithme résoud un problème. (ex : résoudre une équation)</string>
+    <string name="welcome_header2">Créer un algorithme</string>
+    <string name="welcome_header1">Comment ça marche \?</string>
 </resources>
