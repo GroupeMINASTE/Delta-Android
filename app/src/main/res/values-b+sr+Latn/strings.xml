@@ -72,4 +72,14 @@
     <string name="category_quiz">Kviz</string>
     <string name="category_settings">Postavke</string>
     <string name="category_add">Dodaj akciju</string>
+    <string name="welcome_paragraph2">Izaberite \"Novi algoritmu\" na početna strana da otvorite urednik. Pa dodajte neke aktcije da rešite problem, i sačuvajte vaš algoritmu.</string>
+    <string name="welcome_header3">Ili preuzmite jednu iz Clouda</string>
+    <string name="welcome_header1">Kako radi\?</string>
+    <string name="welcome_title">Dobro došli na Delta: Math helper!</string>
+    <string name="welcome_paragraph1">Delta radi sa algoritmi. Svaku algoritmu reši jednu problem. (npr.: jednačine rešenje)</string>
+    <string name="welcome_paragraph3">Preuzmite več napraveni algoritmi iz Delta Cloud ili objavite ovaj što ste sam napravili.</string>
+    <string name="welcome_header2">Napravi algoritmu</string>
+    <string name="welcome_button">Ajdemo!</string>
+    <string name="donate">Dajte donaciju</string>
+    <string name="welcome_header4">Spremno da napravite svoju prvu algoritmu\?</string>
 </resources>
