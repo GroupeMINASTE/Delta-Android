@@ -20,45 +20,72 @@ import fr.zabricraft.delta.api.APIAlgorithm;
 import fr.zabricraft.delta.api.APIRequest;
 import fr.zabricraft.delta.api.APIResponseStatus;
 import fr.zabricraft.delta.sections.APIAlgorithmsSection;
+import fr.zabricraft.delta.sections.LoadingSection;
 import fr.zabricraft.delta.sections.StatusSection;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.APIAlgorithmsContainer, StatusSection.StatusContainer {
+public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.APIAlgorithmsContainer, StatusSection.StatusContainer, LoadingSection.LoadingContainer {
 
     private APIResponseStatus status = APIResponseStatus.ok;
     private List<APIAlgorithm> algorithms;
+    private boolean loading = false;
+    private boolean hasMore = true;
     private String search = "";
 
     private SwipeRefreshLayout layout;
     private RecyclerView recyclerView;
 
     public void loadAlgorithms() {
+        loadAlgorithms(false);
+    }
+
+    public void loadAlgorithms(boolean reset) {
+        // Reset content if needed
+        if (reset) {
+            this.hasMore = true;
+        }
+
+        // Check that it is not already loading
+        if (loading || !hasMore) { return; }
+        loading = true;
+
         // Load algorithms from API
         new APIRequest("GET", "/algorithm/search.php", getActivity(), new APIRequest.CompletionHandler() {
             @Override
             public void completionHandler(@Nullable Object object, APIResponseStatus status) {
+                // Reset if needed
+                if (reset) {
+                    algorithms.clear();
+                }
+
+                // Check data
                 if (object instanceof JSONArray) {
                     JSONArray array = (JSONArray) object;
 
-                    // Update data
-                    algorithms.clear();
-                    for (int i = 0; i < array.length(); i++) {
-                        try {
-                            // Get JSONObject and decode it
-                            algorithms.add(new APIAlgorithm(array.getJSONObject(i)));
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    // Check content size
+                    if (array.length() > 0) {
+                        // Update data
+                        for (int i = 0; i < array.length(); i++) {
+                            try {
+                                // Get JSONObject and decode it
+                                algorithms.add(new APIAlgorithm(array.getJSONObject(i)));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
+                    } else {
+                        // No more content
+                        hasMore = false;
                     }
-                } else {
-                    // Clear data
-                    algorithms.clear();
                 }
+
+                // No more loading
+                loading = false;
 
                 // Refresh recyclerView
                 reloadData(status);
             }
-        }).with("search", search).execute();
+        }).with("search", search).with("start", reset ? 0 : algorithms.size()).execute();
     }
 
     public void reloadData(APIResponseStatus status) {
@@ -86,6 +113,7 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new StatusSection(this));
         sectionAdapter.addSection(new APIAlgorithmsSection(this, ((APIAlgorithmsSection.APIAlgorithmLoader) getActivity())));
+        sectionAdapter.addSection(new LoadingSection(this));
 
         // Bind adapter to recyclerView
         recyclerView.setAdapter(sectionAdapter);
@@ -97,12 +125,12 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
         layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadAlgorithms();
+                loadAlgorithms(true);
             }
         });
 
         // Load algorithms
-        loadAlgorithms();
+        loadAlgorithms(true);
 
         return layout;
     }
@@ -116,10 +144,18 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
         this.search = search;
 
         // Reload algorithms
-        loadAlgorithms();
+        loadAlgorithms(true);
     }
 
     public APIResponseStatus getStatus() {
         return status;
+    }
+
+    public boolean hasMore() {
+        return hasMore;
+    }
+
+    public void loadMore() {
+        loadAlgorithms();
     }
 }
