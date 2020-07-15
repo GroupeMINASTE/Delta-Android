@@ -40,7 +40,7 @@
     <string name="status_local">Сачувано локално</string>
     <string name="status_synchro">Синхронизовано</string>
     <string name="status_failed">Неуспех ажурирања!</string>
-    <string name="status_invalidRequest">Дошло је до грешка у захтев…</string>
+    <string name="status_error">Дошло је до грешка у захтев…</string>
     <string name="status_offline">Изгледа да нисте повезан!</string>
     <string name="error_while_limit">Стопирање док петље: више од 1000 итерације</string>
     <string name="editor">Алгоритмички издавач</string>

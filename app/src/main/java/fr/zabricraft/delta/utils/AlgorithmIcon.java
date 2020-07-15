@@ -6,12 +6,23 @@ import java.io.Serializable;
 
 public class AlgorithmIcon implements Serializable {
 
+    // Possible values
+    public static final String[] valuesIcon = {
+            "fraction", "function", "integration", "n", "question", "sigma", "square", "un", "x"
+    };
+    public static final String[] valuesColor = {
+            "emerald", "river", "amethyst", "asphalt", "carrot", "alizarin"
+    };
+
+    // Default values
     public static final String defaultIcon = "x";
     public static final String defaultColor = "river";
 
+    // Properties
     private String icon;
     private String color;
 
+    // Initializer
     public AlgorithmIcon(String icon, String color) {
         this.icon = icon;
         this.color = color;

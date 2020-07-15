@@ -34,7 +34,7 @@
     <string name="status_unauthorized">У вас нет прав доступа к этому контенту</string>
     <string name="status_notFound">Контент, который вы ищете, не существует</string>
     <string name="status_offline">Кажется, что вы оффлайн!</string>
-    <string name="status_invalidRequest">Ошибка во время запроса…</string>
+    <string name="status_error">Ошибка во время запроса…</string>
     <string name="status_failed">Не удалось обновить!</string>
     <string name="status_downloading">Загрузка…</string>
     <string name="status_checkingforupdate">Проверка наличия обновлений…</string>

@@ -245,11 +245,13 @@ public class Algorithm implements Serializable {
     public List<EditorLine> getSettings() {
         List<EditorLine> list = new ArrayList<>();
         list.add(new EditorLine(R.string.settings_name, EditorLineCategory.settings, 0, new String[]{name}, false));
+        list.add(new EditorLine(R.string.settings_icon, EditorLineCategory.settings, 0, new String[]{}, false));
+        list.add(new EditorLine(R.string.settings_cloud, EditorLineCategory.settings, 0, new String[]{}, false));
         return list;
     }
 
     public int settingsCount() {
-        return 1;
+        return 3;
     }
 
     public void updateSettings(int index, String[] values) {

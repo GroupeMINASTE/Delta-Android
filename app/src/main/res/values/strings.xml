@@ -50,7 +50,7 @@
     <string name="status_checkingforupdate">Checking for update…</string>
     <string name="status_downloading">Downloading…</string>
     <string name="status_failed">Failed to update!</string>
-    <string name="status_invalidRequest">Something went wrong during the request…</string>
+    <string name="status_error">Something went wrong during the request…</string>
     <string name="status_offline">It seems that you\'re offline!</string>
     <string name="status_notFound">The content you\'re looking for doesn\'t exist</string>
     <string name="status_unauthorized">You don\'t have the right to access to this content</string>
@@ -60,6 +60,9 @@
     <string name="error_constant">Cannot set value: %s is a constant</string>
     <string name="error_while_limit">Stopped while statement: More than 1000 iterations</string>
     <string name="editor">Algorithm editor</string>
+    <string name="icon_title">Icon editor</string>
+    <string name="icon_image">Image</string>
+    <string name="icon_color">Color</string>
     <string name="action_selector">Select an action</string>
     <string name="action_input">Ask for %s with default %s</string>
     <string name="action_print">Print variable %s</string>
@@ -77,6 +80,8 @@
     <string name="action_quiz_add_paragraph">Add text %s</string>
     <string name="action_quiz_show">Show quiz</string>
     <string name="settings_name">Name: %s</string>
+    <string name="settings_icon">Click to configure icon</string>
+    <string name="settings_cloud">Click to configure cloud sharing</string>
     <string name="category_variable">Variable</string>
     <string name="category_structure">Structure</string>
     <string name="category_output">Output</string>

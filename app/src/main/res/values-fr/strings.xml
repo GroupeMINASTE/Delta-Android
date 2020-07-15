@@ -35,7 +35,7 @@
     <string name="status_checkingforupdate">Recherche de mise à jour…</string>
     <string name="status_downloading">Téléchargement…</string>
     <string name="status_failed">Echec du téléchargement !</string>
-    <string name="status_invalidRequest">Une erreur est survenue lors de la requête…</string>
+    <string name="status_error">Une erreur est survenue lors de la requête…</string>
     <string name="status_offline">Il semble que vous êtes hors ligne !</string>
     <string name="status_notFound">Le contenu que vous recherchez n\'existe pas</string>
     <string name="status_unauthorized">Vous n\'avez pas le droit d\'accéder à ce contenu</string>

@@ -13,7 +13,7 @@ public enum APIResponseStatus {
             case unauthorized:
                 return R.string.status_unauthorized;
             case invalidRequest:
-                return R.string.status_invalidRequest;
+                return R.string.status_error;
             case offline:
                 return R.string.status_offline;
             case loading:

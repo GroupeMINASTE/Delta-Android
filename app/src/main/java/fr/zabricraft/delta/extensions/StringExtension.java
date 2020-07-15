@@ -64,6 +64,10 @@ public class StringExtension {
         return parts;
     }
 
+    public static String capitalizeFirstLetter(String string) {
+        return string.substring(0, 1).toUpperCase() + string.substring(1);
+    }
+
     public static int toColor(String string) {
         switch (string) {
             case "emerald":
@@ -104,7 +108,7 @@ public class StringExtension {
             case "x":
                 return R.drawable.icon_x;
             default:
-                return toColor(AlgorithmIcon.defaultIcon);
+                return toIcon(AlgorithmIcon.defaultIcon);
         }
     }
 

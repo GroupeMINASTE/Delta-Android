@@ -35,7 +35,7 @@
     <string name="status_checkingforupdate">Verificación de actualización…</string>
     <string name="status_downloading">Descargando…</string>
     <string name="status_failed">¡No pudo actualizar!</string>
-    <string name="status_invalidRequest">Algo pasó mal durante la solicitud…</string>
+    <string name="status_error">Algo pasó mal durante la solicitud…</string>
     <string name="status_offline">¡Parece que no hay conexión!</string>
     <string name="status_notFound">El contenido que busca no existe</string>
     <string name="status_unauthorized">No tiene los derechos de ver este contenido</string>

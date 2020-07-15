@@ -25,7 +25,8 @@
         <activity android:name=".activities.CloudDetailsActivity" />
         <activity android:name=".activities.QuizActivity" />
         <activity android:name=".activities.WelcomeActivity" />
-        <activity android:name=".activities.AccountActivity"/>
+        <activity android:name=".activities.AccountActivity" />
+        <activity android:name=".activities.IconEditorActivity"/>
     </application>
 
 </manifest>

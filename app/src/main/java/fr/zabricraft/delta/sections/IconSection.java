@@ -3,33 +3,33 @@ package fr.zabricraft.delta.sections;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import androidx.recyclerview.widget.RecyclerView;
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.utils.EditorLine;
-import fr.zabricraft.delta.views.EditorCell;
+import fr.zabricraft.delta.utils.AlgorithmIcon;
 import fr.zabricraft.delta.views.HeaderCell;
+import fr.zabricraft.delta.views.IconEditorCell;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder;
 
-public class SettingsSection extends Section {
+public class IconSection extends Section {
 
-    private final SettingsContainer container;
+    private final IconContainer container;
+    private final int type;
 
-    public SettingsSection(SettingsContainer container) {
+    public IconSection(IconContainer container, int type) {
         super(SectionParameters.builder().itemViewWillBeProvided().headerViewWillBeProvided().build());
 
         this.container = container;
+        this.type = type;
     }
 
     public int getContentItemsTotal() {
-        return container.settingsCount();
+        return type == R.string.icon_image ? AlgorithmIcon.valuesIcon.length : AlgorithmIcon.valuesColor.length;
     }
 
     public View getItemView(ViewGroup parent) {
-        return new EditorCell(parent.getContext());
+        return new IconEditorCell(parent.getContext());
     }
 
     public View getHeaderView(ViewGroup parent) {
@@ -43,18 +43,14 @@ public class SettingsSection extends Section {
 
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final EmptyViewHolder itemHolder = (EmptyViewHolder) holder;
-        EditorLine line = container.getSettings().get(position);
+        final String value = container.getValue(type, position);
 
         // bind your view here
-        if (itemHolder.itemView instanceof EditorCell) {
-            ((EditorCell) itemHolder.itemView).with(line, container, position);
+        if (itemHolder.itemView instanceof IconEditorCell) {
+            ((IconEditorCell) itemHolder.itemView).with(type, value, container.isValueSelected(type, position));
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
                 public void onClick(View view) {
-                    if (line.getFormat() == R.string.settings_icon) {
-                        // Open icon editor
-                        container.openIconEditor();
-                    }
+                    container.selectValue(type, position);
                 }
             });
         }
@@ -63,7 +59,7 @@ public class SettingsSection extends Section {
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         // Check if it's a headerCell
         if (view instanceof HeaderCell) {
-            ((HeaderCell) view).with(R.string.settings);
+            ((HeaderCell) view).with(type);
         }
 
         // return an empty instance of ViewHolder for the headers of this section
@@ -71,12 +67,12 @@ public class SettingsSection extends Section {
     }
 
     // Container interface
-    public interface SettingsContainer extends EditorLinesSection.EditorLinesContainer {
-        List<EditorLine> getSettings();
+    public interface IconContainer {
+        String getValue(int type, int position);
 
-        int settingsCount();
+        boolean isValueSelected(int type, int position);
 
-        void openIconEditor();
+        void selectValue(int type, int position);
     }
 
 }

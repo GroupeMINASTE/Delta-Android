@@ -21,6 +21,7 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.RootAction;
 import fr.zabricraft.delta.activities.ActionSelectionActivity;
+import fr.zabricraft.delta.activities.IconEditorActivity;
 import fr.zabricraft.delta.sections.EditorLinesSection;
 import fr.zabricraft.delta.sections.SettingsSection;
 import fr.zabricraft.delta.utils.Algorithm;
@@ -166,6 +167,12 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         startActivityForResult(intent, 666);
     }
 
+    public void openIconEditor() {
+        Intent intent = new Intent(getActivity(), IconEditorActivity.class);
+        intent.putExtra("icon", algorithm.getIcon());
+        startActivityForResult(intent, 665);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 666 && resultCode == Activity.RESULT_OK) {
             // Get data from Intent
@@ -176,6 +183,14 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
             if (action instanceof Action && index != -1) {
                 // Add action to algorithm
                 editorLineAdded(((Action) action), index);
+            }
+        } else if (requestCode == 665 && resultCode == Activity.RESULT_OK) {
+            /// Get data from Intent
+            Object icon = data.getSerializableExtra("icon");
+
+            // Check if data is valid
+            if (icon instanceof AlgorithmIcon) {
+                algorithm.setIcon((AlgorithmIcon) icon);
             }
         }
     }

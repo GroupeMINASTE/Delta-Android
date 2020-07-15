@@ -39,7 +39,7 @@
     <string name="status_checkingforupdate">Provera za ažuriranje…</string>
     <string name="status_downloading">Preuzimanje…</string>
     <string name="status_failed">Neuspeh ažuriranja!</string>
-    <string name="status_invalidRequest">Došlo je do greška u zahtev…</string>
+    <string name="status_error">Došlo je do greška u zahtev…</string>
     <string name="status_offline">Izgleda da niste povezan!</string>
     <string name="status_notFound">Sadržaj ko tražite ne postoji</string>
     <string name="status_unauthorized">Ne smete da pristupite ovu sadržaj</string>

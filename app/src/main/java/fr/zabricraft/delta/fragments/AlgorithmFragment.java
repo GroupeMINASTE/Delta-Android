@@ -29,6 +29,7 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
     private Process lastProcess;
 
     private RecyclerView recyclerView;
+    private SectionedRecyclerViewAdapter sectionAdapter;
     private OutputsSection outputsSection;
 
     public static AlgorithmFragment create(Algorithm algorithm) {
@@ -55,7 +56,7 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
 
             // Update inputs
             this.algorithm.extractInputs();
-            recyclerView.getAdapter().notifyDataSetChanged();
+            sectionAdapter.notifyDataSetChanged();
 
             // Update result shown on screen
             updateResult();
@@ -92,14 +93,14 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
             }
 
             // Refresh the output section
-            ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).getAdapterForSection(outputsSection).notifyItemRangeRemoved(0, before);
+            sectionAdapter.getAdapterForSection(outputsSection).notifyItemRangeRemoved(0, before);
 
             // Execute algorithm with a new process
             currentProcess = algorithm.execute(getActivity(), () -> {
                 // Refresh the process
                 recyclerView.post(() -> {
                     lastProcess = currentProcess;
-                    ((SectionedRecyclerViewAdapter) recyclerView.getAdapter()).getAdapterForSection(outputsSection).notifyItemRangeInserted(0, lastProcess.outputs.size());
+                    sectionAdapter.getAdapterForSection(outputsSection).notifyItemRangeInserted(0, lastProcess.outputs.size());
                 });
             });
         }
@@ -113,7 +114,7 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
         recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
 
         // Initialize sections
-        SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new InputsSection(this));
         outputsSection = new OutputsSection(this);
         sectionAdapter.addSection(outputsSection);
