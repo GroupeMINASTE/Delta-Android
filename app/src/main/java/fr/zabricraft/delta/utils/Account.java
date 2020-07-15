@@ -85,6 +85,9 @@ public class Account {
                     // Convert it to Account
                     Account account = new Account((JSONObject) object);
 
+                    // Save token to preferences
+                    PreferenceManager.getDefaultSharedPreferences(context).edit().putString("access_token", account.access_token).apply();
+
                     // Store token and user
                     Account.this.access_token = account.access_token;
                     Account.this.user = account.user;
@@ -134,11 +137,12 @@ public class Account {
         new APIRequest("DELETE", "/auth/access_token.php", context, new APIRequest.CompletionHandler() {
             @Override
             public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                // Check response validity
-                if (object != null && status == APIResponseStatus.ok) {
-                    // Clear from preferences
-                    PreferenceManager.getDefaultSharedPreferences(context).edit().remove("access_token").apply();
-                }
+                // Clear from object
+                Account.this.access_token = null;
+                Account.this.user = null;
+
+                // Clear from preferences
+                PreferenceManager.getDefaultSharedPreferences(context).edit().remove("access_token").apply();
 
                 // Call completion handler
                 completionHandler.completionHandler(status);
@@ -147,7 +151,7 @@ public class Account {
     }
 
     // Account completion handler
-    interface CompletionHandler {
+    public interface CompletionHandler {
 
         void completionHandler(APIResponseStatus status);
 

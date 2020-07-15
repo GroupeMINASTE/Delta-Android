@@ -13,6 +13,13 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_out">Sign out</string>
+    <string name="sign_in_description">Enter your credentials to start a session</string>
+    <string name="sign_up_description">Create an account to start with Delta Cloud</string>
+    <string name="sign_in_error">Incorrect username or password!</string>
+    <string name="sign_up_error">This username is already taken!</string>
+    <string name="field_name">Full name</string>
+    <string name="field_username">Username</string>
+    <string name="field_password">Password</string>
     <string name="cloud">Cloud</string>
     <string name="cloud_algorithms">Algorithms on the Cloud</string>
     <string name="cloud_details">Details of the selected algorithm</string>
@@ -37,6 +44,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="check">Check</string>
+    <string name="loading">Loading…</string>
     <string name="status_local">Saved locally</string>
     <string name="status_synchro">Synchronized</string>
     <string name="status_checkingforupdate">Checking for update…</string>

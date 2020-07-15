@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
@@ -136,25 +135,22 @@ public class APIRequest extends AsyncTask<Void, Void, Object> {
             StringBuilder sb = new StringBuilder();
             httpResult = con.getResponseCode();
 
-            if (httpResult == HttpURLConnection.HTTP_OK) {
-                // Parse JSON data
-                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
-                String line;
+            // Parse JSON data
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+            String line;
 
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
-                }
-                br.close();
-
-                String json = sb.toString().trim();
-
-                if (json.startsWith("{")) {
-                    return new JSONObject(json);
-                } else if (json.startsWith("[")) {
-                    return new JSONArray(json);
-                }
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
             }
+            br.close();
 
+            String json = sb.toString().trim();
+
+            if (json.startsWith("{")) {
+                return new JSONObject(json);
+            } else if (json.startsWith("[")) {
+                return new JSONArray(json);
+            }
         } catch (Exception e) {
 
             e.printStackTrace();

@@ -1,17 +1,22 @@
 package fr.zabricraft.delta.fragments;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.api.APIResponseStatus;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.utils.Account;
 
@@ -100,17 +105,187 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             } else {
                 // Sign out
-
+                signOut();
             }
         } else {
             // Check button
             if (view == button1) {
                 // Sign in
-
+                signIn();
             } else {
                 // Sign up
-
+                signUp();
             }
         }
     }
+
+    public void signIn() {
+        // Create a dialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity()).setTitle(R.string.sign_in).setMessage(R.string.sign_in_description);
+
+        // Create a linear layout
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        alert.setView(linearLayout);
+
+        int dp8 = IntExtension.dpToPixel(8, getResources());
+        int dp20 = IntExtension.dpToPixel(20, getResources());
+
+        LinearLayout.LayoutParams fieldParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        fieldParams.setMargins(dp20, 0, dp20, dp8);
+
+        // Add username field
+        final EditText username = new EditText(getActivity());
+        username.setLayoutParams(fieldParams);
+        username.setHint(R.string.field_username);
+        linearLayout.addView(username);
+
+        // Add password field
+        final EditText password = new EditText(getActivity());
+        password.setLayoutParams(fieldParams);
+        password.setHint(R.string.field_password);
+        password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        linearLayout.addView(password);
+
+        // Add login button
+        alert.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Extract text from fields
+                String usernameText = username.getText().toString();
+                String passwordText = password.getText().toString();
+                if (!usernameText.isEmpty() && !passwordText.isEmpty()) {
+                    // Show a loading
+                    AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
+                    loading.show();
+
+                    // Start login process
+                    Account.current.login(usernameText, passwordText, getActivity(), new Account.CompletionHandler() {
+                        @Override
+                        public void completionHandler(APIResponseStatus status) {
+                            // Refresh the UI
+                            loadAccount();
+                            loading.dismiss();
+
+                            // Check for a 404
+                            if (status == APIResponseStatus.notFound) {
+                                // User not found, show an alert
+                                new AlertDialog.Builder(getActivity()).setTitle(R.string.sign_in).setMessage(R.string.sign_in_error).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {}
+                                }).create().show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        // Add login button
+        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {}
+        });
+
+        // Show it
+        alert.create().show();
+    }
+
+    public void signUp() {
+        // Create a dialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity()).setTitle(R.string.sign_up).setMessage(R.string.sign_up_description);
+
+        // Create a linear layout
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        alert.setView(linearLayout);
+
+        int dp8 = IntExtension.dpToPixel(8, getResources());
+        int dp20 = IntExtension.dpToPixel(20, getResources());
+
+        LinearLayout.LayoutParams fieldParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        // Add name field
+        final EditText name = new EditText(getActivity());
+        name.setLayoutParams(fieldParams);
+        name.setHint(R.string.field_name);
+        linearLayout.addView(name);
+        fieldParams.setMargins(dp20, 0, dp20, dp8);
+
+        // Add username field
+        final EditText username = new EditText(getActivity());
+        username.setLayoutParams(fieldParams);
+        username.setHint(R.string.field_username);
+        linearLayout.addView(username);
+
+        // Add password field
+        final EditText password = new EditText(getActivity());
+        password.setLayoutParams(fieldParams);
+        password.setHint(R.string.field_password);
+        password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        linearLayout.addView(password);
+
+        // Add login button
+        alert.setPositiveButton(R.string.sign_up, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Extract text from fields
+                String nameText = name.getText().toString();
+                String usernameText = username.getText().toString();
+                String passwordText = password.getText().toString();
+                if (!nameText.isEmpty() && !usernameText.isEmpty() && !passwordText.isEmpty()) {
+                    // Show a loading
+                    AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
+                    loading.show();
+
+                    // Start login process
+                    Account.current.register(nameText, usernameText, passwordText, getActivity(), new Account.CompletionHandler() {
+                        @Override
+                        public void completionHandler(APIResponseStatus status) {
+                            // Refresh the UI
+                            loadAccount();
+                            loading.dismiss();
+
+                            // Check for a 400
+                            if (status == APIResponseStatus.notFound) {
+                                // Username already taken
+                                new AlertDialog.Builder(getActivity()).setTitle(R.string.sign_up).setMessage(R.string.sign_up_error).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {}
+                                }).create().show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        // Add login button
+        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {}
+        });
+
+        // Show it
+        alert.create().show();
+    }
+
+    public void signOut() {
+        // Show a loading
+        AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
+        loading.show();
+
+        // Just call API
+        Account.current.logout(getActivity(), new Account.CompletionHandler() {
+            @Override
+            public void completionHandler(APIResponseStatus status) {
+                // Reload the view
+                loadAccount();
+                loading.dismiss();
+            }
+        });
+    }
+
 }
