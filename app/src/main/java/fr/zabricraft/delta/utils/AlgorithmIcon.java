@@ -41,6 +41,21 @@ public class AlgorithmIcon implements Serializable {
         }
     }
 
+    public JSONObject toJSON() {
+        JSONObject object = new JSONObject();
+        try {
+            if (icon != null) {
+                object.put("icon", icon);
+            }
+            if (color != null) {
+                object.put("color", color);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
     public String getIcon() {
         return icon;
     }

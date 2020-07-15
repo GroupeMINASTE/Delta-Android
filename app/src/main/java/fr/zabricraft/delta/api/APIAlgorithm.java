@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 import fr.zabricraft.delta.extensions.StringExtension;
+import fr.zabricraft.delta.utils.Account;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.AlgorithmIcon;
 import fr.zabricraft.delta.utils.AlgorithmParser;
@@ -22,6 +23,14 @@ public class APIAlgorithm implements Serializable {
     public String notes;
     public AlgorithmIcon icon;
 
+    public APIAlgorithm(Integer id, String name, String lines, String notes, AlgorithmIcon icon) {
+        this.id = id;
+        this.name = name;
+        this.lines = lines;
+        this.notes = notes;
+        this.icon = icon;
+    }
+
     public APIAlgorithm(JSONObject object) {
         try {
             this.id = object.has("id") ? object.getInt("id") : null;
@@ -36,8 +45,32 @@ public class APIAlgorithm implements Serializable {
         }
     }
 
+    public JSONObject toJSON() {
+        JSONObject object = new JSONObject();
+        try {
+            if (id != null) {
+                object.put("id", id);
+            }
+            if (name != null) {
+                object.put("name", name);
+            }
+            if (lines != null) {
+                object.put("lines", lines);
+            }
+            if (notes != null) {
+                object.put("notes", notes);
+            }
+            if (icon != null) {
+                object.put("icon", icon.toJSON());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
     public Algorithm toAlgorithm() {
-        return new AlgorithmParser(0, id, false, name, StringExtension.toDate(last_update), icon, lines).execute();
+        return new AlgorithmParser(0, id, owner != null && Account.current.user != null && owner.id.equals(Account.current.user.id), name, StringExtension.toDate(last_update), icon, lines).execute();
     }
 
     public Algorithm saveToDatabase(Context context) {
@@ -58,6 +91,17 @@ public class APIAlgorithm implements Serializable {
     public void fetchMissingData(Context context, APIRequest.CompletionHandler completionHandler) {
         // Make a request to API
         new APIRequest("GET", "/algorithm/algorithm.php", context, completionHandler).with("id", id != null ? id : 0).execute();
+    }
+
+    public void upload(Context context, APIRequest.CompletionHandler completionHandler) {
+        // Check if algorithm already has an ID
+        if (id != null) {
+            // Update it
+            new APIRequest("PUT", "/algorithm/algorithm.php", context, completionHandler).with("id", id).withBody(toJSON()).execute();
+        } else {
+            // Create it
+            new APIRequest("POST", "/algorithm/algorithm.php", context, completionHandler).withBody(toJSON()).execute();
+        }
     }
 
 }

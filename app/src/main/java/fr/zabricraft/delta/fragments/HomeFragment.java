@@ -26,6 +26,7 @@ import fr.zabricraft.delta.extensions.AlgorithmExtension;
 import fr.zabricraft.delta.sections.AboutSection;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
 import fr.zabricraft.delta.sections.NewSection;
+import fr.zabricraft.delta.utils.Account;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Database;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
@@ -83,6 +84,9 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
         // Update recyclerView
         sectionAdapter.notifyDataSetChanged();
+
+        // Check if user is logged but not loaded
+        Account.current.login(getActivity());
 
         // Check for update for all algorithms
         List<Algorithm> all = new ArrayList<>();

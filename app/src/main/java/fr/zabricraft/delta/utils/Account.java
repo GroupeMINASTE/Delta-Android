@@ -20,6 +20,9 @@ public class Account {
     public String access_token = null;
     public APIUser user = null;
 
+    // Status management
+    public boolean loading = false;
+
     // Init with nothing
     private Account() {}
 
@@ -35,6 +38,9 @@ public class Account {
 
     // Login from preferences
     public void login(Context context) {
+        // Check user data is lot already loaded or loading
+        if (user != null || loading) { return; }
+
         // Check token from preferences
         String access_token = PreferenceManager.getDefaultSharedPreferences(context).getString("access_token", null);
         if (access_token != null) {
@@ -53,6 +59,7 @@ public class Account {
     public void login(String access_token, Context context, CompletionHandler completionHandler) {
         // Save token
         this.access_token = access_token;
+        this.loading = true;
 
         // Fetch api with token
         new APIRequest("GET", "/auth/account.php", context, new APIRequest.CompletionHandler() {
@@ -66,12 +73,17 @@ public class Account {
                     // Store token and user
                     Account.this.access_token = account.access_token;
                     Account.this.user = account.user;
+                } else if (status != APIResponseStatus.offline) {
+                    // Remove access token (invalid)
+                    Account.this.access_token = null;
+                    PreferenceManager.getDefaultSharedPreferences(context).edit().remove("access_token").apply();
                 }
 
                 // Call completion handler
+                Account.this.loading = false;
                 completionHandler.completionHandler(status);
             }
-        });
+        }).execute();
     }
 
     // Login with credentials

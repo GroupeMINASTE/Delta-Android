@@ -4,7 +4,7 @@ import fr.zabricraft.delta.R;
 
 public enum APISyncStatus {
 
-    local, synchro, checkingforupdate, downloading, failed;
+    local, synchro, checkingforupdate, downloading, uploading, failed;
 
     public int text() {
         switch (this) {
@@ -16,6 +16,8 @@ public enum APISyncStatus {
                 return R.string.status_checkingforupdate;
             case downloading:
                 return R.string.status_downloading;
+            case uploading:
+                return R.string.status_uploading;
             case failed:
                 return R.string.status_failed;
         }
@@ -29,6 +31,8 @@ public enum APISyncStatus {
             case checkingforupdate:
                 return android.R.color.holo_orange_dark;
             case downloading:
+                return android.R.color.holo_orange_dark;
+            case uploading:
                 return android.R.color.holo_orange_dark;
             case failed:
                 return android.R.color.holo_red_dark;

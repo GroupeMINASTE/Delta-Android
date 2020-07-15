@@ -147,6 +147,10 @@ public class Algorithm implements Serializable {
         return root.toString();
     }
 
+    public APIAlgorithm toAPIAlgorithm() {
+        return new APIAlgorithm(remote_id, name, toString(), null, icon);
+    }
+
     // Actions editor lines
 
     public List<EditorLine> toEditorLines() {
@@ -251,7 +255,7 @@ public class Algorithm implements Serializable {
     }
 
     public int settingsCount() {
-        return 3;
+        return owner && local_id != 0 ? 3 : 2;
     }
 
     public void updateSettings(int index, String[] values) {
@@ -298,11 +302,11 @@ public class Algorithm implements Serializable {
                                 // Download algorithm
                                 setStatus(APISyncStatus.downloading);
                                 algorithmChanged.algorithmChanged(Algorithm.this);
-                                new APIRequest("GET", "/algorithm/algorithm.php", context, new APIRequest.CompletionHandler() {
+                                data.fetchMissingData(context, new APIRequest.CompletionHandler() {
                                     @Override
                                     public void completionHandler(@Nullable Object object, APIResponseStatus status) {
                                         // Check if data was downloaded
-                                        if (object instanceof JSONObject) {
+                                        if (object instanceof JSONObject && status == APIResponseStatus.ok) {
                                             // Save it to database
                                             APIAlgorithm apiAlgorithm = new APIAlgorithm((JSONObject) object);
                                             Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(context);
@@ -315,10 +319,29 @@ public class Algorithm implements Serializable {
                                             algorithmChanged.algorithmChanged(Algorithm.this);
                                         }
                                     }
-                                }).with("id", getRemoteId()).execute();
+                                });
                             } else if (compare > 0) {
                                 // Or upload it if it was modified
-                                // TODO
+                                setStatus(APISyncStatus.uploading);
+                                algorithmChanged.algorithmChanged(Algorithm.this);
+                                toAPIAlgorithm().upload(context, new APIRequest.CompletionHandler() {
+                                    @Override
+                                    public void completionHandler(@Nullable Object object, APIResponseStatus status) {
+                                        // Check if data was uploaded
+                                        if (object instanceof JSONObject && status == APIResponseStatus.ok) {
+                                            // Save it to database
+                                            APIAlgorithm apiAlgorithm = new APIAlgorithm((JSONObject) object);
+                                            Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(context);
+
+                                            // Replace it in lists
+                                            algorithmChanged.algorithmChanged(updatedAlgorithm);
+                                        } else {
+                                            // Update status
+                                            setStatus(APISyncStatus.failed);
+                                            algorithmChanged.algorithmChanged(Algorithm.this);
+                                        }
+                                    }
+                                });
                             } else {
                                 // Algorithm is up to date
                                 setStatus(APISyncStatus.synchro);
