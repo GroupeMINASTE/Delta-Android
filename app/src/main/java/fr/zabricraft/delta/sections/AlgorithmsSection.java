@@ -107,6 +107,8 @@ public class AlgorithmsSection extends Section {
         void setLongClickAlgorithm(Algorithm algorithm);
 
         void openCloud();
+
+        void openAccount();
     }
 
 }

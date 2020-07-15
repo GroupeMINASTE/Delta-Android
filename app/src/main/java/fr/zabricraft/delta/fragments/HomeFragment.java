@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.activities.AccountActivity;
 import fr.zabricraft.delta.activities.CloudHomeActivity;
 import fr.zabricraft.delta.activities.EditorActivity;
 import fr.zabricraft.delta.activities.WelcomeActivity;
@@ -185,6 +186,11 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
     public void openCloud() {
         Intent intent = new Intent(getActivity(), CloudHomeActivity.class);
         startActivityForResult(intent, 668);
+    }
+
+    public void openAccount() {
+        Intent intent = new Intent(getActivity(), AccountActivity.class);
+        startActivity(intent);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -6,6 +6,13 @@
     <string name="new_algorithm">New algorithm</string>
     <string name="no_algorithm">No algorithm here yet!</string>
     <string name="download_algorithm">Download from Cloud</string>
+    <string name="my_account">My Delta Cloud account</string>
+    <string name="not_logged">Not logged</string>
+    <string name="logged_as">Logged as %s (%s)</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign out</string>
     <string name="cloud">Cloud</string>
     <string name="cloud_algorithms">Algorithms on the Cloud</string>
     <string name="cloud_details">Details of the selected algorithm</string>

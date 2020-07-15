@@ -22,6 +22,7 @@ import fr.zabricraft.delta.extensions.NotificationNameExtension;
 import fr.zabricraft.delta.fragments.AlgorithmFragment;
 import fr.zabricraft.delta.fragments.HomeFragment;
 import fr.zabricraft.delta.sections.AlgorithmsSection;
+import fr.zabricraft.delta.utils.Account;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.Database;
 import hotchemi.android.rate.AppRate;
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check account
+        Account.current.login(this);
 
         // Get build number
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);

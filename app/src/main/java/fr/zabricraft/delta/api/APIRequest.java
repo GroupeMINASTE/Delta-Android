@@ -19,6 +19,7 @@ import java.util.Locale;
 import javax.net.ssl.HttpsURLConnection;
 
 import androidx.annotation.Nullable;
+import fr.zabricraft.delta.utils.Account;
 
 public class APIRequest extends AsyncTask<Void, Void, Object> {
 
@@ -41,8 +42,8 @@ public class APIRequest extends AsyncTask<Void, Void, Object> {
         this.queryItems = new HashMap<>();
         this.completionHandler = completionHandler;
 
-        // Get access token is available
-        this.access_token = Account.getInstance().getAccessToken();
+        // Get access token if available
+        this.access_token = Account.current.access_token;
     }
 
     public APIRequest with(String name, Object value) {
