@@ -67,6 +67,10 @@ public class Algorithm implements Serializable {
         return remote_id;
     }
 
+    public void setRemoteId(Integer remote_id) {
+        this.remote_id = remote_id;
+    }
+
     public String getName() {
         return name;
     }
@@ -148,7 +152,11 @@ public class Algorithm implements Serializable {
     }
 
     public APIAlgorithm toAPIAlgorithm() {
-        return new APIAlgorithm(remote_id, name, toString(), null, icon);
+        return toAPIAlgorithm(null, null);
+    }
+
+    public APIAlgorithm toAPIAlgorithm(Boolean public_, String notes) {
+        return new APIAlgorithm(remote_id, name, toString(), notes, icon, public_);
     }
 
     // Actions editor lines

@@ -25,6 +25,11 @@
     <string name="cloud_details">Details of the selected algorithm</string>
     <string name="cloud_preview">Preview of this algorithm</string>
     <string name="cloud_no_notes">No notes were written for this algorithm.</string>
+    <string name="cloud_settings_title">Cloud settings</string>
+    <string name="cloud_settings_sync">Save to Delta Cloud</string>
+    <string name="cloud_settings_sync_title">Synchronization</string>
+    <string name="cloud_settings_public">Public</string>
+    <string name="cloud_settings_public_title">Algorithm visibility</string>
     <string name="copy">%s (copy)</string>
     <string name="about">About</string>
     <string name="help">Help and documentation</string>
@@ -83,6 +88,7 @@
     <string name="settings_name">Name: %s</string>
     <string name="settings_icon">Click to configure icon</string>
     <string name="settings_cloud">Click to configure cloud sharing</string>
+    <string name="settings_cloud_error">Please connect to your delta cloud account to use this feature!</string>
     <string name="category_variable">Variable</string>
     <string name="category_structure">Structure</string>
     <string name="category_output">Output</string>

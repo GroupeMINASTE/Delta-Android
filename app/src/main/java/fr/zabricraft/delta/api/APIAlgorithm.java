@@ -22,13 +22,15 @@ public class APIAlgorithm implements Serializable {
     public String lines;
     public String notes;
     public AlgorithmIcon icon;
+    public Boolean public_;
 
-    public APIAlgorithm(Integer id, String name, String lines, String notes, AlgorithmIcon icon) {
+    public APIAlgorithm(Integer id, String name, String lines, String notes, AlgorithmIcon icon, Boolean public_) {
         this.id = id;
         this.name = name;
         this.lines = lines;
         this.notes = notes;
         this.icon = icon;
+        this.public_ = public_;
     }
 
     public APIAlgorithm(JSONObject object) {
@@ -40,6 +42,7 @@ public class APIAlgorithm implements Serializable {
             this.lines = object.has("lines") ? object.getString("lines") : null;
             this.notes = object.has("notes") ? object.getString("notes") : null;
             this.icon = object.has("icon") ? new AlgorithmIcon(object.getJSONObject("icon")) : null;
+            this.public_ = object.has("public") ? object.getBoolean("public") : null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +65,9 @@ public class APIAlgorithm implements Serializable {
             }
             if (icon != null) {
                 object.put("icon", icon.toJSON());
+            }
+            if (public_ != null) {
+                object.put("public", public_);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,7 +1,9 @@
 package fr.zabricraft.delta.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,9 +23,11 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.RootAction;
 import fr.zabricraft.delta.activities.ActionSelectionActivity;
+import fr.zabricraft.delta.activities.CloudSettingsActivity;
 import fr.zabricraft.delta.activities.IconEditorActivity;
 import fr.zabricraft.delta.sections.EditorLinesSection;
 import fr.zabricraft.delta.sections.SettingsSection;
+import fr.zabricraft.delta.utils.Account;
 import fr.zabricraft.delta.utils.Algorithm;
 import fr.zabricraft.delta.utils.AlgorithmIcon;
 import fr.zabricraft.delta.utils.Database;
@@ -171,6 +175,23 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         Intent intent = new Intent(getActivity(), IconEditorActivity.class);
         intent.putExtra("icon", algorithm.getIcon());
         startActivityForResult(intent, 665);
+    }
+
+    public void openCloudSettings() {
+        // Check if user is connected
+        if (Account.current.access_token != null) {
+            // Open cloud sharing settings
+            // TODO: Open with ability to send back algorithm
+            Intent intent = new Intent(getActivity(), CloudSettingsActivity.class);
+            intent.putExtra("algorithm", algorithm);
+            startActivity(intent);
+        } else {
+            // User is not logged in
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.settings_cloud_error).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {}
+            }).create().show();
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -7,7 +7,6 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import fr.zabricraft.delta.R;
-import fr.zabricraft.delta.utils.Account;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.views.EditorCell;
 import fr.zabricraft.delta.views.HeaderCell;
@@ -56,14 +55,8 @@ public class SettingsSection extends Section {
                         // Open icon editor
                         container.openIconEditor();
                     } else if (line.getFormat() == R.string.settings_cloud) {
-                        // Check if user is connected
-                        if (Account.current.user != null) {
-                            // Open cloud sharing settings
-
-                        } else {
-                            // User is not logged in
-
-                        }
+                        // Open cloud settings
+                        container.openCloudSettings();
                     }
                 }
             });
@@ -87,6 +80,8 @@ public class SettingsSection extends Section {
         int settingsCount();
 
         void openIconEditor();
+
+        void openCloudSettings();
     }
 
 }
