@@ -1,6 +1,7 @@
 package fr.zabricraft.delta.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.TypedValue;
@@ -100,26 +101,51 @@ public class CloudDetailsCell extends LinearLayout {
         notes.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         notes.setTextColor(getResources().getColor(android.R.color.black));
 
-        // Init button
-        button = new Button(context);
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(dp8, 0, dp8, dp8);
-        button.setLayoutParams(buttonParams);
-        button.setTextColor(getResources().getColor(android.R.color.white));
+        // Create an horizontal LinearLayout
+        LinearLayout horizontal = new LinearLayout(context);
+        horizontal.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        horizontal.setOrientation(LinearLayout.HORIZONTAL);
+
+        // Button background
         GradientDrawable buttonBackground = new GradientDrawable();
         buttonBackground.setColor(getResources().getColor(R.color.colorPrimary));
         buttonBackground.setCornerRadius(dp8);
+
+        // Init button
+        button = new Button(context);
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        buttonParams.setMargins(dp8, 0, dp8, dp8);
+        buttonParams.weight = 1;
+        button.setLayoutParams(buttonParams);
+        button.setTextColor(getResources().getColor(android.R.color.white));
         button.setBackground(buttonBackground);
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 buttonClicked();
             }
         });
+        horizontal.addView(button);
+
+        // Init share
+        Button share = new Button(context);
+        LinearLayout.LayoutParams shareParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        shareParams.setMargins(0, 0, dp8, dp8);
+        shareParams.weight = 1;
+        share.setLayoutParams(shareParams);
+        share.setText(R.string.share);
+        share.setTextColor(getResources().getColor(android.R.color.white));
+        share.setBackground(buttonBackground);
+        share.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                shareClicked();
+            }
+        });
+        horizontal.addView(share);
 
         // Add them to layout
         addView(item);
         addView(notes);
-        addView(button);
+        addView(horizontal);
     }
 
     public void with(APIAlgorithm algorithm, Algorithm onDevice, CloudDetailsSection.CloudDetailsContainer delegate) {
@@ -172,6 +198,13 @@ public class CloudDetailsCell extends LinearLayout {
         } else {
             open(onDevice);
         }
+    }
+
+    public void shareClicked() {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, "https://www.delta-math-helper.com/algorithm/" + algorithm.id);
+        delegate.getActivity().startActivity(Intent.createChooser(share, delegate.getActivity().getString(R.string.share)));
     }
 
     public Algorithm download() {

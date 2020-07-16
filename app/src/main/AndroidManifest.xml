@@ -17,6 +17,28 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="delta-math-helper.com"
+                    android:pathPrefix="/algorithm/" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="www.delta-math-helper.com"
+                    android:pathPrefix="/algorithm/" />
+            </intent-filter>
         </activity>
         <activity android:name=".activities.AlgorithmActivity" />
         <activity android:name=".activities.EditorActivity" />

@@ -52,6 +52,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="check">Check</string>
+    <string name="share">Share</string>
     <string name="loading">Loading…</string>
     <string name="status_local">Saved locally</string>
     <string name="status_synchro">Synchronized</string>

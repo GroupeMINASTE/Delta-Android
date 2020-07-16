@@ -60,6 +60,12 @@ public class CloudHomeActivity extends AppCompatActivity implements APIAlgorithm
         fragment = new CloudHomeFragment();
 
         getFragmentManager().beginTransaction().add(R.id.cloudHomeFragment, fragment).commit();
+
+        // Handle id if given
+        if (getIntent().hasExtra("id")) {
+            Long id = getIntent().getLongExtra("id", 0);
+            load(new APIAlgorithm(id, null, null, null, null, null));
+        }
     }
 
     public void load(APIAlgorithm apiAlgorithm) {

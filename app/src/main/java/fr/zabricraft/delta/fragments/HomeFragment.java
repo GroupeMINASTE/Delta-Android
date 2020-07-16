@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -166,7 +167,23 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
             startActivity(intent);
         }
 
+        // Check for app links
+        handleAppLinks();
+
         return layout;
+    }
+
+    public void handleAppLinks() {
+        Intent appLinkIntent = getActivity().getIntent();
+        Uri appLinkData = appLinkIntent.getData();
+        if (appLinkData != null && appLinkData.getLastPathSegment() != null) {
+            try {
+                Long id = Long.valueOf(appLinkData.getLastPathSegment());
+                openCloud(id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public List<Algorithm> getAlgorithms(int title) {
@@ -188,7 +205,15 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
     }
 
     public void openCloud() {
+        openCloud(null);
+    }
+
+    public void openCloud(Long id) {
+        // Open cloud
         Intent intent = new Intent(getActivity(), CloudHomeActivity.class);
+        if (id != null) {
+            intent.putExtra("id", id);
+        }
         startActivityForResult(intent, 668);
     }
 

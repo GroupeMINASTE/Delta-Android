@@ -1,5 +1,6 @@
 package fr.zabricraft.delta.sections;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -66,5 +67,7 @@ public class CloudDetailsSection extends Section {
         Algorithm getOnDevice();
 
         void open(Algorithm algorithm);
+
+        Activity getActivity();
     }
 }

@@ -107,6 +107,12 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
         lastInstance = this;
     }
 
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        fragment.handleAppLinks();
+    }
+
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
