@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.activities.EditorActivity;
 import fr.zabricraft.delta.api.APIAlgorithm;
 import fr.zabricraft.delta.api.APIRequest;
 import fr.zabricraft.delta.api.APIResponseStatus;
@@ -90,7 +91,7 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         alert.show();
 
         // Start uploading
-        algorithm.toAPIAlgorithm(public_, notes).upload(getActivity(), new APIRequest.CompletionHandler() {
+        algorithm.toAPIAlgorithm(public_ != null ? public_ : false, notes != null ? notes : "").upload(getActivity(), new APIRequest.CompletionHandler() {
             @Override
             public void completionHandler(@Nullable Object object, APIResponseStatus status) {
                 // Remove alert
@@ -107,7 +108,9 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
                     notes = data.notes;
 
                     // Send back new data
-                    // TODO: ???
+                    if (EditorActivity.lastInstance != null) {
+                        EditorActivity.lastInstance.updateRemoteId(algorithm.getRemoteId());
+                    }
                 }
 
                 // Refresh recycler view

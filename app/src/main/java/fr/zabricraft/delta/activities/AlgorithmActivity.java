@@ -19,6 +19,8 @@ import hotchemi.android.rate.AppRate;
 
 public class AlgorithmActivity extends AppCompatActivity {
 
+    public static AlgorithmActivity lastInstance;
+
     AlgorithmFragment fragment;
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,6 +54,14 @@ public class AlgorithmActivity extends AppCompatActivity {
         }
 
         getFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
+
+        lastInstance = this;
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        lastInstance = null;
     }
 
     public void startEditor(Algorithm algorithm) {
@@ -61,6 +71,8 @@ public class AlgorithmActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 667 && resultCode == Activity.RESULT_OK) {
             // Get data from Intent
             Object algorithm = data.getSerializableExtra("algorithm");
@@ -77,6 +89,14 @@ public class AlgorithmActivity extends AppCompatActivity {
                 AppRate.showRateDialogIfMeetsConditions(this);
             }
         }
+    }
+
+    public void updateRemoteAlgorithm(Algorithm algorithm) {
+        // Update with new algorithm
+        fragment.selectAlgorithm(algorithm);
+
+        // Update home list
+        EventBus.getDefault().post(new NotificationNameExtension.AlgorithmsChanged());
     }
 
 }

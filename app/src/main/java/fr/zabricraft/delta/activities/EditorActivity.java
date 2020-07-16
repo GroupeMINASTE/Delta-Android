@@ -12,6 +12,8 @@ import fr.zabricraft.delta.utils.Algorithm;
 
 public class EditorActivity extends AppCompatActivity {
 
+    public static EditorActivity lastInstance;
+
     private EditorFragment fragment;
     private boolean saving = false;
 
@@ -48,5 +50,18 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         getFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
+
+        lastInstance = this;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        lastInstance = null;
+    }
+
+    public void updateRemoteId(Integer remote_id) {
+        fragment.updateRemoteId(remote_id);
     }
 }

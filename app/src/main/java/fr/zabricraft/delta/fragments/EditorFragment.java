@@ -23,8 +23,11 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.RootAction;
 import fr.zabricraft.delta.activities.ActionSelectionActivity;
+import fr.zabricraft.delta.activities.AlgorithmActivity;
 import fr.zabricraft.delta.activities.CloudSettingsActivity;
 import fr.zabricraft.delta.activities.IconEditorActivity;
+import fr.zabricraft.delta.activities.MainActivity;
+import fr.zabricraft.delta.extensions.NotificationNameExtension;
 import fr.zabricraft.delta.sections.EditorLinesSection;
 import fr.zabricraft.delta.sections.SettingsSection;
 import fr.zabricraft.delta.utils.Account;
@@ -165,6 +168,26 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         getActivity().finish();
     }
 
+    public void updateRemoteId(Integer remote_id) {
+        // Take new algorithm remote id
+        algorithm.setRemoteId(remote_id);
+
+        // Update last update
+        algorithm.setLastUpdate(new Date());
+
+        // Save algorithm to database
+        Algorithm newAlgorithm = Database.getInstance(getActivity()).updateAlgorithm(algorithm);
+
+        // Forward to parent
+        if (AlgorithmActivity.lastInstance != null) {
+            // Transfer to algorithm activity
+            AlgorithmActivity.lastInstance.updateRemoteAlgorithm(newAlgorithm);
+        } else if (MainActivity.lastInstance != null) {
+            // Transfer to main activity
+            MainActivity.lastInstance.onAlgorithmsChanged(new NotificationNameExtension.AlgorithmsChanged());
+        }
+    }
+
     public void openActionSelection(int index) {
         Intent intent = new Intent(getActivity(), ActionSelectionActivity.class);
         intent.putExtra("index", index);
@@ -181,7 +204,6 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         // Check if user is connected
         if (Account.current.access_token != null) {
             // Open cloud sharing settings
-            // TODO: Open with ability to send back algorithm
             Intent intent = new Intent(getActivity(), CloudSettingsActivity.class);
             intent.putExtra("algorithm", algorithm);
             startActivity(intent);

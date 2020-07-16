@@ -29,6 +29,8 @@ import hotchemi.android.rate.AppRate;
 
 public class MainActivity extends AppCompatActivity implements AlgorithmsSection.AlgorithmLoader {
 
+    public static MainActivity lastInstance;
+
     private HomeFragment fragment;
     private AlgorithmFragment algorithmFragment;
 
@@ -101,11 +103,15 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
         fragment = new HomeFragment();
 
         getFragmentManager().beginTransaction().add(R.id.homeFragment, fragment).commit();
+
+        lastInstance = this;
     }
 
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
+        lastInstance = null;
     }
 
     public void load(Algorithm algorithm) {
@@ -134,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements AlgorithmsSection
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 667 && resultCode == Activity.RESULT_OK && algorithmFragment != null) {
             // Get data from Intent
             Object algorithm = data.getSerializableExtra("algorithm");

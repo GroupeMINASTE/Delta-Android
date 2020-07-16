@@ -101,7 +101,7 @@ public class APIAlgorithm implements Serializable {
 
     public void upload(Context context, APIRequest.CompletionHandler completionHandler) {
         // Check if algorithm already has an ID
-        if (id != null) {
+        if (id != null && !id.equals(0)) {
             // Update it
             new APIRequest("PUT", "/algorithm/algorithm.php", context, completionHandler).with("id", id).withBody(toJSON()).execute();
         } else {
