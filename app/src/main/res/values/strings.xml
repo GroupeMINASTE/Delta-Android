@@ -10,6 +10,8 @@
     <string name="not_logged">Not logged</string>
     <string name="logged_as">Logged as %s (%s)</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="edit_profile_description">Change your name, username and password. Only fill the password if you wish to change it.</string>
+    <string name="edit_profile_error">Username already taken or too long!</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_out">Sign out</string>
@@ -109,5 +111,8 @@
     <string name="welcome_paragraph3">Download ready to use algorithms from Delta Cloud or share the one you just created.</string>
     <string name="welcome_header4">Ready to create your first algorithm?</string>
     <string name="welcome_button">Get started!</string>
-    <string name="donate">Donate</string>
+    <string name="donate_title">Donate</string>
+    <string name="donate_header">Select an amount to donate:</string>
+    <string name="donate_footer">This donation will help our organization to develop its projects, mainly Extopy, the social network we are working on, which will require some storage for its servers.</string>
+    <string name="donate_thanks">Thanks for donating to our organization!</string>
 </resources>

@@ -159,6 +159,34 @@ public class Account {
         }).execute();
     }
 
+    // Edit profile
+    public void editProfile(String name, String username, String password, Context context, CompletionHandler completionHandler) {
+        try {
+            // Construct body
+            JSONObject body = new JSONObject();
+            body.put("name", name);
+            body.put("username", username);
+            body.put("password", password);
+
+            // Fetch api with data
+            new APIRequest("PUT", "/auth/account.php", context, (object, status) -> {
+                // Check response validity
+                if (object instanceof JSONObject && status == APIResponseStatus.ok) {
+                    // Convert it to Account
+                    Account account = new Account((JSONObject) object);
+
+                    // Update user
+                    Account.this.user = account.user;
+                }
+
+                // Call completion handler
+                completionHandler.completionHandler(status);
+            }).withBody(body).execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Account completion handler
     public interface CompletionHandler {
 

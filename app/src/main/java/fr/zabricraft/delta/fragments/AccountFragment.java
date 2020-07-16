@@ -101,7 +101,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             // Check button
             if (view == button1) {
                 // Edit profile
-
+                editProfile();
             } else {
                 // Sign out
                 signOut();
@@ -258,6 +258,76 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             loadAccount();
             loading.dismiss();
         });
+    }
+
+    public void editProfile() {
+        // Create a dialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity()).setTitle(R.string.edit_profile).setMessage(R.string.edit_profile_description);
+
+        // Create a linear layout
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        alert.setView(linearLayout);
+
+        int dp8 = IntExtension.dpToPixel(8, getResources());
+        int dp20 = IntExtension.dpToPixel(20, getResources());
+
+        LinearLayout.LayoutParams fieldParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        // Add name field
+        final EditText name = new EditText(getActivity());
+        name.setLayoutParams(fieldParams);
+        name.setHint(R.string.field_name);
+        name.setText(Account.current.user != null && Account.current.user.name != null ? Account.current.user.name : "");
+        linearLayout.addView(name);
+        fieldParams.setMargins(dp20, 0, dp20, dp8);
+
+        // Add username field
+        final EditText username = new EditText(getActivity());
+        username.setLayoutParams(fieldParams);
+        username.setHint(R.string.field_username);
+        username.setText(Account.current.user != null && Account.current.user.username != null ? Account.current.user.username : "");
+        linearLayout.addView(username);
+
+        // Add password field
+        final EditText password = new EditText(getActivity());
+        password.setLayoutParams(fieldParams);
+        password.setHint(R.string.field_password);
+        password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        linearLayout.addView(password);
+
+        // Add login button
+        alert.setPositiveButton(R.string.edit_profile, (dialogInterface, i) -> {
+            // Extract text from fields
+            String nameText = name.getText().toString();
+            String usernameText = username.getText().toString();
+            String passwordText = password.getText().toString();
+            if (!nameText.isEmpty() && !usernameText.isEmpty() && !passwordText.isEmpty()) {
+                // Show a loading
+                AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
+                loading.show();
+
+                // Start edit process
+                Account.current.editProfile(nameText, usernameText, passwordText, getActivity(), status -> {
+                    // Refresh the UI
+                    loadAccount();
+                    loading.dismiss();
+
+                    // Check for a 400
+                    if (status == APIResponseStatus.notFound) {
+                        // Username already taken
+                        new AlertDialog.Builder(getActivity()).setTitle(R.string.edit_profile).setMessage(R.string.edit_profile_error).setNeutralButton(R.string.close, (dialogInterface1, i1) -> {}).create().show();
+                    }
+                });
+            }
+        });
+
+        // Add login button
+        alert.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {});
+
+        // Show it
+        alert.create().show();
     }
 
 }

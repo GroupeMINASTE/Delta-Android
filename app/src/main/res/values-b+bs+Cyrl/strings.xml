@@ -77,7 +77,7 @@
     <string name="welcome_paragraph3">Преузмите већ направени алгоритми из Делта Клауд или објавите овај што сте сам направили.</string>
     <string name="welcome_header4">Спремно да направите ваш прву алгоритму\?</string>
     <string name="welcome_button">Ајдемо!</string>
-    <string name="donate">Дајте донацију</string>
+    <string name="donate_title">Дајте донацију</string>
     <string name="welcome_header1">Како ради\?</string>
     <string name="welcome_title">Добро дошли на Делта: Математички помоћник!</string>
     <string name="welcome_header3">Или преузмите једну од Клауда</string>

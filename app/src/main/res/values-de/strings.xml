@@ -76,7 +76,7 @@
     <string name="welcome_header1">Wie funktioniert es\?</string>
     <string name="welcome_paragraph1">Delta funktioniert mit Algorithmen. Jeder Algorithmus löst ein Problem. (z.B.: eine Gleichung lösen)</string>
     <string name="welcome_header2">Ein Algorithmus einstellen</string>
-    <string name="donate">Spenden</string>
+    <string name="donate_title">Spenden</string>
     <string name="welcome_button">Los get\'s!</string>
     <string name="welcome_title">Willkommen auf Delta: Math helper!</string>
     <string name="welcome_header4">Bereit ihren ersten Algorithmus zu einstellen\?</string>

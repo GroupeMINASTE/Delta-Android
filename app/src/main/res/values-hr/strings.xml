@@ -80,6 +80,6 @@
     <string name="welcome_header3">Ili preuzmite jednu iz Clouda</string>
     <string name="welcome_header2">Napravi algoritmu</string>
     <string name="welcome_title">Dobro došli na Delta: Math helper!</string>
-    <string name="donate">Dajte donaciju</string>
+    <string name="donate_title">Dajte donaciju</string>
     <string name="welcome_button">Ajdemo!</string>
 </resources>

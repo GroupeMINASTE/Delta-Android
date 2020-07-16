@@ -69,7 +69,7 @@
     <string name="category_settings">Paramètres</string>
     <string name="category_add">Ajouter une action</string>
     <string name="welcome_paragraph2">Sélectionnez \"Nouvel algorithme\" sur la page d’accueil pour ouvrir l’éditeur. Ensuite, ajoutez quelques actions pour résoudre un problème, et enregistrez votre algorithme.</string>
-    <string name="donate">Faire un don</string>
+    <string name="donate_title">Faire un don</string>
     <string name="welcome_header3">Ou téléchargez en un depuis le Cloud</string>
     <string name="welcome_header4">Prêt à créer votre premier algorithme \?</string>
     <string name="welcome_title">Bienvenue sur Delta: Math helper !</string>

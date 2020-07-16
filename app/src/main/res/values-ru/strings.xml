@@ -76,7 +76,7 @@
     <string name="welcome_button">Давайте начнем!</string>
     <string name="welcome_header4">Готовы создать свой первый алгоритм\?</string>
     <string name="welcome_title">Добро пожаловать в Delta: Математический помошник!</string>
-    <string name="donate">Пожертвовать</string>
+    <string name="donate_title">Пожертвовать</string>
     <string name="welcome_header1">Как это работает\?</string>
     <string name="welcome_header2">Создайте алгоритм</string>
     <string name="welcome_header3">Или загрузите его из облака</string>

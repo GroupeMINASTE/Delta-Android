@@ -77,5 +77,5 @@
     <string name="welcome_header1">¿Cómo funciona\?</string>
     <string name="welcome_paragraph1">Delta funciona con algoritmos. Cada algoritmo resolve un problema. (ej: resolver una ecuación)</string>
     <string name="welcome_header2">Crear un algoritmo</string>
-    <string name="donate">Donar</string>
+    <string name="donate_title">Donar</string>
 </resources>

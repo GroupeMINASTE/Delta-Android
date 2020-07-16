@@ -78,7 +78,7 @@
     <string name="welcome_button">Ajdemo!</string>
     <string name="welcome_title">Dobro došli na Delta: Math helper!</string>
     <string name="welcome_header2">Napravi algoritmu</string>
-    <string name="donate">Dodajte</string>
+    <string name="donate_title">Dodajte</string>
     <string name="welcome_paragraph1">Delta radi sa algoritmi. Svaku algoritmu reši jednu problem. (npr.: jednačine rešenje)</string>
     <string name="welcome_header4">Spremno da napravite svoju prvu algoritmu\?</string>
     <string name="welcome_header3">Ili preuzmite jednu iz Clouda</string>

@@ -80,6 +80,6 @@
     <string name="welcome_paragraph3">Preuzmite več napraveni algoritmi iz Delta Cloud ili objavite ovaj što ste sam napravili.</string>
     <string name="welcome_header2">Napravi algoritmu</string>
     <string name="welcome_button">Ajdemo!</string>
-    <string name="donate">Dajte donaciju</string>
+    <string name="donate_title">Dajte donaciju</string>
     <string name="welcome_header4">Spremno da napravite svoju prvu algoritmu\?</string>
 </resources>
