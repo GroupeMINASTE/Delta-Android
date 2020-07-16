@@ -110,4 +110,15 @@ public class APIAlgorithm implements Serializable {
         }
     }
 
+    public void delete(Context context, APIRequest.CompletionHandler completionHandler) {
+        // Check if algorithm already has an ID
+        if (id != null && !id.equals(0)) {
+            // Delete it
+            new APIRequest("DELETE", "/algorithm/algorithm.php", context, completionHandler).with("id", id).execute();
+        } else {
+            // Nothing to delete
+            completionHandler.completionHandler(this, APIResponseStatus.ok);
+        }
+    }
+
 }

@@ -58,6 +58,7 @@
     <string name="status_checkingforupdate">Checking for update…</string>
     <string name="status_downloading">Downloading…</string>
     <string name="status_uploading">Uploading…</string>
+    <string name="status_deleting">Deleting…</string>
     <string name="status_failed">Failed to update!</string>
     <string name="status_error">Something went wrong during the request…</string>
     <string name="status_offline">It seems that you\'re offline!</string>

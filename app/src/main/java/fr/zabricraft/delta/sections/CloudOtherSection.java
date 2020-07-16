@@ -47,7 +47,13 @@ public class CloudOtherSection extends Section {
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    container.changeNotes();
+                    // Check that content is loaded before
+                    if (!container.isLoaded()) { return; }
+
+                    // Notes
+                    if (position == 0) {
+                        container.changeNotes();
+                    }
                 }
             });
         }
@@ -64,6 +70,8 @@ public class CloudOtherSection extends Section {
     }
 
     public interface CloudOtherContainer {
+        boolean isLoaded();
+
         String getNotes();
 
         void changeNotes();

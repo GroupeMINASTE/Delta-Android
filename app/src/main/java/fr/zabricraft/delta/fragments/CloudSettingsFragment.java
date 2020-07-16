@@ -135,12 +135,45 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         });
     }
 
+    public void removeFromCloud() {
+        // Create an alert (for progress)
+        AlertDialog alert = new AlertDialog.Builder(getActivity()).setTitle(R.string.status_deleting).create();
+        alert.show();
+
+        // Start deleting
+        algorithm.toAPIAlgorithm().delete(getActivity(), new APIRequest.CompletionHandler() {
+            @Override
+            public void completionHandler(@Nullable Object object, APIResponseStatus status) {
+                // Remove alert
+                alert.dismiss();
+
+                // Check data
+                if (status == APIResponseStatus.ok) {
+                    // Remove remote id
+                    algorithm.setRemoteId(null);
+
+                    // Send back new data
+                    if (EditorActivity.lastInstance != null) {
+                        EditorActivity.lastInstance.updateRemoteId(algorithm.getRemoteId());
+                    }
+                }
+
+                // Refresh recycler view
+                refreshRecyclerView();
+            }
+        });
+    }
+
     public Boolean isSync() {
         return algorithm.getRemoteId() != null && !algorithm.getRemoteId().equals(0);
     }
 
     public Boolean isPublic() {
         return loaded ? public_ : null;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
     }
 
     public String getNotes() {
@@ -154,7 +187,7 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
             sendMetadatas();
         } else {
             // Remove from cloud
-            // TODO
+            removeFromCloud();
         }
     }
 
