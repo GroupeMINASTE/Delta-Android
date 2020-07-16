@@ -112,4 +112,11 @@
     <string name="edit_profile">Промени профил</string>
     <string name="not_logged">Нисте повезан</string>
     <string name="my_account">Мој Делта Клауд налог</string>
+    <string name="logged_as">Повезан као %s (%s)</string>
+    <string name="share">Подели</string>
+    <string name="donate_thanks">Хвала што сте додали за нашу организација!</string>
+    <string name="edit_profile_description">Промените свој име, кориснички име и лозинку. Унесите лозинку само ако хоћете да га промените.</string>
+    <string name="donate_footer">Ова донација че нас организацију помочи да развије своји пројекти, главно Екстопи, друштвени мрежи на коју ми радимо, и ко че требати складиште за своју сервери.</string>
+    <string name="edit_profile_error">Кориснички име већ заузето или су више дуго!</string>
+    <string name="donate_header">Изаберите износ за вашу донацију:</string>
 </resources>
