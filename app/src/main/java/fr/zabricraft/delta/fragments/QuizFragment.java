@@ -112,7 +112,7 @@ public class QuizFragment extends Fragment {
                             Token answer = new TokenParser(field.getText().toString()).execute();
                             Equation condition = new Equation(answer, question.correct, Operation.equals);
 
-                            if (condition.isTrue(new HashMap<String, Token>())) {
+                            if (condition.isTrue(new HashMap<>())) {
                                 // Answer is correct
                                 label.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
                                 field.setTextColor(getResources().getColor(android.R.color.holo_green_dark));

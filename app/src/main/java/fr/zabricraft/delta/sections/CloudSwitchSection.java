@@ -2,7 +2,6 @@ package fr.zabricraft.delta.sections;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 import fr.zabricraft.delta.R;
@@ -49,14 +48,11 @@ public class CloudSwitchSection extends Section {
             ((SwitchCell) itemHolder.itemView).with(
                     title == R.string.cloud_settings_sync_title ? R.string.cloud_settings_sync : R.string.cloud_settings_public,
                     title == R.string.cloud_settings_sync_title ? container.isSync() : container.isPublic(),
-                    new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if (title == R.string.cloud_settings_sync_title) {
-                                container.syncChanged(b);
-                            } else {
-                                container.publicChanged(b);
-                            }
+                    (compoundButton, b) -> {
+                        if (title == R.string.cloud_settings_sync_title) {
+                            container.syncChanged(b);
+                        } else {
+                            container.publicChanged(b);
                         }
                     }
             );

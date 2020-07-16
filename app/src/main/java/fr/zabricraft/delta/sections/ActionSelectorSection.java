@@ -48,11 +48,7 @@ public class ActionSelectorSection extends Section {
         // bind your view here
         if (itemHolder.itemView instanceof EditorPreviewCell) {
             ((EditorPreviewCell) itemHolder.itemView).with(action.toEditorLines().get(0));
-            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    container.selectAndClose(action);
-                }
-            });
+            itemHolder.itemView.setOnClickListener(view -> container.selectAndClose(action));
         }
     }
 

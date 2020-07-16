@@ -2,7 +2,6 @@ package fr.zabricraft.delta.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -149,44 +148,32 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         linearLayout.addView(password);
 
         // Add login button
-        alert.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Extract text from fields
-                String usernameText = username.getText().toString();
-                String passwordText = password.getText().toString();
-                if (!usernameText.isEmpty() && !passwordText.isEmpty()) {
-                    // Show a loading
-                    AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
-                    loading.show();
+        alert.setPositiveButton(R.string.sign_in, (dialogInterface, i) -> {
+            // Extract text from fields
+            String usernameText = username.getText().toString();
+            String passwordText = password.getText().toString();
+            if (!usernameText.isEmpty() && !passwordText.isEmpty()) {
+                // Show a loading
+                AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
+                loading.show();
 
-                    // Start login process
-                    Account.current.login(usernameText, passwordText, getActivity(), new Account.CompletionHandler() {
-                        @Override
-                        public void completionHandler(APIResponseStatus status) {
-                            // Refresh the UI
-                            loadAccount();
-                            loading.dismiss();
+                // Start login process
+                Account.current.login(usernameText, passwordText, getActivity(), status -> {
+                    // Refresh the UI
+                    loadAccount();
+                    loading.dismiss();
 
-                            // Check for a 404
-                            if (status == APIResponseStatus.notFound) {
-                                // User not found, show an alert
-                                new AlertDialog.Builder(getActivity()).setTitle(R.string.sign_in).setMessage(R.string.sign_in_error).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {}
-                                }).create().show();
-                            }
-                        }
-                    });
-                }
+                    // Check for a 404
+                    if (status == APIResponseStatus.notFound) {
+                        // User not found, show an alert
+                        new AlertDialog.Builder(getActivity()).setTitle(R.string.sign_in).setMessage(R.string.sign_in_error).setNeutralButton(R.string.close, (dialogInterface1, i1) -> {}).create().show();
+                    }
+                });
             }
         });
 
         // Add login button
-        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {}
-        });
+        alert.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {});
 
         // Show it
         alert.create().show();
@@ -228,45 +215,33 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         linearLayout.addView(password);
 
         // Add login button
-        alert.setPositiveButton(R.string.sign_up, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Extract text from fields
-                String nameText = name.getText().toString();
-                String usernameText = username.getText().toString();
-                String passwordText = password.getText().toString();
-                if (!nameText.isEmpty() && !usernameText.isEmpty() && !passwordText.isEmpty()) {
-                    // Show a loading
-                    AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
-                    loading.show();
+        alert.setPositiveButton(R.string.sign_up, (dialogInterface, i) -> {
+            // Extract text from fields
+            String nameText = name.getText().toString();
+            String usernameText = username.getText().toString();
+            String passwordText = password.getText().toString();
+            if (!nameText.isEmpty() && !usernameText.isEmpty() && !passwordText.isEmpty()) {
+                // Show a loading
+                AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
+                loading.show();
 
-                    // Start login process
-                    Account.current.register(nameText, usernameText, passwordText, getActivity(), new Account.CompletionHandler() {
-                        @Override
-                        public void completionHandler(APIResponseStatus status) {
-                            // Refresh the UI
-                            loadAccount();
-                            loading.dismiss();
+                // Start login process
+                Account.current.register(nameText, usernameText, passwordText, getActivity(), status -> {
+                    // Refresh the UI
+                    loadAccount();
+                    loading.dismiss();
 
-                            // Check for a 400
-                            if (status == APIResponseStatus.notFound) {
-                                // Username already taken
-                                new AlertDialog.Builder(getActivity()).setTitle(R.string.sign_up).setMessage(R.string.sign_up_error).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {}
-                                }).create().show();
-                            }
-                        }
-                    });
-                }
+                    // Check for a 400
+                    if (status == APIResponseStatus.notFound) {
+                        // Username already taken
+                        new AlertDialog.Builder(getActivity()).setTitle(R.string.sign_up).setMessage(R.string.sign_up_error).setNeutralButton(R.string.close, (dialogInterface1, i1) -> {}).create().show();
+                    }
+                });
             }
         });
 
         // Add login button
-        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {}
-        });
+        alert.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {});
 
         // Show it
         alert.create().show();
@@ -278,13 +253,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         loading.show();
 
         // Just call API
-        Account.current.logout(getActivity(), new Account.CompletionHandler() {
-            @Override
-            public void completionHandler(APIResponseStatus status) {
-                // Reload the view
-                loadAccount();
-                loading.dismiss();
-            }
+        Account.current.logout(getActivity(), status -> {
+            // Reload the view
+            loadAccount();
+            loading.dismiss();
         });
     }
 

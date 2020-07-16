@@ -12,13 +12,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.api.APIAlgorithm;
-import fr.zabricraft.delta.api.APIRequest;
 import fr.zabricraft.delta.api.APIResponseStatus;
 import fr.zabricraft.delta.sections.AlgorithmPreviewSection;
 import fr.zabricraft.delta.sections.CloudDetailsSection;
@@ -38,6 +36,7 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
 
     private SwipeRefreshLayout layout;
     private RecyclerView recyclerView;
+    private SectionedRecyclerViewAdapter sectionAdapter;
 
     public static CloudDetailsFragment create(APIAlgorithm apiAlgorithm) {
         Bundle args = new Bundle();
@@ -53,45 +52,42 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
         status = APIResponseStatus.loading;
 
         // Update recyclerView
-        recyclerView.getAdapter().notifyDataSetChanged();
+        sectionAdapter.notifyDataSetChanged();
 
         // Fetch data
-        algorithm.fetchMissingData(getActivity(), new APIRequest.CompletionHandler() {
-            @Override
-            public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                // Update status
-                CloudDetailsFragment.this.status = status;
+        algorithm.fetchMissingData(getActivity(), (object, status) -> {
+            // Update status
+            CloudDetailsFragment.this.status = status;
 
-                // Check data
-                if (object instanceof JSONObject) {
-                    // Read algorithm
-                    APIAlgorithm data = new APIAlgorithm((JSONObject) object);
+            // Check data
+            if (object instanceof JSONObject) {
+                // Read algorithm
+                APIAlgorithm data = new APIAlgorithm((JSONObject) object);
 
-                    // Set algorithm
-                    CloudDetailsFragment.this.algorithm = data;
+                // Set algorithm
+                CloudDetailsFragment.this.algorithm = data;
 
-                    // Set preview
-                    preview = new ArrayList<>();
-                    for (EditorLine line : data.toAlgorithm().toEditorLines()) {
-                        if (line.getCategory() != EditorLineCategory.add) {
-                            preview.add(line);
-                        }
+                // Set preview
+                preview = new ArrayList<>();
+                for (EditorLine line : data.toAlgorithm().toEditorLines()) {
+                    if (line.getCategory() != EditorLineCategory.add) {
+                        preview.add(line);
                     }
-
-                    // Get it on device if exists
-                    onDevice = Database.getInstance(getActivity()).getAlgorithm(-1, data.id);
-
-                    // Update title
-                    getActivity().setTitle(CloudDetailsFragment.this.algorithm.name);
                 }
 
-                // Update recyclerView
-                recyclerView.getAdapter().notifyDataSetChanged();
+                // Get it on device if exists
+                onDevice = Database.getInstance(getActivity()).getAlgorithm(-1, data.id);
 
-                // End refreshing
-                if (layout.isRefreshing()) {
-                    layout.setRefreshing(false);
-                }
+                // Update title
+                getActivity().setTitle(CloudDetailsFragment.this.algorithm.name);
+            }
+
+            // Update recyclerView
+            sectionAdapter.notifyDataSetChanged();
+
+            // End refreshing
+            if (layout.isRefreshing()) {
+                layout.setRefreshing(false);
             }
         });
     }
@@ -104,7 +100,7 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
         recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
 
         // Initialize sections
-        SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new StatusSection(this));
         sectionAdapter.addSection(new CloudDetailsSection(this));
         sectionAdapter.addSection(new AlgorithmPreviewSection(this));
@@ -116,12 +112,7 @@ public class CloudDetailsFragment extends Fragment implements CloudDetailsSectio
         layout = new SwipeRefreshLayout(getActivity());
         recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(recyclerView);
-        layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshData();
-            }
-        });
+        layout.setOnRefreshListener(this::refreshData);
 
         // Load algorithm
         Object algorithm = getArguments().getSerializable("apiAlgorithm");

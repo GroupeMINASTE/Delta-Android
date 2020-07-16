@@ -48,11 +48,7 @@ public class IconSection extends Section {
         // bind your view here
         if (itemHolder.itemView instanceof IconEditorCell) {
             ((IconEditorCell) itemHolder.itemView).with(type, value, container.isValueSelected(type, position));
-            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    container.selectValue(type, position);
-                }
-            });
+            itemHolder.itemView.setOnClickListener(view -> container.selectValue(type, position));
         }
     }
 

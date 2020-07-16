@@ -50,11 +50,9 @@ public class APIAlgorithmsSection extends Section {
         // bind your view here
         if (itemHolder.itemView instanceof HomeCell) {
             ((HomeCell) itemHolder.itemView).with(apiAlgorithm);
-            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    // Load algorithm details
-                    loader.load(apiAlgorithm);
-                }
+            itemHolder.itemView.setOnClickListener(view -> {
+                // Load algorithm details
+                loader.load(apiAlgorithm);
             });
         }
     }

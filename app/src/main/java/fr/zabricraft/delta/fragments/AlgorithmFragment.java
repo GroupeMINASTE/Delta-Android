@@ -132,7 +132,7 @@ public class AlgorithmFragment extends Fragment implements InputsSection.InputsC
     }
 
     public List<Pair<String, String>> getInputs() {
-        return algorithm != null ? algorithm.getInputs() : new ArrayList<Pair<String, String>>();
+        return algorithm != null ? algorithm.getInputs() : new ArrayList<>();
     }
 
     public List<Object> getOutputs() {

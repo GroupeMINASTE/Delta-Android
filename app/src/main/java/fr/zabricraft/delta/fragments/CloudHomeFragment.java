@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -34,6 +33,7 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
 
     private SwipeRefreshLayout layout;
     private RecyclerView recyclerView;
+    private SectionedRecyclerViewAdapter sectionAdapter;
 
     public void loadAlgorithms() {
         loadAlgorithms(false);
@@ -50,48 +50,45 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
         loading = true;
 
         // Load algorithms from API
-        new APIRequest("GET", "/algorithm/search.php", getActivity(), new APIRequest.CompletionHandler() {
-            @Override
-            public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                // Reset if needed
-                if (reset) {
-                    algorithms.clear();
-                }
-
-                // Check data
-                if (object instanceof JSONArray) {
-                    JSONArray array = (JSONArray) object;
-
-                    // Check content size
-                    if (array.length() > 0) {
-                        // Update data
-                        for (int i = 0; i < array.length(); i++) {
-                            try {
-                                // Get JSONObject and decode it
-                                algorithms.add(new APIAlgorithm(array.getJSONObject(i)));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } else {
-                        // No more content
-                        hasMore = false;
-                    }
-                }
-
-                // No more loading
-                loading = false;
-
-                // Refresh recyclerView
-                reloadData(status);
+        new APIRequest("GET", "/algorithm/search.php", getActivity(), (object, status) -> {
+            // Reset if needed
+            if (reset) {
+                algorithms.clear();
             }
+
+            // Check data
+            if (object instanceof JSONArray) {
+                JSONArray array = (JSONArray) object;
+
+                // Check content size
+                if (array.length() > 0) {
+                    // Update data
+                    for (int i = 0; i < array.length(); i++) {
+                        try {
+                            // Get JSONObject and decode it
+                            algorithms.add(new APIAlgorithm(array.getJSONObject(i)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    // No more content
+                    hasMore = false;
+                }
+            }
+
+            // No more loading
+            loading = false;
+
+            // Refresh recyclerView
+            reloadData(status);
         }).with("search", search).with("start", reset ? 0 : algorithms.size()).execute();
     }
 
     public void reloadData(APIResponseStatus status) {
         // Reload recyclerView
         this.status = status;
-        recyclerView.getAdapter().notifyDataSetChanged();
+        sectionAdapter.notifyDataSetChanged();
 
         // End refreshing
         if (layout.isRefreshing()) {
@@ -110,7 +107,7 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
         recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
 
         // Initialize sections
-        SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+        sectionAdapter = new SectionedRecyclerViewAdapter();
         sectionAdapter.addSection(new StatusSection(this));
         sectionAdapter.addSection(new APIAlgorithmsSection(this, ((APIAlgorithmsSection.APIAlgorithmLoader) getActivity())));
         sectionAdapter.addSection(new LoadingSection(this));
@@ -122,12 +119,7 @@ public class CloudHomeFragment extends Fragment implements APIAlgorithmsSection.
         layout = new SwipeRefreshLayout(getActivity());
         recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(recyclerView);
-        layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadAlgorithms(true);
-            }
-        });
+        layout.setOnRefreshListener(() -> loadAlgorithms(true));
 
         // Load algorithms
         loadAlgorithms(true);

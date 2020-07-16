@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.actions.Action;
 import fr.zabricraft.delta.actions.ActionBlock;
@@ -295,69 +294,56 @@ public class Algorithm implements Serializable {
             // Check for update
             setStatus(APISyncStatus.checkingforupdate);
             algorithmChanged.algorithmChanged(this);
-            new APIRequest("GET", "/algorithm/checkforupdate.php", context, new APIRequest.CompletionHandler() {
-                @Override
-                public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                    // Check if data was downloaded
-                    if (object instanceof JSONObject) {
-                        // Convert it to APIAlgorithm
-                        APIAlgorithm data = new APIAlgorithm((JSONObject) object);
-                        Date last_update = StringExtension.toDate(data.last_update);
-                        if (last_update != null) {
-                            // Compare last update date
-                            int compare = Algorithm.this.last_update.compareTo(last_update);
-                            if (compare < 0) {
-                                // Download algorithm
-                                setStatus(APISyncStatus.downloading);
-                                algorithmChanged.algorithmChanged(Algorithm.this);
-                                data.fetchMissingData(context, new APIRequest.CompletionHandler() {
-                                    @Override
-                                    public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                                        // Check if data was downloaded
-                                        if (object instanceof JSONObject && status == APIResponseStatus.ok) {
-                                            // Save it to database
-                                            APIAlgorithm apiAlgorithm = new APIAlgorithm((JSONObject) object);
-                                            Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(context);
+            new APIRequest("GET", "/algorithm/checkforupdate.php", context, (object, status) -> {
+                // Check if data was downloaded
+                if (object instanceof JSONObject) {
+                    // Convert it to APIAlgorithm
+                    APIAlgorithm data = new APIAlgorithm((JSONObject) object);
+                    Date last_update = StringExtension.toDate(data.last_update);
+                    if (last_update != null) {
+                        // Compare last update date
+                        int compare = Algorithm.this.last_update.compareTo(last_update);
+                        if (compare < 0) {
+                            // Download algorithm
+                            setStatus(APISyncStatus.downloading);
+                            algorithmChanged.algorithmChanged(Algorithm.this);
+                            data.fetchMissingData(context, (object1, status1) -> {
+                                // Check if data was downloaded
+                                if (object1 instanceof JSONObject && status1 == APIResponseStatus.ok) {
+                                    // Save it to database
+                                    APIAlgorithm apiAlgorithm = new APIAlgorithm((JSONObject) object1);
+                                    Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(context);
 
-                                            // Replace it in lists
-                                            algorithmChanged.algorithmChanged(updatedAlgorithm);
-                                        } else {
-                                            // Update status
-                                            setStatus(APISyncStatus.failed);
-                                            algorithmChanged.algorithmChanged(Algorithm.this);
-                                        }
-                                    }
-                                });
-                            } else if (compare > 0) {
-                                // Or upload it if it was modified
-                                setStatus(APISyncStatus.uploading);
-                                algorithmChanged.algorithmChanged(Algorithm.this);
-                                toAPIAlgorithm().upload(context, new APIRequest.CompletionHandler() {
-                                    @Override
-                                    public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                                        // Check if data was uploaded
-                                        if (object instanceof JSONObject && status == APIResponseStatus.ok) {
-                                            // Save it to database
-                                            APIAlgorithm apiAlgorithm = new APIAlgorithm((JSONObject) object);
-                                            Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(context);
+                                    // Replace it in lists
+                                    algorithmChanged.algorithmChanged(updatedAlgorithm);
+                                } else {
+                                    // Update status
+                                    setStatus(APISyncStatus.failed);
+                                    algorithmChanged.algorithmChanged(Algorithm.this);
+                                }
+                            });
+                        } else if (compare > 0) {
+                            // Or upload it if it was modified
+                            setStatus(APISyncStatus.uploading);
+                            algorithmChanged.algorithmChanged(Algorithm.this);
+                            toAPIAlgorithm().upload(context, (object12, status12) -> {
+                                // Check if data was uploaded
+                                if (object12 instanceof JSONObject && status12 == APIResponseStatus.ok) {
+                                    // Save it to database
+                                    APIAlgorithm apiAlgorithm = new APIAlgorithm((JSONObject) object12);
+                                    Algorithm updatedAlgorithm = apiAlgorithm.saveToDatabase(context);
 
-                                            // Replace it in lists
-                                            algorithmChanged.algorithmChanged(updatedAlgorithm);
-                                        } else {
-                                            // Update status
-                                            setStatus(APISyncStatus.failed);
-                                            algorithmChanged.algorithmChanged(Algorithm.this);
-                                        }
-                                    }
-                                });
-                            } else {
-                                // Algorithm is up to date
-                                setStatus(APISyncStatus.synchro);
-                                algorithmChanged.algorithmChanged(Algorithm.this);
-                            }
+                                    // Replace it in lists
+                                    algorithmChanged.algorithmChanged(updatedAlgorithm);
+                                } else {
+                                    // Update status
+                                    setStatus(APISyncStatus.failed);
+                                    algorithmChanged.algorithmChanged(Algorithm.this);
+                                }
+                            });
                         } else {
-                            // Update status
-                            setStatus(APISyncStatus.failed);
+                            // Algorithm is up to date
+                            setStatus(APISyncStatus.synchro);
                             algorithmChanged.algorithmChanged(Algorithm.this);
                         }
                     } else {
@@ -365,6 +351,10 @@ public class Algorithm implements Serializable {
                         setStatus(APISyncStatus.failed);
                         algorithmChanged.algorithmChanged(Algorithm.this);
                     }
+                } else {
+                    // Update status
+                    setStatus(APISyncStatus.failed);
+                    algorithmChanged.algorithmChanged(Algorithm.this);
                 }
             }).with("id", getRemoteId()).execute();
         }

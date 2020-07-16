@@ -57,18 +57,13 @@ public class AlgorithmsSection extends Section {
         // bind your view here
         if (itemHolder.itemView instanceof HomeCell) {
             ((HomeCell) itemHolder.itemView).with(algorithm);
-            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    // Load algorithm details
-                    loader.load(algorithm);
-                }
+            itemHolder.itemView.setOnClickListener(view -> {
+                // Load algorithm details
+                loader.load(algorithm);
             });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    container.setLongClickAlgorithm(algorithm);
-                    return false;
-                }
+            holder.itemView.setOnLongClickListener(v -> {
+                container.setLongClickAlgorithm(algorithm);
+                return false;
             });
         }
     }

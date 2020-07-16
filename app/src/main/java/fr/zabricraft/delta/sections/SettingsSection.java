@@ -48,16 +48,13 @@ public class SettingsSection extends Section {
         // bind your view here
         if (itemHolder.itemView instanceof EditorCell) {
             ((EditorCell) itemHolder.itemView).with(line, container, position);
-            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (line.getFormat() == R.string.settings_icon) {
-                        // Open icon editor
-                        container.openIconEditor();
-                    } else if (line.getFormat() == R.string.settings_cloud) {
-                        // Open cloud settings
-                        container.openCloudSettings();
-                    }
+            itemHolder.itemView.setOnClickListener(view -> {
+                if (line.getFormat() == R.string.settings_icon) {
+                    // Open icon editor
+                    container.openIconEditor();
+                } else if (line.getFormat() == R.string.settings_cloud) {
+                    // Open cloud settings
+                    container.openCloudSettings();
                 }
             });
         }

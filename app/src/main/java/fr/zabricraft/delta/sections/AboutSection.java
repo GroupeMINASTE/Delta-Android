@@ -43,20 +43,18 @@ public class AboutSection extends Section {
         // bind your view here
         if (itemHolder.itemView instanceof LabelCell) {
             ((LabelCell) itemHolder.itemView).with(position == 0 ? R.string.about : position == 1 ? R.string.help : R.string.follow_twitter);
-            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    if (position == 0) {
-                        // About
-                        new AlertDialog.Builder(itemHolder.itemView.getContext()).setTitle(R.string.about).setMessage(R.string.about_text).show();
-                    } else if (position == 1) {
-                        // Help and documentation
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.delta-math-helper.com/documentation"));
-                        itemHolder.itemView.getContext().startActivity(browserIntent);
-                    } else {
-                        // Follow us on Twitter
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/DeltaMathHelper"));
-                        itemHolder.itemView.getContext().startActivity(browserIntent);
-                    }
+            itemHolder.itemView.setOnClickListener(view -> {
+                if (position == 0) {
+                    // About
+                    new AlertDialog.Builder(itemHolder.itemView.getContext()).setTitle(R.string.about).setMessage(R.string.about_text).show();
+                } else if (position == 1) {
+                    // Help and documentation
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.delta-math-helper.com/documentation"));
+                    itemHolder.itemView.getContext().startActivity(browserIntent);
+                } else {
+                    // Follow us on Twitter
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/DeltaMathHelper"));
+                    itemHolder.itemView.getContext().startActivity(browserIntent);
                 }
             });
         }

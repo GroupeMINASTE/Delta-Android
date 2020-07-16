@@ -137,15 +137,13 @@ public class WelcomeFragment extends Fragment {
         buttonBackground.setColor(getResources().getColor(R.color.colorPrimary));
         buttonBackground.setCornerRadius(dp8);
         button.setBackground(buttonBackground);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                // Save welcome shown
-                SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                data.edit().putBoolean("welcomeShown", true).apply();
+        button.setOnClickListener(view -> {
+            // Save welcome shown
+            SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            data.edit().putBoolean("welcomeShown", true).apply();
 
-                // Close activity
-                getActivity().finish();
-            }
+            // Close activity
+            getActivity().finish();
         });
         contentView.addView(button);
 

@@ -44,18 +44,16 @@ public class NewSection extends Section {
         // bind your view here
         if (itemHolder.itemView instanceof LabelCell) {
             ((LabelCell) itemHolder.itemView).with(position == 0 ? R.string.new_algorithm : position == 1 ? R.string.download_algorithm : R.string.my_account);
-            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    if (position == 0) {
-                        // Open editor for a new algorithm
-                        container.startEditor(null);
-                    } else if (position == 1) {
-                        // Open the cloud
-                        container.openCloud();
-                    } else {
-                        // Open account
-                        container.openAccount();
-                    }
+            itemHolder.itemView.setOnClickListener(view -> {
+                if (position == 0) {
+                    // Open editor for a new algorithm
+                    container.startEditor(null);
+                } else if (position == 1) {
+                    // Open the cloud
+                    container.openCloud();
+                } else {
+                    // Open account
+                    container.openAccount();
                 }
             });
         }

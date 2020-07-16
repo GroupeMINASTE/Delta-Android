@@ -42,7 +42,7 @@ public class QuizInitAction implements Action {
     }
 
     public Triplet<Action, Action, Integer> action(int index, Action parent, int parentIndex) {
-        return Triplet.with(((Action) this), parent, parentIndex);
+        return Triplet.with(this, parent, parentIndex);
     }
 
     public void update(EditorLine line) {

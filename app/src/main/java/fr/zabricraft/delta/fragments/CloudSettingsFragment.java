@@ -2,7 +2,6 @@ package fr.zabricraft.delta.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +11,11 @@ import android.widget.LinearLayout;
 
 import org.json.JSONObject;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.activities.EditorActivity;
 import fr.zabricraft.delta.api.APIAlgorithm;
-import fr.zabricraft.delta.api.APIRequest;
 import fr.zabricraft.delta.api.APIResponseStatus;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.sections.CloudOtherSection;
@@ -81,23 +78,20 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         loaded = false;
 
         // Call API
-        new APIAlgorithm(algorithm.getRemoteId(), null, null, null, null, null).fetchMissingData(getActivity(), new APIRequest.CompletionHandler() {
-            @Override
-            public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                // Check response
-                if (object instanceof JSONObject && status == APIResponseStatus.ok) {
-                    // Convert it to APIAlgorithm
-                    APIAlgorithm data = new APIAlgorithm((JSONObject) object);
+        new APIAlgorithm(algorithm.getRemoteId(), null, null, null, null, null).fetchMissingData(getActivity(), (object, status) -> {
+            // Check response
+            if (object instanceof JSONObject && status == APIResponseStatus.ok) {
+                // Convert it to APIAlgorithm
+                APIAlgorithm data = new APIAlgorithm((JSONObject) object);
 
-                    // Update data
-                    public_ = data.public_;
-                    notes = data.notes;
-                    loaded = true;
-                }
-
-                // Refresh recycler view
-                refreshRecyclerView();
+                // Update data
+                public_ = data.public_;
+                notes = data.notes;
+                loaded = true;
             }
+
+            // Refresh recycler view
+            refreshRecyclerView();
         });
     }
 
@@ -107,31 +101,28 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         alert.show();
 
         // Start uploading
-        algorithm.toAPIAlgorithm(public_ != null ? public_ : false, notes != null ? notes : "").upload(getActivity(), new APIRequest.CompletionHandler() {
-            @Override
-            public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                // Remove alert
-                alert.dismiss();
+        algorithm.toAPIAlgorithm(public_ != null ? public_ : false, notes != null ? notes : "").upload(getActivity(), (object, status) -> {
+            // Remove alert
+            alert.dismiss();
 
-                // Check data
-                if (object instanceof JSONObject && (status == APIResponseStatus.ok || status == APIResponseStatus.created)) {
-                    // Convert to APIAlgorithm
-                    APIAlgorithm data = new APIAlgorithm((JSONObject) object);
+            // Check data
+            if (object instanceof JSONObject && (status == APIResponseStatus.ok || status == APIResponseStatus.created)) {
+                // Convert to APIAlgorithm
+                APIAlgorithm data = new APIAlgorithm((JSONObject) object);
 
-                    // Transform returned data
-                    algorithm.setRemoteId(data.id);
-                    public_ = data.public_;
-                    notes = data.notes;
+                // Transform returned data
+                algorithm.setRemoteId(data.id);
+                public_ = data.public_;
+                notes = data.notes;
 
-                    // Send back new data
-                    if (EditorActivity.lastInstance != null) {
-                        EditorActivity.lastInstance.updateRemoteId(algorithm.getRemoteId());
-                    }
+                // Send back new data
+                if (EditorActivity.lastInstance != null) {
+                    EditorActivity.lastInstance.updateRemoteId(algorithm.getRemoteId());
                 }
-
-                // Refresh recycler view
-                refreshRecyclerView();
             }
+
+            // Refresh recycler view
+            refreshRecyclerView();
         });
     }
 
@@ -141,26 +132,23 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         alert.show();
 
         // Start deleting
-        algorithm.toAPIAlgorithm().delete(getActivity(), new APIRequest.CompletionHandler() {
-            @Override
-            public void completionHandler(@Nullable Object object, APIResponseStatus status) {
-                // Remove alert
-                alert.dismiss();
+        algorithm.toAPIAlgorithm().delete(getActivity(), (object, status) -> {
+            // Remove alert
+            alert.dismiss();
 
-                // Check data
-                if (status == APIResponseStatus.ok) {
-                    // Remove remote id
-                    algorithm.setRemoteId(null);
+            // Check data
+            if (status == APIResponseStatus.ok) {
+                // Remove remote id
+                algorithm.setRemoteId(null);
 
-                    // Send back new data
-                    if (EditorActivity.lastInstance != null) {
-                        EditorActivity.lastInstance.updateRemoteId(algorithm.getRemoteId());
-                    }
+                // Send back new data
+                if (EditorActivity.lastInstance != null) {
+                    EditorActivity.lastInstance.updateRemoteId(algorithm.getRemoteId());
                 }
-
-                // Refresh recycler view
-                refreshRecyclerView();
             }
+
+            // Refresh recycler view
+            refreshRecyclerView();
         });
     }
 
@@ -222,22 +210,16 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         linearLayout.addView(notes);
 
         // Add save button
-        alert.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Update value
-                CloudSettingsFragment.this.notes = notes.getText().toString();
+        alert.setPositiveButton(R.string.save, (dialogInterface, i) -> {
+            // Update value
+            CloudSettingsFragment.this.notes = notes.getText().toString();
 
-                // Send metadatas
-                sendMetadatas();
-            }
+            // Send metadatas
+            sendMetadatas();
         });
 
         // Add cancel button
-        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {}
-        });
+        alert.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {});
 
         // Show it
         alert.create().show();

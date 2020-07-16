@@ -3,7 +3,6 @@ package fr.zabricraft.delta.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,7 +42,6 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
 
     private Algorithm algorithm;
 
-    private RecyclerView recyclerView;
     private SectionedRecyclerViewAdapter sectionAdapter;
 
     private EditorLinesSection editorLinesSection;
@@ -70,7 +68,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Create the view
-        recyclerView = new RecyclerView(getActivity());
+        RecyclerView recyclerView = new RecyclerView(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setBackgroundColor(getResources().getColor(R.color.background));
@@ -101,7 +99,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
     }
 
     public List<EditorLine> getSettings() {
-        return algorithm != null ? algorithm.getSettings() : new ArrayList<EditorLine>();
+        return algorithm != null ? algorithm.getSettings() : new ArrayList<>();
     }
 
     public int settingsCount() {
@@ -109,7 +107,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
     }
 
     public List<EditorLine> toEditorLines() {
-        return algorithm != null ? algorithm.toEditorLines() : new ArrayList<EditorLine>();
+        return algorithm != null ? algorithm.toEditorLines() : new ArrayList<>();
     }
 
     public int editorLinesCount() {
@@ -209,10 +207,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
             startActivity(intent);
         } else {
             // User is not logged in
-            new AlertDialog.Builder(getActivity()).setTitle(R.string.settings_cloud_error).setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {}
-            }).create().show();
+            new AlertDialog.Builder(getActivity()).setTitle(R.string.settings_cloud_error).setNeutralButton(R.string.close, (dialogInterface, i) -> {}).create().show();
         }
     }
 
@@ -269,14 +264,14 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
     public void onRowSelected(RecyclerView.ViewHolder viewHolder) {
         if (viewHolder.itemView instanceof EditorCell) {
             // Scale the cell
-            ((EditorCell) viewHolder.itemView).animate().scaleX(0.9f).scaleY(0.9f).setDuration(500);
+            viewHolder.itemView.animate().scaleX(0.9f).scaleY(0.9f).setDuration(500);
         }
     }
 
     public void onRowClear(RecyclerView.ViewHolder viewHolder) {
         if (viewHolder.itemView instanceof EditorCell) {
             // Scale the cell
-            ((EditorCell) viewHolder.itemView).animate().scaleX(1f).scaleY(1f).setDuration(500);
+            viewHolder.itemView.animate().scaleX(1f).scaleY(1f).setDuration(500);
         }
     }
 

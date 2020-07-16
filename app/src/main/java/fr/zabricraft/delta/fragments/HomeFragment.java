@@ -39,7 +39,6 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
     private List<Algorithm> downloads;
 
     private SwipeRefreshLayout layout;
-    private RecyclerView recyclerView;
     private SectionedRecyclerViewAdapter sectionAdapter;
 
     private AlgorithmsSection myalgorithms_section;
@@ -133,7 +132,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
         downloads = new ArrayList<>();
 
         // Create the view
-        recyclerView = new RecyclerView(getActivity());
+        RecyclerView recyclerView = new RecyclerView(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setBackgroundColor(getResources().getColor(R.color.background));

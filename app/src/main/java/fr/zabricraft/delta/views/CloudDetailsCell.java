@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.TypedValue;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -119,11 +118,7 @@ public class CloudDetailsCell extends LinearLayout {
         button.setLayoutParams(buttonParams);
         button.setTextColor(getResources().getColor(android.R.color.white));
         button.setBackground(buttonBackground);
-        button.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                buttonClicked();
-            }
-        });
+        button.setOnClickListener(view -> buttonClicked());
         horizontal.addView(button);
 
         // Init share
@@ -135,11 +130,7 @@ public class CloudDetailsCell extends LinearLayout {
         share.setText(R.string.share);
         share.setTextColor(getResources().getColor(android.R.color.white));
         share.setBackground(buttonBackground);
-        share.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                shareClicked();
-            }
-        });
+        share.setOnClickListener(view -> shareClicked());
         horizontal.addView(share);
 
         // Add them to layout

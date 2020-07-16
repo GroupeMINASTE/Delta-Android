@@ -44,16 +44,13 @@ public class CloudOtherSection extends Section {
         // bind your view here
         if (itemHolder.itemView instanceof RightDetailCell) {
             ((RightDetailCell) itemHolder.itemView).with(R.string.cloud_settings_notes, container.getNotes());
-            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Check that content is loaded before
-                    if (!container.isLoaded()) { return; }
+            itemHolder.itemView.setOnClickListener(view -> {
+                // Check that content is loaded before
+                if (!container.isLoaded()) { return; }
 
-                    // Notes
-                    if (position == 0) {
-                        container.changeNotes();
-                    }
+                // Notes
+                if (position == 0) {
+                    container.changeNotes();
                 }
             });
         }

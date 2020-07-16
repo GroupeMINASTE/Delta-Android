@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -97,11 +96,7 @@ public class EditorCell extends LinearLayout {
         delete.setText("✖");
         delete.setTextAlignment(TEXT_ALIGNMENT_TEXT_END);
         delete.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        delete.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                container.editorLineDeleted(line, index);
-            }
-        });
+        delete.setOnClickListener(view -> container.editorLineDeleted(line, index));
 
         // Add to header
         header.addView(icon);
@@ -117,11 +112,7 @@ public class EditorCell extends LinearLayout {
         buttonBackground.setColor(getResources().getColor(R.color.colorPrimary));
         buttonBackground.setCornerRadius(dp8);
         button.setBackground(buttonBackground);
-        button.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                container.openActionSelection(index);
-            }
-        });
+        button.setOnClickListener(view -> container.openActionSelection(index));
     }
 
     public void with(EditorLine line, EditorLinesSection.EditorLinesContainer container, int index) {
