@@ -97,4 +97,20 @@
     <string name="edit_profile">Profil ändern</string>
     <string name="not_logged">Nicht eingeloggt</string>
     <string name="my_account">Mein Delta Cloud account</string>
+    <string name="cloud_settings_notes">Noten</string>
+    <string name="icon_image">Bild</string>
+    <string name="icon_color">Farbe</string>
+    <string name="settings_cloud">Klicken Sie um das Cloud Teilung einzustellen</string>
+    <string name="settings_cloud_error">Bitte einloggen Sie sich auf ihren Delta Cloud Konto um diese Funktion zu nützen!</string>
+    <string name="status_deleting">Löschung…</string>
+    <string name="loading">Es lädt…</string>
+    <string name="cloud_settings_public_title">Algorithmus Sichtbarkeit</string>
+    <string name="cloud_settings_sync_title">Synchronisation</string>
+    <string name="cloud_settings_public">öffentlich</string>
+    <string name="icon_title">Symboleditor</string>
+    <string name="status_uploading">Senden…</string>
+    <string name="cloud_settings_other_title">Andren</string>
+    <string name="cloud_settings_notes_title">Noten ändern</string>
+    <string name="share">Teilen</string>
+    <string name="settings_icon">Klicken Sie um das Symbol zu konfigurieren</string>
 </resources>
