@@ -82,4 +82,19 @@
     <string name="welcome_header4">Bereit ihren ersten Algorithmus zu einstellen\?</string>
     <string name="welcome_paragraph3">Herrunterladen fertiggestellt Algorithmen aus Delta Cloud oder teilen Sie dem Sie grade eingestellt haben.</string>
     <string name="welcome_header3">Oder herunterladen Sie ein aus dem Cloud</string>
+    <string name="cloud_settings_sync">Zu Delta Cloud Speichern</string>
+    <string name="cloud_settings_title">Cloud Einstellungen</string>
+    <string name="field_password">Kennwort</string>
+    <string name="field_username">Benutzername</string>
+    <string name="field_name">Voll Name</string>
+    <string name="sign_up_error">Dieser Benutzername ist schon benutzt!</string>
+    <string name="sign_in_error">Falschen Benutzername oder Kennwort!</string>
+    <string name="sign_up_description">Öffnen Sie einen Konto um zu Starten Delta Cloud zu nützen</string>
+    <string name="sign_in_description">Fühlen Sie ihren Identifikationsfiguren um eine Session zu Starten</string>
+    <string name="sign_out">Abmelden</string>
+    <string name="sign_up">Registrieren</string>
+    <string name="sign_in">Einloggen</string>
+    <string name="edit_profile">Profil ändern</string>
+    <string name="not_logged">Nicht eingeloggt</string>
+    <string name="my_account">Mein Delta Cloud account</string>
 </resources>
