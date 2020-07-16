@@ -113,5 +113,10 @@
     <string name="sign_in">Войти</string>
     <string name="sign_up">Зарегистрироваться</string>
     <string name="sign_out">Выйти</string>
-    <string name="logged_as">Вошел как %@ (%@)</string>
+    <string name="logged_as">Вошел как %s (%s)</string>
+    <string name="donate_header">Выберите размер пожертвования:</string>
+    <string name="edit_profile_description">Измените свое имя, логин и пароль. Введите пароль только в том случае, если вы хотите его изменить.</string>
+    <string name="donate_thanks">Спасибо за пожертвование организации!</string>
+    <string name="edit_profile_error">Имя пользователя уже занято или слишком длинное!</string>
+    <string name="donate_footer">Это пожертвование поможет нашей организации развивать свои проекты, главным образом Експтопи, социальную сеть, над которой мы работаем, которая потребует некоторого хранилища для своих серверов.</string>
 </resources>
