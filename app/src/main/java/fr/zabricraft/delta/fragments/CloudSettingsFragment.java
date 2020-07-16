@@ -2,10 +2,13 @@ package fr.zabricraft.delta.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.json.JSONObject;
 
@@ -17,16 +20,21 @@ import fr.zabricraft.delta.activities.EditorActivity;
 import fr.zabricraft.delta.api.APIAlgorithm;
 import fr.zabricraft.delta.api.APIRequest;
 import fr.zabricraft.delta.api.APIResponseStatus;
+import fr.zabricraft.delta.extensions.IntExtension;
+import fr.zabricraft.delta.sections.CloudOtherSection;
 import fr.zabricraft.delta.sections.CloudSwitchSection;
 import fr.zabricraft.delta.utils.Algorithm;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
-public class CloudSettingsFragment extends Fragment implements CloudSwitchSection.CloudSwitchContainer {
+public class CloudSettingsFragment extends Fragment implements CloudSwitchSection.CloudSwitchContainer, CloudOtherSection.CloudOtherContainer {
 
     private SectionedRecyclerViewAdapter sectionAdapter;
     private CloudSwitchSection publicSection;
+    private CloudOtherSection otherSection;
 
     private Algorithm algorithm;
+
+    private boolean loaded = false;
     private Boolean public_;
     private String notes;
 
@@ -41,8 +49,11 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         sectionAdapter = new SectionedRecyclerViewAdapter();
         publicSection = new CloudSwitchSection(R.string.cloud_settings_public_title, this);
         publicSection.setVisible(false);
+        otherSection = new CloudOtherSection(this);
+        otherSection.setVisible(false);
         sectionAdapter.addSection(new CloudSwitchSection(R.string.cloud_settings_sync_title, this));
         sectionAdapter.addSection(publicSection);
+        sectionAdapter.addSection(otherSection);
 
         // Bind adapter to recyclerView
         recyclerView.setAdapter(sectionAdapter);
@@ -61,10 +72,14 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         // Refresh
         boolean visible = algorithm.getRemoteId() != null && !algorithm.getRemoteId().equals(0);
         publicSection.setVisible(visible);
+        otherSection.setVisible(visible);
         sectionAdapter.notifyDataSetChanged();
     }
 
     public void fetchMetadatas() {
+        // No ore loaded (in case of reset needed)
+        loaded = false;
+
         // Call API
         new APIAlgorithm(algorithm.getRemoteId(), null, null, null, null, null).fetchMissingData(getActivity(), new APIRequest.CompletionHandler() {
             @Override
@@ -77,6 +92,7 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
                     // Update data
                     public_ = data.public_;
                     notes = data.notes;
+                    loaded = true;
                 }
 
                 // Refresh recycler view
@@ -124,7 +140,11 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
     }
 
     public Boolean isPublic() {
-        return public_;
+        return loaded ? public_ : null;
+    }
+
+    public String getNotes() {
+        return loaded ? notes != null ? notes : getString(R.string.cloud_no_notes) : getString(R.string.loading);
     }
 
     public void syncChanged(boolean enabled) {
@@ -132,6 +152,9 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         if (enabled) {
             // Upload
             sendMetadatas();
+        } else {
+            // Remove from cloud
+            // TODO
         }
     }
 
@@ -143,4 +166,47 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
         sendMetadatas();
     }
 
+    public void changeNotes() {
+        // Create a dialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity()).setTitle(R.string.cloud_settings_notes_title);
+
+        // Create a linear layout
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        alert.setView(linearLayout);
+
+        int dp8 = IntExtension.dpToPixel(8, getResources());
+        int dp20 = IntExtension.dpToPixel(20, getResources());
+
+        LinearLayout.LayoutParams fieldParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        fieldParams.setMargins(dp20, dp8, dp20, dp8);
+
+        // Add notes field
+        final EditText notes = new EditText(getActivity());
+        notes.setLayoutParams(fieldParams);
+        notes.setText(this.notes != null ? this.notes : "");
+        linearLayout.addView(notes);
+
+        // Add save button
+        alert.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Update value
+                CloudSettingsFragment.this.notes = notes.getText().toString();
+
+                // Send metadatas
+                sendMetadatas();
+            }
+        });
+
+        // Add cancel button
+        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {}
+        });
+
+        // Show it
+        alert.create().show();
+    }
 }

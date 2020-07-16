@@ -30,6 +30,9 @@
     <string name="cloud_settings_sync_title">Synchronization</string>
     <string name="cloud_settings_public">Public</string>
     <string name="cloud_settings_public_title">Algorithm visibility</string>
+    <string name="cloud_settings_other_title">Other</string>
+    <string name="cloud_settings_notes">Notes</string>
+    <string name="cloud_settings_notes_title">Edit notes</string>
     <string name="copy">%s (copy)</string>
     <string name="about">About</string>
     <string name="help">Help and documentation</string>
