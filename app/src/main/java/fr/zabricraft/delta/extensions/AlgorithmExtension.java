@@ -8,7 +8,7 @@ import fr.zabricraft.delta.utils.AlgorithmParser;
 
 public class AlgorithmExtension {
 
-    public static final Algorithm secondDegreeEquation = new AlgorithmParser(0, 1, false, "2nd degree equations", new Date(0), new AlgorithmIcon("function", "river"), "print_text \"Updating from server...\"").execute();
+    public static final Algorithm secondDegreeEquation = new AlgorithmParser(0, 1L, false, "2nd degree equations", new Date(0), new AlgorithmIcon("function", "river"), "print_text \"Updating from server...\"").execute();
 
     public static final Algorithm[] defaults = new Algorithm[]{secondDegreeEquation};
 

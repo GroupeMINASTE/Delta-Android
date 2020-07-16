@@ -168,7 +168,7 @@ public class EditorFragment extends Fragment implements SettingsSection.Settings
         getActivity().finish();
     }
 
-    public void updateRemoteId(Integer remote_id) {
+    public void updateRemoteId(Long remote_id) {
         // Take new algorithm remote id
         algorithm.setRemoteId(remote_id);
 

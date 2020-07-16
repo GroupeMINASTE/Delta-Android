@@ -61,7 +61,7 @@ public class EditorActivity extends AppCompatActivity {
         lastInstance = null;
     }
 
-    public void updateRemoteId(Integer remote_id) {
+    public void updateRemoteId(Long remote_id) {
         fragment.updateRemoteId(remote_id);
     }
 }

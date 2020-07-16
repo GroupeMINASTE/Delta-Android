@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -94,8 +97,8 @@ public class Database extends SQLiteOpenHelper {
                 do {
                     // Create algorithm in list
                     list.add(new AlgorithmParser(
-                            cursor.getInt(cursor.getColumnIndex(local_id)),
-                            cursor.getInt(cursor.getColumnIndex(remote_id)),
+                            cursor.getLong(cursor.getColumnIndex(local_id)),
+                            cursor.getLong(cursor.getColumnIndex(remote_id)),
                             cursor.getInt(cursor.getColumnIndex(owner)) == 1,
                             cursor.getString(cursor.getColumnIndex(name)),
                             new Date(cursor.getLong(cursor.getColumnIndex(last_update))),
@@ -118,7 +121,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     // Get algorithm by id
-    public Algorithm getAlgorithm(int id_local, int id_remote) {
+    public Algorithm getAlgorithm(long id_local, long id_remote) {
         // Declare an algorithm
         Algorithm algorithm = null;
 
@@ -135,8 +138,8 @@ public class Database extends SQLiteOpenHelper {
                 do {
                     // Create algorithm in list
                     algorithm = new AlgorithmParser(
-                            cursor.getInt(cursor.getColumnIndex(local_id)),
-                            cursor.getInt(cursor.getColumnIndex(remote_id)),
+                            cursor.getLong(cursor.getColumnIndex(local_id)),
+                            cursor.getLong(cursor.getColumnIndex(remote_id)),
                             cursor.getInt(cursor.getColumnIndex(owner)) == 1,
                             cursor.getString(cursor.getColumnIndex(name)),
                             new Date(cursor.getLong(cursor.getColumnIndex(last_update))),
@@ -158,7 +161,7 @@ public class Database extends SQLiteOpenHelper {
         return algorithm;
     }
 
-    public Algorithm getAlgorithm(int id_local) {
+    public Algorithm getAlgorithm(long id_local) {
         return getAlgorithm(id_local, -1);
     }
 
@@ -251,6 +254,37 @@ public class Database extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("DELTA", "Error while trying to delete algorithm");
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    // Update owned algorithms
+    public void updateOwned(JSONArray owned) {
+        // Create and/or open the database for writing
+        SQLiteDatabase db = getWritableDatabase();
+
+        // It's a good idea to wrap our insert in a transaction. This helps with performance and ensures
+        // consistency of the database.
+        db.beginTransaction();
+        try {
+            // Get data
+            ContentValues values = new ContentValues();
+            values.put(owner, 1);
+
+            // Convert array to string
+            List<String> ids = new ArrayList<>();
+            List<String> placeholders = new ArrayList<>();
+            for (int i = 0; i < owned.length(); i++) {
+                ids.add(String.valueOf(owned.getLong(i)));
+                placeholders.add("?");
+            }
+
+            // Update rows
+            db.update(algorithms, values, remote_id + " IN (" + TextUtils.join(",", placeholders) + ")", ids.toArray(new String[]{}));
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("DELTA", "Error while trying to update owned algorithms");
         } finally {
             db.endTransaction();
         }

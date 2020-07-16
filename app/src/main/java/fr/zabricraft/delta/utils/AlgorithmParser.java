@@ -34,8 +34,8 @@ public class AlgorithmParser {
     private int i;
 
     // Algorithm vars
-    private int local_id;
-    private Integer remote_id;
+    private long local_id;
+    private Long remote_id;
     private boolean owner;
     private String name;
     private Date last_update;
@@ -43,7 +43,7 @@ public class AlgorithmParser {
     private List<Action> actions;
 
     // Initializer
-    public AlgorithmParser(int local_id, Integer remote_id, boolean owner, String name, Date last_update, AlgorithmIcon icon, String lines) {
+    public AlgorithmParser(long local_id, Long remote_id, boolean owner, String name, Date last_update, AlgorithmIcon icon, String lines) {
         this.lines = lines;
         this.keywords = new ArrayList<>();
         this.tokens = new ArrayList<>();

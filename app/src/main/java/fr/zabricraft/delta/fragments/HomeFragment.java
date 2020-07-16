@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
 
     public void algorithmChanged(Algorithm updatedAlgorithm) {
         for (int i = 0; i < myalgorithms.size(); i++) {
-            if ((myalgorithms.get(i).getLocalId() == updatedAlgorithm.getLocalId() && myalgorithms.get(i).getLocalId() != 0) || (myalgorithms.get(i).getRemoteId() != null && !myalgorithms.get(i).getRemoteId().equals(0) && myalgorithms.get(i).getRemoteId().equals(updatedAlgorithm.getRemoteId()))) {
+            if ((myalgorithms.get(i).getLocalId() == updatedAlgorithm.getLocalId() && myalgorithms.get(i).getLocalId() != 0) || (myalgorithms.get(i).getRemoteId() != null && !myalgorithms.get(i).getRemoteId().equals(0L) && myalgorithms.get(i).getRemoteId().equals(updatedAlgorithm.getRemoteId()))) {
                 // Replace
                 myalgorithms.remove(i);
                 myalgorithms.add(i, updatedAlgorithm);
@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment implements AlgorithmsSection.Algorith
             }
         }
         for (int i = 0; i < downloads.size(); i++) {
-            if ((downloads.get(i).getLocalId() == updatedAlgorithm.getLocalId() && downloads.get(i).getLocalId() != 0) || (downloads.get(i).getRemoteId() != null && !downloads.get(i).getRemoteId().equals(0) && downloads.get(i).getRemoteId().equals(updatedAlgorithm.getRemoteId()))) {
+            if ((downloads.get(i).getLocalId() == updatedAlgorithm.getLocalId() && downloads.get(i).getLocalId() != 0) || (downloads.get(i).getRemoteId() != null && !downloads.get(i).getRemoteId().equals(0L) && downloads.get(i).getRemoteId().equals(updatedAlgorithm.getRemoteId()))) {
                 // Replace
                 downloads.remove(i);
                 downloads.add(i, updatedAlgorithm);

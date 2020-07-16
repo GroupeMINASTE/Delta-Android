@@ -70,7 +70,7 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
 
     public void refreshRecyclerView() {
         // Refresh
-        boolean visible = algorithm.getRemoteId() != null && !algorithm.getRemoteId().equals(0);
+        boolean visible = algorithm.getRemoteId() != null && !algorithm.getRemoteId().equals(0L);
         publicSection.setVisible(visible);
         otherSection.setVisible(visible);
         sectionAdapter.notifyDataSetChanged();
@@ -165,7 +165,7 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
     }
 
     public Boolean isSync() {
-        return algorithm.getRemoteId() != null && !algorithm.getRemoteId().equals(0);
+        return algorithm.getRemoteId() != null && !algorithm.getRemoteId().equals(0L);
     }
 
     public Boolean isPublic() {

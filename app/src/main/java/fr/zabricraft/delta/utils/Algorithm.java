@@ -25,8 +25,8 @@ import fr.zabricraft.delta.extensions.StringExtension;
 public class Algorithm implements Serializable {
 
     // Properties
-    private int local_id;
-    private Integer remote_id;
+    private long local_id;
+    private Long remote_id;
     private boolean owner;
     private String name;
     private Date last_update;
@@ -37,7 +37,7 @@ public class Algorithm implements Serializable {
 
     // Initializer
 
-    public Algorithm(int local_id, Integer remote_id, boolean owner, String name, Date last_update, AlgorithmIcon icon, RootAction root) {
+    public Algorithm(long local_id, Long remote_id, boolean owner, String name, Date last_update, AlgorithmIcon icon, RootAction root) {
         // Init values
         this.local_id = local_id;
         this.remote_id = remote_id;
@@ -55,19 +55,19 @@ public class Algorithm implements Serializable {
 
     // Getters and setters
 
-    public int getLocalId() {
+    public long getLocalId() {
         return local_id;
     }
 
-    public void setLocalId(int local_id) {
+    public void setLocalId(long local_id) {
         this.local_id = local_id;
     }
 
-    public Integer getRemoteId() {
+    public Long getRemoteId() {
         return remote_id;
     }
 
-    public void setRemoteId(Integer remote_id) {
+    public void setRemoteId(Long remote_id) {
         this.remote_id = remote_id;
     }
 
@@ -291,7 +291,7 @@ public class Algorithm implements Serializable {
 
     public void checkForUpdate(final Context context, final AlgorithmChanged algorithmChanged) {
         // If there is a remote id
-        if (getRemoteId() != null && !getRemoteId().equals(0)) {
+        if (getRemoteId() != null && !getRemoteId().equals(0L)) {
             // Check for update
             setStatus(APISyncStatus.checkingforupdate);
             algorithmChanged.algorithmChanged(this);

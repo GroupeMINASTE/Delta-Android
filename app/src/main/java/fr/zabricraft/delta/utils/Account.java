@@ -4,6 +4,7 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ public class Account {
     // Account properties
     public String access_token = null;
     public APIUser user = null;
+    public JSONArray algorithms = null;
 
     // Status management
     public boolean loading = false;
@@ -31,6 +33,7 @@ public class Account {
         try {
             this.access_token = object.has("access_token") ? object.getString("access_token") : null;
             this.user = object.has("user") ? new APIUser(object.getJSONObject("user")) : null;
+            this.algorithms = object.has("algorithms") ? object.getJSONArray("algorithms") : null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,6 +76,11 @@ public class Account {
                     // Store token and user
                     Account.this.access_token = account.access_token;
                     Account.this.user = account.user;
+
+                    // Update owned algorithms
+                    if (account.algorithms != null) {
+                        Database.getInstance(context).updateOwned(account.algorithms);
+                    }
                 } else if (status != APIResponseStatus.offline) {
                     // Remove access token (invalid)
                     Account.this.access_token = null;
@@ -103,6 +111,11 @@ public class Account {
                     // Store token and user
                     Account.this.access_token = account.access_token;
                     Account.this.user = account.user;
+
+                    // Update owned algorithms
+                    if (account.algorithms != null) {
+                        Database.getInstance(context).updateOwned(account.algorithms);
+                    }
                 }
 
                 // Call completion handler

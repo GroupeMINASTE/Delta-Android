@@ -15,7 +15,7 @@ import fr.zabricraft.delta.utils.Database;
 
 public class APIAlgorithm implements Serializable {
 
-    public Integer id;
+    public Long id;
     public String name;
     public APIUser owner;
     public String last_update;
@@ -24,7 +24,7 @@ public class APIAlgorithm implements Serializable {
     public AlgorithmIcon icon;
     public Boolean public_;
 
-    public APIAlgorithm(Integer id, String name, String lines, String notes, AlgorithmIcon icon, Boolean public_) {
+    public APIAlgorithm(Long id, String name, String lines, String notes, AlgorithmIcon icon, Boolean public_) {
         this.id = id;
         this.name = name;
         this.lines = lines;
@@ -35,7 +35,7 @@ public class APIAlgorithm implements Serializable {
 
     public APIAlgorithm(JSONObject object) {
         try {
-            this.id = object.has("id") ? object.getInt("id") : null;
+            this.id = object.has("id") ? object.getLong("id") : null;
             this.name = object.has("name") ? object.getString("name") : null;
             this.owner = object.has("owner") ? new APIUser(object.getJSONObject("owner")) : null;
             this.last_update = object.has("last_update") ? object.getString("last_update") : null;
@@ -101,7 +101,7 @@ public class APIAlgorithm implements Serializable {
 
     public void upload(Context context, APIRequest.CompletionHandler completionHandler) {
         // Check if algorithm already has an ID
-        if (id != null && !id.equals(0)) {
+        if (id != null && !id.equals(0L)) {
             // Update it
             new APIRequest("PUT", "/algorithm/algorithm.php", context, completionHandler).with("id", id).withBody(toJSON()).execute();
         } else {
@@ -112,7 +112,7 @@ public class APIAlgorithm implements Serializable {
 
     public void delete(Context context, APIRequest.CompletionHandler completionHandler) {
         // Check if algorithm already has an ID
-        if (id != null && !id.equals(0)) {
+        if (id != null && !id.equals(0L)) {
             // Delete it
             new APIRequest("DELETE", "/algorithm/algorithm.php", context, completionHandler).with("id", id).execute();
         } else {
