@@ -114,6 +114,7 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
                 algorithm.setRemoteId(data.id);
                 public_ = data.public_;
                 notes = data.notes;
+                loaded = true;
 
                 // Send back new data
                 if (EditorActivity.lastInstance != null) {
@@ -140,6 +141,7 @@ public class CloudSettingsFragment extends Fragment implements CloudSwitchSectio
             if (status == APIResponseStatus.ok) {
                 // Remove remote id
                 algorithm.setRemoteId(null);
+                loaded = false;
 
                 // Send back new data
                 if (EditorActivity.lastInstance != null) {
