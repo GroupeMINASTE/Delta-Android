@@ -119,4 +119,9 @@
     <string name="edit_profile_description">Promenite svoj ime, korisnički ime i lozinku. Unesite lozinku samo ako hoćete da ga promenite.</string>
     <string name="donate_footer">Ova donacija če nas organizaciju pomoči da razvije svoji projekti, glavno Ekstopi, društveni mreži na koju mi radimo, i ko če trebati skladište za svoju serveri.</string>
     <string name="donate_header">Izaberite iznos za vašu donaciju:</string>
+    <string name="more">Više…</string>
+    <string name="download_account">Preuzmi moj datoteke</string>
+    <string name="delete_account_success">Vaš nalog je izbrisan!</string>
+    <string name="delete_account_description">Dali ste sigurni da želite da izbrišate vaš nalog\? Ovo je nepovratan!</string>
+    <string name="delete_account">Obriši moj nalog</string>
 </resources>
