@@ -119,4 +119,9 @@
     <string name="donate_thanks">Danke für ihre Spende zu unsere Organisation!</string>
     <string name="donate_footer">Diese Spende wird unserem Organisation helfen, seinen Projekte zu entwickeln, insbesondere Extopy, das soziale Netzwerk, das wir entwickeln und das hauptsächlich Speicher auf seinen Servern benötigt.</string>
     <string name="edit_profile_error">Benutzername schon benutzt oder zu lang!</string>
+    <string name="more">Mehr…</string>
+    <string name="download_account">Mein Datei herunterladen</string>
+    <string name="delete_account_success">Ihren Konto ist gelöscht!</string>
+    <string name="delete_account_description">Sind Sie sicher, dass sie ihren Konto löschen wollen\? Das ist unumkehrbar!</string>
+    <string name="delete_account">Mein Konto löschen</string>
 </resources>
