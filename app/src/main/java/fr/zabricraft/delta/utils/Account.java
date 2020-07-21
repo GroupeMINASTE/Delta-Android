@@ -187,6 +187,30 @@ public class Account {
         }
     }
 
+    // Download data
+    public void downloadData(Context context, APIRequest.CompletionHandler completionHandler) {
+        // Fetch api with token
+        new APIRequest("GET", "/auth/export.php", context, completionHandler).execute();
+    }
+
+    // Delete account
+    public void delete(Context context, CompletionHandler completionHandler) {
+        // Delete account from API
+        new APIRequest("DELETE", "/auth/account.php", context, (object, status) -> {
+            if (status == APIResponseStatus.ok) {
+                // Clear from object
+                Account.this.access_token = null;
+                Account.this.user = null;
+
+                // Clear from preferences
+                PreferenceManager.getDefaultSharedPreferences(context).edit().remove("access_token").apply();
+            }
+
+            // Call completion handler
+            completionHandler.completionHandler(status);
+        }).execute();
+    }
+
     // Account completion handler
     public interface CompletionHandler {
 

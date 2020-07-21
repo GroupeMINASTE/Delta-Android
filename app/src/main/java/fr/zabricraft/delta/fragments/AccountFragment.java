@@ -2,6 +2,7 @@ package fr.zabricraft.delta.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -14,10 +15,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.api.APIResponseStatus;
 import fr.zabricraft.delta.extensions.IntExtension;
 import fr.zabricraft.delta.utils.Account;
+import fr.zabricraft.delta.utils.Exported;
 
 public class AccountFragment extends Fragment implements View.OnClickListener {
 
@@ -25,6 +29,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     TextView label;
     Button button1;
     Button button2;
+    TextView more;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +77,15 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         button2.setOnClickListener(this);
         linearLayout.addView(button2);
 
+        // Configure more
+        more = new TextView(getActivity());
+        more.setLayoutParams(buttonParams);
+        more.setTextColor(getResources().getColor(R.color.colorPrimary));
+        more.setOnClickListener(this);
+        more.setText(R.string.more);
+        more.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        linearLayout.addView(more);
+
         // Load account
         loadAccount();
 
@@ -86,11 +100,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             label.setText(getResources().getString(R.string.logged_as, Account.current.user.name, Account.current.user.username));
             button1.setText(R.string.edit_profile);
             button2.setText(R.string.sign_out);
+            more.setVisibility(View.VISIBLE);
         } else {
             // User is not logged
             label.setText(R.string.not_logged);
             button1.setText(R.string.sign_in);
             button2.setText(R.string.sign_up);
+            more.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -102,16 +118,19 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             if (view == button1) {
                 // Edit profile
                 editProfile();
-            } else {
+            } else if (view == button2) {
                 // Sign out
                 signOut();
+            } else {
+                // More
+                openMore();
             }
         } else {
             // Check button
             if (view == button1) {
                 // Sign in
                 signIn();
-            } else {
+            } else if (view == button2) {
                 // Sign up
                 signUp();
             }
@@ -328,6 +347,71 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         // Show it
         alert.create().show();
+    }
+
+    public void openMore() {
+        // Get strings
+        String[] strings = {
+                getString(R.string.download_account),
+                getString(R.string.delete_account),
+                getString(R.string.cancel)
+        };
+
+        // Create an alert dialog
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.more).setItems(strings, (dialogInterface, i) -> {
+            // Download
+            if (i == 0) {
+                // Show a loading
+                AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.status_downloading).create();
+                loading.show();
+
+                // Download data
+                Account.current.downloadData(getActivity(), (object, status) -> {
+                    loading.dismiss();
+
+                    // Check data
+                    if (object instanceof JSONObject && status == APIResponseStatus.ok) {
+                        // Convert it
+                        Exported data = new Exported((JSONObject) object);
+
+                        // Create the export action
+                        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                        share.setType("text/plain");
+                        share.putExtra(Intent.EXTRA_TEXT, data.toString());
+                        getActivity().startActivity(Intent.createChooser(share, getString(R.string.download_account)));
+                    } else {
+                        // Download error
+                        new AlertDialog.Builder(getActivity()).setTitle(R.string.download_account).setMessage(R.string.status_error).setNeutralButton(R.string.close, (dialogInterface1, i1) -> {}).create().show();
+                    }
+                });
+            }
+
+            // Delete
+            else if (i == 1) {
+                // Ask for a confirmation (to be sure)
+                new AlertDialog.Builder(getActivity()).setTitle(R.string.delete_account).setMessage(R.string.delete_account_description).setPositiveButton(R.string.delete, (dialogInterface12, i12) -> {
+                    // Show a loading
+                    AlertDialog loading = new AlertDialog.Builder(getActivity()).setTitle(R.string.loading).create();
+                    loading.show();
+
+                    // Delete data
+                    Account.current.delete(getActivity(), status -> {
+                        // Reload the view
+                        loadAccount();
+                        loading.dismiss();
+
+                        // Check data
+                        if (status == APIResponseStatus.ok) {
+                            // Delete success
+                            new AlertDialog.Builder(getActivity()).setTitle(R.string.delete_account).setMessage(R.string.delete_account_success).setNeutralButton(R.string.close, (dialogInterface1, i1) -> {}).create().show();
+                        } else {
+                            // Delete error
+                            new AlertDialog.Builder(getActivity()).setTitle(R.string.delete_account).setMessage(R.string.status_error).setNeutralButton(R.string.close, (dialogInterface1, i1) -> {}).create().show();
+                        }
+                    });
+                }).setNegativeButton(R.string.cancel, (dialogInterface1, i1) -> {}).create().show();
+            }
+        }).create().show();
     }
 
 }
