@@ -119,4 +119,9 @@
     <string name="donate_footer">Ова донација че нас организацију помочи да развије своји пројекти, главно Екстопи, друштвени мрежи на коју ми радимо, и ко че требати складиште за своју сервери.</string>
     <string name="edit_profile_error">Кориснички име већ заузето или су више дуго!</string>
     <string name="donate_header">Изаберите износ за вашу донацију:</string>
+    <string name="more">Више…</string>
+    <string name="download_account">Преузми мој датотеке</string>
+    <string name="delete_account_success">Ваш налог је избрисан!</string>
+    <string name="delete_account_description">Дали сте сигурни да желите да избришате ваш налог\? Ово је неповратна!</string>
+    <string name="delete_account">Обриши мој налог</string>
 </resources>
