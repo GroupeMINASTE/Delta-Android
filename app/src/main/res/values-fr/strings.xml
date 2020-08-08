@@ -120,4 +120,5 @@
     <string name="download_account">Télécharger mes données</string>
     <string name="delete_account_description">Êtes vous sur de vouloir supprimer votre compte \? Cette action est irréversible !</string>
     <string name="more">Plus…</string>
+    <string name="status_originDown">Il semblerait que notre serveur soit hors ligne. Réessayez plus tard !</string>
 </resources>
