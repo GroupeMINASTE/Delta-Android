@@ -179,6 +179,8 @@ public class APIRequest extends AsyncTask<Void, Void, Object> {
                 return APIResponseStatus.unauthorized;
             case 404:
                 return APIResponseStatus.notFound;
+            case 521:
+                return APIResponseStatus.originDown;
             default:
                 return APIResponseStatus.offline;
         }

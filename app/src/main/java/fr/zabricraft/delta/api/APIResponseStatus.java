@@ -4,7 +4,7 @@ import fr.zabricraft.delta.R;
 
 public enum APIResponseStatus {
 
-    ok, created, notFound, unauthorized, invalidRequest, offline, loading;
+    ok, created, notFound, unauthorized, invalidRequest, offline, originDown, loading;
 
     public int text() {
         switch (this) {
@@ -16,6 +16,8 @@ public enum APIResponseStatus {
                 return R.string.status_error;
             case offline:
                 return R.string.status_offline;
+            case originDown:
+                return R.string.status_originDown;
             case loading:
                 return R.string.status_loading;
         }

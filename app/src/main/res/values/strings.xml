@@ -70,6 +70,7 @@
     <string name="status_failed">Failed to update!</string>
     <string name="status_error">Something went wrong during the request…</string>
     <string name="status_offline">It seems that you\'re offline!</string>
+    <string name="status_originDown">It seems that our server is offline. Please try again later!</string>
     <string name="status_notFound">The content you\'re looking for doesn\'t exist</string>
     <string name="status_unauthorized">You don\'t have the right to access to this content</string>
     <string name="status_loading">Loading…</string>

@@ -75,7 +75,7 @@ public class Account {
                 if (account.algorithms != null) {
                     Database.getInstance(context).updateOwned(account.algorithms);
                 }
-            } else if (status != APIResponseStatus.offline) {
+            } else if (status != APIResponseStatus.offline && status != APIResponseStatus.originDown) {
                 // Remove access token (invalid)
                 Account.this.access_token = null;
                 PreferenceManager.getDefaultSharedPreferences(context).edit().remove("access_token").apply();
