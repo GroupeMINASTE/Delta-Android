@@ -189,7 +189,7 @@ public class Product extends Token implements Comparator<Token> {
                 int rightIndex = 0;
                 while (rightIndex < rightValues.size()) {
                     // Check if left and right are the same
-                    if (leftValues.get(leftIndex).toString().equals(rightValues.get(rightIndex).toString())) {
+                    if (leftValues.get(leftIndex).equals(rightValues.get(rightIndex))) {
                         // We have a common factor
                         factors.add(leftValues.get(leftIndex));
                         leftValues.remove(leftIndex);
@@ -276,6 +276,10 @@ public class Product extends Token implements Comparator<Token> {
 
     public Token inverse() {
         return new Fraction(new Number(1), this);
+    }
+
+    public boolean equals(Token right) {
+        return defaultEquals(right);
     }
 
     public Double asDouble() {

@@ -190,6 +190,10 @@ public class Fraction extends Token {
         return new Fraction(getDenominator(), getNumerator());
     }
 
+    public boolean equals(Token right) {
+        return defaultEquals(right);
+    }
+
     public Double asDouble() {
         Double numerator = this.numerator.asDouble();
         Double denominator = this.denominator.asDouble();

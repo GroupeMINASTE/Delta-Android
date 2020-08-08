@@ -24,6 +24,8 @@ public abstract class Token implements Serializable {
 
     public abstract Token inverse();
 
+    public abstract boolean equals(Token right);
+
     public abstract Double asDouble();
 
     public Token defaultApply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
@@ -40,7 +42,7 @@ public abstract class Token implements Serializable {
             }
 
             // Left and right are the same
-            if (toString().equals(right.toString())) {
+            if (equals(right)) {
                 return new Product(this, new Number(2)).compute(inputs, format);
             }
 
@@ -62,7 +64,7 @@ public abstract class Token implements Serializable {
             }
 
             // Left and right are the same
-            if (toString().equals(right.toString())) {
+            if (equals(right)) {
                 return new Power(this, new Number(2)).compute(inputs, format);
             }
 
@@ -111,7 +113,7 @@ public abstract class Token implements Serializable {
                 int rightIndex = 0;
                 while (rightIndex < rightValues.size()) {
                     // Check if left and right are the same
-                    if (leftValues.get(leftIndex).toString().equals(rightValues.get(rightIndex).toString())) {
+                    if (leftValues.get(leftIndex).equals(rightValues.get(rightIndex))) {
                         // We have a common factor
                         leftValues.remove(leftIndex);
                         leftValues.add(leftIndex, new Number(1));
@@ -165,6 +167,18 @@ public abstract class Token implements Serializable {
 
         // Unknown, return a calcul error
         return new CalculError();
+    }
+
+    public boolean defaultEquals(Token right) {
+        // Compare value (if possible)
+        Double leftDouble = asDouble();
+        Double rightDouble = right.asDouble();
+        if (leftDouble != null && rightDouble != null) {
+            return leftDouble.equals(rightDouble);
+        }
+
+        // Compare string
+        return toString().equals(right.toString());
     }
 
 }

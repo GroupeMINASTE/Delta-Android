@@ -68,6 +68,10 @@ public class Interval extends Token {
         return this;
     }
 
+    public boolean equals(Token right) {
+        return defaultEquals(right);
+    }
+
     public Double asDouble() {
         return null;
     }

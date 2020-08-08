@@ -40,6 +40,10 @@ public class FormattedToken extends Token {
         return token.inverse();
     }
 
+    public boolean equals(Token right) {
+        return token.defaultEquals(right);
+    }
+
     public Double asDouble() {
         return token.asDouble();
     }

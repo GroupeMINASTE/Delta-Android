@@ -29,22 +29,30 @@ public class Equation extends Token {
     }
 
     public boolean isTrue(Map<String, Token> inputs) {
-        Double left = this.left.compute(inputs, false).asDouble();
-        Double right = this.right.compute(inputs, false).asDouble();
+        Token left = this.left.compute(inputs, false);
+        Token right = this.right.compute(inputs, false);
 
-        if (left != null && right != null) {
-            if (operation == Operation.equals) {
-                return left.equals(right);
-            } else if (operation == Operation.unequals) {
-                return !left.equals(right);
-            } else if (operation == Operation.greaterThan) {
-                return left > right;
+        // Equals
+        if (operation == Operation.equals) {
+            return left.equals(right);
+        }
+        // Unequals
+        else if (operation == Operation.unequals) {
+            return !left.equals(right);
+        }
+
+        // Other operations with value
+        Double leftDouble = left.asDouble();
+        Double rightDouble = right.asDouble();
+        if (leftDouble != null && rightDouble != null) {
+            if (operation == Operation.greaterThan) {
+                return leftDouble > rightDouble;
             } else if (operation == Operation.lessThan) {
-                return left < right;
+                return leftDouble < rightDouble;
             } else if (operation == Operation.greaterThanOrEquals) {
-                return left >= right;
+                return leftDouble >= rightDouble;
             } else if (operation == Operation.lessThanOrEquals) {
-                return left <= right;
+                return leftDouble <= rightDouble;
             }
         }
 
@@ -81,6 +89,10 @@ public class Equation extends Token {
 
     public Token inverse() {
         return new Equation(left.inverse(), right.inverse(), operation);
+    }
+
+    public boolean equals(Token right) {
+        return defaultEquals(right);
     }
 
     public Double asDouble() {

@@ -52,7 +52,7 @@ public class Power extends Token {
         // Product
         if (operation == Operation.multiplication) {
             // Token and right are the same
-            if (token.toString().equals(right.toString())) {
+            if (token.equals(right)) {
                 return new Power(token, new Sum(power, new Number(1))).compute(inputs, format);
             }
         }
@@ -75,6 +75,10 @@ public class Power extends Token {
 
     public Token inverse() {
         return new Fraction(new Number(1), this);
+    }
+
+    public boolean equals(Token right) {
+        return defaultEquals(right);
     }
 
     public Double asDouble() {

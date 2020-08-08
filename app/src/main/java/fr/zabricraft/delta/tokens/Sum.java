@@ -206,6 +206,10 @@ public class Sum extends Token {
         return new Fraction(new Number(1), this);
     }
 
+    public boolean equals(Token right) {
+        return defaultEquals(right);
+    }
+
     public Double asDouble() {
         double val = 0.0;
 

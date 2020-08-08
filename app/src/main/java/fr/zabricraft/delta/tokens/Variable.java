@@ -90,6 +90,10 @@ public class Variable extends Token {
         return new Fraction(new Number(1), this);
     }
 
+    public boolean equals(Token right) {
+        return defaultEquals(right);
+    }
+
     public Double asDouble() {
         // Exp
         if (name.equals("e")) {

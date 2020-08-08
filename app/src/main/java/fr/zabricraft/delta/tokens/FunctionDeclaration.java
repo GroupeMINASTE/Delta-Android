@@ -50,6 +50,10 @@ public class FunctionDeclaration extends Token {
         return new FunctionDeclaration(variable, token.opposite());
     }
 
+    public boolean equals(Token right) {
+        return defaultEquals(right);
+    }
+
     public Double asDouble() {
         return token.asDouble();
     }

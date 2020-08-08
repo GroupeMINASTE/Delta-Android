@@ -197,6 +197,10 @@ public class Number extends Token {
         return new Fraction(new Number(1), this);
     }
 
+    public boolean equals(Token right) {
+        return defaultEquals(right);
+    }
+
     public Double asDouble() {
         return (double) value;
     }
