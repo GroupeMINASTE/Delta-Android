@@ -124,4 +124,5 @@
     <string name="download_account">Скачать мои данные</string>
     <string name="delete_account_success">Твой аккаунт был удалён!</string>
     <string name="delete_account">Удалить мой аккаунт</string>
+    <string name="status_originDown">Похоже, что наш сервер сейчас выключен. Пожалуйста, попробуйте еще раз позже!</string>
 </resources>
