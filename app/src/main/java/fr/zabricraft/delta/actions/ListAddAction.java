@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.zabricraft.delta.R;
+import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
+import fr.zabricraft.delta.utils.TokenParser;
 
 public class ListAddAction implements Action {
 
@@ -22,7 +25,17 @@ public class ListAddAction implements Action {
     }
 
     public void execute(Process process) {
+        // Try to get list
+        Token list = process.get(identifier);
+        if (list instanceof fr.zabricraft.delta.tokens.List) {
+            // Add value to list
+            List<Token> values = new ArrayList<>(((fr.zabricraft.delta.tokens.List) list).getValues());
+            values.add(new TokenParser(value, process).execute().compute(process.variables, ComputeMode.simplify));
+            fr.zabricraft.delta.tokens.List newList = new fr.zabricraft.delta.tokens.List(values);
 
+            // Set new value with process environment
+            process.set(identifier, newList);
+        }
     }
 
     public String toString() {

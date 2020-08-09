@@ -12,6 +12,7 @@ import fr.zabricraft.delta.actions.ElseAction;
 import fr.zabricraft.delta.actions.ForAction;
 import fr.zabricraft.delta.actions.IfAction;
 import fr.zabricraft.delta.actions.InputAction;
+import fr.zabricraft.delta.actions.ListAddAction;
 import fr.zabricraft.delta.actions.PrintAction;
 import fr.zabricraft.delta.actions.PrintTextAction;
 import fr.zabricraft.delta.actions.QuizAddAction;
@@ -258,7 +259,7 @@ public class AlgorithmParser {
                                     // Add "token" to "identifier"
                                     String identifier = tokens.remove(0);
                                     String token = tokens.remove(0);
-                                    return new SetAction(token, identifier);
+                                    return new ListAddAction(token, identifier);
                                 } else if (value == Keyword.QuizAdd && tokens.size() >= 2) {
                                     // Add input "text" with "correct" as correct answer
                                     String correct = tokens.remove(0);
