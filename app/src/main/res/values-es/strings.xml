@@ -121,4 +121,5 @@
     <string name="delete_account_description">¿Estás seguro de suprimir tu cuenta\? ¡Esto es irreversible!</string>
     <string name="delete_account_success">¡Tu cuenta ha sido suprimido!</string>
     <string name="status_originDown">Parece que nuestro servidor no está disponible. ¡Intenta de nuevo más tarde!</string>
+    <string name="category_list">Lista</string>
 </resources>
