@@ -8,6 +8,7 @@ import java.util.List;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.StringExtension;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
@@ -31,7 +32,7 @@ public class QuizAddAction implements Action {
     public void execute(Process process) {
         if (process.quiz != null) {
             if (correct != null) {
-                process.quiz.addQuestion(StringExtension.replaceTokens(text, process), new TokenParser(correct, process).execute().compute(process.variables, false));
+                process.quiz.addQuestion(StringExtension.replaceTokens(text, process), new TokenParser(correct, process).execute().compute(process.variables, ComputeMode.simplify));
             } else {
                 process.quiz.addParagraph(StringExtension.replaceTokens(text, process));
             }

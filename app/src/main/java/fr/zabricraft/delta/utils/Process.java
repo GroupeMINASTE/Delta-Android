@@ -43,7 +43,7 @@ public class Process {
             variables.put(f.group(1), new FunctionDeclaration(f.group(2), value));
         } else {
             // Set it as a variable
-            variables.put(trimmed, value.compute(variables, false));
+            variables.put(trimmed, value.compute(variables, ComputeMode.simplify));
         }
     }
 

@@ -104,7 +104,7 @@ public enum Operation {
         }
 
         // Simple expression
-        return left.apply(this, right, inputs, true);
+        return left.apply(this, right, inputs, ComputeMode.formatted);
     }
 
 }

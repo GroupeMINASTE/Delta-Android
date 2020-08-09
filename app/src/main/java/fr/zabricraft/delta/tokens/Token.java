@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import fr.zabricraft.delta.extensions.LongExtension;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public abstract class Token implements Serializable {
 
     public abstract String toString();
 
-    public abstract Token compute(Map<String, Token> inputs, boolean format);
+    public abstract Token compute(Map<String, Token> inputs, ComputeMode mode);
 
-    public abstract Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format);
+    public abstract Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode);
 
     public abstract boolean needBrackets(Operation operation);
 
@@ -28,9 +29,9 @@ public abstract class Token implements Serializable {
 
     public abstract Double asDouble();
 
-    public Token defaultApply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token defaultApply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Compute right
-        right = right.compute(inputs, format);
+        right = right.compute(inputs, mode);
 
         // Sum
         if (operation == Operation.addition) {
@@ -43,7 +44,7 @@ public abstract class Token implements Serializable {
 
             // Left and right are the same
             if (equals(right)) {
-                return new Product(this, new Number(2)).compute(inputs, format);
+                return new Product(this, new Number(2)).compute(inputs, mode);
             }
 
             return new Sum(this, right);
@@ -51,7 +52,7 @@ public abstract class Token implements Serializable {
 
         // Difference
         if (operation == Operation.subtraction) {
-            return new Sum(this, right.opposite()).compute(inputs, format);
+            return new Sum(this, right.opposite()).compute(inputs, mode);
         }
 
         // Product
@@ -65,18 +66,18 @@ public abstract class Token implements Serializable {
 
             // Left and right are the same
             if (equals(right)) {
-                return new Power(this, new Number(2)).compute(inputs, format);
+                return new Power(this, new Number(2)).compute(inputs, mode);
             }
 
             // If we keep format
-            if (format) {
+            if (mode == ComputeMode.formatted) {
                 return new Product(this, right);
             }
 
             // Right is a fraction
             if (right instanceof Fraction) {
                 // a/b * c = ac/b
-                return new Fraction(new Product(this, ((Fraction) right).getNumerator()), ((Fraction) right).getDenominator()).compute(inputs, false);
+                return new Fraction(new Product(this, ((Fraction) right).getNumerator()), ((Fraction) right).getDenominator()).compute(inputs, mode);
             }
 
             // Right is a sum
@@ -87,12 +88,12 @@ public abstract class Token implements Serializable {
                     values.add(new Product(token, this));
                 }
 
-                return new Sum(values).compute(inputs, false);
+                return new Sum(values).compute(inputs, mode);
             }
 
             // Right is a vector
             if (right instanceof Vector) {
-                return right.apply(operation, this, inputs, false);
+                return right.apply(operation, this, inputs, mode);
             }
 
             return new Product(this, right);
@@ -145,7 +146,7 @@ public abstract class Token implements Serializable {
             }
 
             // Return the fraction
-            return new Fraction(new Product(leftValues).compute(inputs, format), new Product(rightValues).compute(inputs, format));
+            return new Fraction(new Product(leftValues).compute(inputs, mode), new Product(rightValues).compute(inputs, mode));
         }
 
         // Modulo

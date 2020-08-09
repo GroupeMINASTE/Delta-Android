@@ -2,6 +2,7 @@ package fr.zabricraft.delta.tokens;
 
 import java.util.Map;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Modulo extends Token {
@@ -26,9 +27,9 @@ public class Modulo extends Token {
         return (dividend.needBrackets(Operation.division) ? "(" + dividend.toString() + ")" : dividend.toString()) + " % " + (divisor.needBrackets(Operation.division) ? "(" + divisor.toString() + ")" : divisor.toString());
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
-        Token dividend = this.dividend.compute(inputs, format);
-        Token divisor = this.divisor.compute(inputs, format);
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
+        Token dividend = this.dividend.compute(inputs, mode);
+        Token divisor = this.divisor.compute(inputs, mode);
 
         // Check dividend
         if (dividend instanceof Number) {
@@ -47,11 +48,11 @@ public class Modulo extends Token {
         }
 
         // Apply to simplify
-        return dividend.apply(Operation.modulo, divisor, inputs, format);
+        return dividend.apply(Operation.modulo, divisor, inputs, mode);
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
-        return defaultApply(operation, right, inputs, format);
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {

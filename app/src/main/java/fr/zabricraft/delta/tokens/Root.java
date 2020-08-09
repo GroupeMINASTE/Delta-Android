@@ -2,6 +2,7 @@ package fr.zabricraft.delta.tokens;
 
 import java.util.Map;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Root extends Token {
@@ -26,16 +27,16 @@ public class Root extends Token {
         return "√(" + token.toString() + ")";
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
-        Token token = this.token.compute(inputs, format);
-        Token power = this.power.compute(inputs, format);
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
+        Token token = this.token.compute(inputs, mode);
+        Token power = this.power.compute(inputs, mode);
 
-        return token.apply(Operation.root, power, inputs, format);
+        return token.apply(Operation.root, power, inputs, mode);
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Compute right
-        right = right.compute(inputs, format);
+        right = right.compute(inputs, mode);
 
         // Power
         if (operation == Operation.power) {
@@ -50,11 +51,11 @@ public class Root extends Token {
 
         // Root
         if (operation == Operation.root) {
-            return new Root(token, new Product(power, right).compute(inputs, format));
+            return new Root(token, new Product(power, right).compute(inputs, mode));
         }
 
         // Delegate to default
-        return defaultApply(operation, right, inputs, format);
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {

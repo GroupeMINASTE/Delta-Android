@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Sum extends Token {
@@ -60,11 +61,11 @@ public class Sum extends Token {
         return string.toString();
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
         // Compute all values
         List<Token> values = new ArrayList<>();
         for (Token value : this.values) {
-            values.add(value.compute(inputs, format));
+            values.add(value.compute(inputs, mode));
         }
 
         // Some required vars
@@ -93,7 +94,7 @@ public class Sum extends Token {
                         Token otherValue = values.get(i);
 
                         // Sum them
-                        Token sum = value.apply(Operation.addition, otherValue, inputs, format);
+                        Token sum = value.apply(Operation.addition, otherValue, inputs, mode);
 
                         // If it is simpler than a sum
                         if (!(sum instanceof Sum)) {
@@ -140,9 +141,9 @@ public class Sum extends Token {
         return new Sum(values);
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Compute right
-        right = right.compute(inputs, format);
+        right = right.compute(inputs, mode);
 
         // If addition
         if (operation == Operation.addition) {
@@ -163,7 +164,7 @@ public class Sum extends Token {
         // If product
         if (operation == Operation.multiplication) {
             // If we keep format
-            if (format) {
+            if (mode == ComputeMode.formatted) {
                 return new Product(this, right);
             }
 
@@ -172,10 +173,10 @@ public class Sum extends Token {
                 List<Token> values = new ArrayList<>();
 
                 for (Token token : getValues()) {
-                    values.add(token.apply(Operation.multiplication, right, inputs, format));
+                    values.add(token.apply(Operation.multiplication, right, inputs, mode));
                 }
 
-                return new Sum(values).compute(inputs, false);
+                return new Sum(values).compute(inputs, mode);
             }
 
             // Add token to product
@@ -183,7 +184,7 @@ public class Sum extends Token {
         }
 
         // Delegate to default
-        return defaultApply(operation, right, inputs, format);
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {

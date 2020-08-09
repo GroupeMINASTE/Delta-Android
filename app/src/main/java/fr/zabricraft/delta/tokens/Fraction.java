@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.zabricraft.delta.extensions.LongExtension;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Fraction extends Token {
@@ -36,9 +37,9 @@ public class Fraction extends Token {
         return (numerator.needBrackets(Operation.division) ? "(" + numerator.toString() + ")" : numerator.toString()) + " / " + (denominator.needBrackets(Operation.division) ? "(" + denominator.toString() + ")" : denominator.toString());
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
-        Token numerator = this.numerator.compute(inputs, format);
-        Token denominator = this.denominator.compute(inputs, format);
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
+        Token numerator = this.numerator.compute(inputs, mode);
+        Token denominator = this.denominator.compute(inputs, mode);
 
         // Check numerator
         if (numerator instanceof Number) {
@@ -62,12 +63,12 @@ public class Fraction extends Token {
         }
 
         // Apply to simplify
-        return numerator.apply(Operation.division, denominator, inputs, format);
+        return numerator.apply(Operation.division, denominator, inputs, mode);
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Compute right
-        right = right.compute(inputs, format);
+        right = right.compute(inputs, mode);
 
         // If addition
         if (operation == Operation.addition) {
@@ -79,37 +80,37 @@ public class Fraction extends Token {
             }
 
             // If we keep format
-            if (format) {
+            if (mode == ComputeMode.formatted) {
                 return new Sum(this, right);
             }
 
             // Right is a fraction
             if (right instanceof Fraction) {
                 // a/b + c/d = (ad+cb)/bd
-                return new Fraction(new Sum(new Product(this.getNumerator(), ((Fraction) right).getDenominator()), new Product(((Fraction) right).getNumerator(), this.getDenominator())), new Product(this.getDenominator(), ((Fraction) right).getDenominator())).compute(inputs, false);
+                return new Fraction(new Sum(new Product(this.getNumerator(), ((Fraction) right).getDenominator()), new Product(((Fraction) right).getNumerator(), this.getDenominator())), new Product(this.getDenominator(), ((Fraction) right).getDenominator())).compute(inputs, mode);
             }
 
             // Right is anything else
             // a/b + c = (a+cb)/b
-            return new Fraction(new Sum(getNumerator(), new Product(right, getDenominator())), getDenominator()).compute(inputs, false);
+            return new Fraction(new Sum(getNumerator(), new Product(right, getDenominator())), getDenominator()).compute(inputs, mode);
         }
 
         // If subtraction
         if (operation == Operation.subtraction) {
             // If we keep format
-            if (format) {
+            if (mode == ComputeMode.formatted) {
                 return new Sum(this, right.opposite());
             }
 
             // Right is a fraction
             if (right instanceof Fraction) {
                 // a/b - c/d = (ad-cb)/bd
-                return new Fraction(new Sum(new Product(this.getNumerator(), ((Fraction) right).getDenominator()), new Product(((Fraction) right).getNumerator(), this.getDenominator()).opposite()), new Product(this.getDenominator(), ((Fraction) right).getDenominator())).compute(inputs, false);
+                return new Fraction(new Sum(new Product(this.getNumerator(), ((Fraction) right).getDenominator()), new Product(((Fraction) right).getNumerator(), this.getDenominator()).opposite()), new Product(this.getDenominator(), ((Fraction) right).getDenominator())).compute(inputs, mode);
             }
 
             // Right is anything else
             // a/b - c = (a-cb)/b
-            return new Fraction(new Sum(getNumerator(), new Product(right, getDenominator()).opposite()), getDenominator()).compute(inputs, false);
+            return new Fraction(new Sum(getNumerator(), new Product(right, getDenominator()).opposite()), getDenominator()).compute(inputs, mode);
         }
 
         // If product
@@ -122,56 +123,56 @@ public class Fraction extends Token {
             }
 
             // If we keep format
-            if (format) {
+            if (mode == ComputeMode.formatted) {
                 return new Product(this, right);
             }
 
             // Right is a fraction
             if (right instanceof Fraction) {
                 // a/b * c/d = ac/bd
-                return new Fraction(new Product(this.getNumerator(), ((Fraction) right).getNumerator()), new Product(this.getDenominator(), ((Fraction) right).getDenominator())).compute(inputs, false);
+                return new Fraction(new Product(this.getNumerator(), ((Fraction) right).getNumerator()), new Product(this.getDenominator(), ((Fraction) right).getDenominator())).compute(inputs, mode);
             }
 
             // Right is anything else
             // a/b * c = ac/b
-            return new Fraction(new Product(right, getNumerator()), getDenominator()).compute(inputs, false);
+            return new Fraction(new Product(right, getNumerator()), getDenominator()).compute(inputs, mode);
         }
 
         // If fraction
         if (operation == Operation.division) {
             // If we keep format
-            if (format) {
+            if (mode == ComputeMode.formatted) {
                 return new Fraction(this, right);
             }
 
             // Multiply by its inverse
-            return new Product(this, right.inverse()).compute(inputs, false);
+            return new Product(this, right.inverse()).compute(inputs, mode);
         }
 
         // Power
         if (operation == Operation.power) {
             // If we keep format
-            if (format) {
+            if (mode == ComputeMode.formatted) {
                 return new Power(this, right);
             }
 
             // Apply power to numerator and denominator
-            return new Fraction(new Power(getNumerator(), right), new Power(getDenominator(), right)).compute(inputs, false);
+            return new Fraction(new Power(getNumerator(), right), new Power(getDenominator(), right)).compute(inputs, mode);
         }
 
         // Root
         if (operation == Operation.root) {
             // If we keep format
-            if (format) {
+            if (mode == ComputeMode.formatted) {
                 return new Root(this, right);
             }
 
             // Apply root to numerator and denominator
-            return new Fraction(new Root(getNumerator(), right), new Root(getDenominator(), right)).compute(inputs, false);
+            return new Fraction(new Root(getNumerator(), right), new Root(getDenominator(), right)).compute(inputs, mode);
         }
 
         // Delegate to default
-        return defaultApply(operation, right, inputs, format);
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {
@@ -183,11 +184,11 @@ public class Fraction extends Token {
     }
 
     public Token opposite() {
-        return new Fraction(new Product(new Number(-1), getNumerator()), getDenominator()).compute(new HashMap<String, Token>(), false);
+        return new Fraction(new Product(new Number(-1), getNumerator()), getDenominator()).compute(new HashMap<>(), ComputeMode.simplify);
     }
 
     public Token inverse() {
-        return new Fraction(getDenominator(), getNumerator());
+        return new Fraction(getDenominator(), getNumerator()).compute(new HashMap<>(), ComputeMode.simplify);
     }
 
     public boolean equals(Token right) {

@@ -2,6 +2,7 @@ package fr.zabricraft.delta.tokens;
 
 import java.util.Map;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Power extends Token {
@@ -26,9 +27,9 @@ public class Power extends Token {
         return (token.needBrackets(Operation.division) ? "(" + token.toString() + ")" : token.toString()) + " ^ " + (power.needBrackets(Operation.division) ? "(" + power.toString() + ")" : power.toString());
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
-        Token token = this.token.compute(inputs, format);
-        Token power = this.power.compute(inputs, format);
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
+        Token token = this.token.compute(inputs, mode);
+        Token power = this.power.compute(inputs, mode);
 
         // Check power
         if (power instanceof Number) {
@@ -39,26 +40,26 @@ public class Power extends Token {
         }
         if (power instanceof Fraction) {
             // x^1/y is ^y√(x)
-            Token number = power.inverse().compute(inputs, format);
+            Token number = power.inverse().compute(inputs, mode);
             if (number instanceof Number) {
-                return new Root(token, number).compute(inputs, format);
+                return new Root(token, number).compute(inputs, mode);
             }
         }
 
-        return token.apply(Operation.power, power, inputs, format);
+        return token.apply(Operation.power, power, inputs, mode);
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Product
         if (operation == Operation.multiplication) {
             // Token and right are the same
             if (token.equals(right)) {
-                return new Power(token, new Sum(power, new Number(1))).compute(inputs, format);
+                return new Power(token, new Sum(power, new Number(1))).compute(inputs, mode);
             }
         }
 
         // Delegate to default
-        return defaultApply(operation, right, inputs, format);
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {

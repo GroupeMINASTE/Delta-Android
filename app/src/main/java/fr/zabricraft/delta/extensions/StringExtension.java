@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.tokens.Token;
 import fr.zabricraft.delta.utils.AlgorithmIcon;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Process;
 import fr.zabricraft.delta.utils.TokenParser;
 
@@ -125,7 +126,7 @@ public class StringExtension {
             Token token = new TokenParser(group.substring(1, group.length() - 1), process).execute();
 
             // Replace with tokens
-            output = output.replace(group, token.compute(process.variables, true).toString());
+            output = output.replace(group, token.compute(process.variables, ComputeMode.formatted).toString());
         }
 
         return output;

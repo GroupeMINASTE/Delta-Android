@@ -2,6 +2,7 @@ package fr.zabricraft.delta.tokens;
 
 import java.util.Map;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class FunctionDeclaration extends Token {
@@ -26,12 +27,12 @@ public class FunctionDeclaration extends Token {
         return token.toString();
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
         return this;
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
-        return new FunctionDeclaration(variable, token.apply(operation, right, inputs, format));
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
+        return new FunctionDeclaration(variable, token.apply(operation, right, inputs, ComputeMode.formatted));
     }
 
     public boolean needBrackets(Operation operation) {

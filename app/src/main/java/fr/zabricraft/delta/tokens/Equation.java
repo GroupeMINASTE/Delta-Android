@@ -2,6 +2,7 @@ package fr.zabricraft.delta.tokens;
 
 import java.util.Map;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Equation extends Token {
@@ -29,8 +30,8 @@ public class Equation extends Token {
     }
 
     public boolean isTrue(Map<String, Token> inputs) {
-        Token left = this.left.compute(inputs, false);
-        Token right = this.right.compute(inputs, false);
+        Token left = this.left.compute(inputs, ComputeMode.simplify);
+        Token right = this.right.compute(inputs, ComputeMode.simplify);
 
         // Equals
         if (operation == Operation.equals) {
@@ -63,14 +64,14 @@ public class Equation extends Token {
         return left.toString() + " " + operation.rawValue + " " + right.toString();
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
-        Token left = this.left.compute(inputs, format);
-        Token right = this.right.compute(inputs, format);
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
+        Token left = this.left.compute(inputs, mode);
+        Token right = this.right.compute(inputs, mode);
 
         return new Equation(left, right, operation);
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Unknown, return a calcul error
         return new CalculError();
     }

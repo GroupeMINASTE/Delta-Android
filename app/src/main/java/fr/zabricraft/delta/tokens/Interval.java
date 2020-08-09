@@ -2,6 +2,7 @@ package fr.zabricraft.delta.tokens;
 
 import java.util.Map;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Interval extends Token {
@@ -38,11 +39,11 @@ public class Interval extends Token {
         return (left_closed ? "[" : "]") + left.toString() + ", " + right.toString() + (right_closed ? "]" : "[");
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
         return this;
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Compute right
         //right = right.compute(inputs, format);
 

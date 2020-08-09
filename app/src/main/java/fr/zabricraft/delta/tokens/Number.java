@@ -3,6 +3,7 @@ package fr.zabricraft.delta.tokens;
 import java.util.Map;
 
 import fr.zabricraft.delta.extensions.LongExtension;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Number extends Token {
@@ -21,13 +22,13 @@ public class Number extends Token {
         return String.valueOf(value);
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
         return this;
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Compute right
-        right = right.compute(inputs, format);
+        right = right.compute(inputs, mode);
 
         // Sum
         if (operation == Operation.addition) {
@@ -178,7 +179,7 @@ public class Number extends Token {
         }
 
         // Delegate to default
-        return defaultApply(operation, right, inputs, format);
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {

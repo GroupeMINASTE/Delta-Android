@@ -2,6 +2,7 @@ package fr.zabricraft.delta.tokens;
 
 import java.util.Map;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Variable extends Token {
@@ -20,19 +21,19 @@ public class Variable extends Token {
         return name;
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
         // Check if an input corresponds to this variable
         if (inputs.containsKey(name)) {
-            return inputs.get(name).compute(inputs, false);
+            return inputs.get(name).compute(inputs, ComputeMode.simplify);
         }
 
         // No input found
         return this;
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Compute right
-        right = right.compute(inputs, format);
+        right = right.compute(inputs, mode);
 
         // Power
         if (operation == Operation.power) {
@@ -53,7 +54,7 @@ public class Variable extends Token {
                         return new Product(new Number(-1), this);
                     }
                     // Simplified power of i
-                    return new Power(this, new Number(((Number) right).getValue() % 4)).compute(inputs, format);
+                    return new Power(this, new Number(((Number) right).getValue() % 4)).compute(inputs, mode);
                 }
             }
             // Check for e
@@ -71,7 +72,7 @@ public class Variable extends Token {
         }
 
         // Delegate to default
-        return defaultApply(operation, right, inputs, format);
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {

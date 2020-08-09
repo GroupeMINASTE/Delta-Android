@@ -11,6 +11,7 @@ import fr.zabricraft.delta.extensions.ArrayExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.tokens.Equation;
 import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
@@ -60,7 +61,7 @@ public class IfAction implements ActionBlock {
 
     public void execute(Process process) {
         // Get computed condition and check it
-        Token condition = new TokenParser(this.condition, process).execute().compute(process.variables, false);
+        Token condition = new TokenParser(this.condition, process).execute().compute(process.variables, ComputeMode.simplify);
         if (condition instanceof Equation && ((Equation) condition).isTrue(process.variables)) {
             // Execute actions
             for (Action action : actions) {

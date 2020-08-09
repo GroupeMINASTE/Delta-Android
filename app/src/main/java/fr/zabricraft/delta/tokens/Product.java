@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.zabricraft.delta.extensions.LongExtension;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 
 public class Product extends Token implements Comparator<Token> {
@@ -83,11 +84,11 @@ public class Product extends Token implements Comparator<Token> {
         return string.toString();
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
         // Compute all values
         List<Token> values = new ArrayList<>();
         for (Token value : this.values) {
-            values.add(value.compute(inputs, format));
+            values.add(value.compute(inputs, mode));
         }
         Collections.sort(values, this);
 
@@ -117,7 +118,7 @@ public class Product extends Token implements Comparator<Token> {
                         Token otherValue = values.get(i);
 
                         // Multiply them
-                        Token product = value.apply(Operation.multiplication, otherValue, inputs, format);
+                        Token product = value.apply(Operation.multiplication, otherValue, inputs, mode);
 
                         // If it is simpler than a product
                         if (!(product instanceof Product)) {
@@ -170,12 +171,12 @@ public class Product extends Token implements Comparator<Token> {
         return new Product(values);
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
         // Compute right
-        right = right.compute(inputs, format);
+        right = right.compute(inputs, mode);
 
         // If addition
-        if (operation == Operation.addition && !format) {
+        if (operation == Operation.addition && (mode == ComputeMode.simplify || mode == ComputeMode.factorize)) {
             // Right is a product
             Product rightProduct = right instanceof Product ? ((Product) right) : new Product(right);
 
@@ -225,7 +226,7 @@ public class Product extends Token implements Comparator<Token> {
             // Check if factors are not empty
             if (!factors.isEmpty()) {
                 // Create a product with common factors
-                factors.add(new Sum(new Product(leftValues), new Product(rightValues)).compute(inputs, format));
+                factors.add(new Sum(new Product(leftValues), new Product(rightValues)).compute(inputs, mode));
                 return new Product(factors);
             }
         }
@@ -257,7 +258,7 @@ public class Product extends Token implements Comparator<Token> {
         }
 
         // Delegate to default
-        return defaultApply(operation, right, inputs, format);
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {

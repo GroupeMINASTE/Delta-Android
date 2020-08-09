@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.Operation;
 import fr.zabricraft.delta.utils.TokenParser;
 
@@ -22,8 +23,8 @@ public class Function extends Token {
         return name + "(" + parameter.toString() + ")";
     }
 
-    public Token compute(Map<String, Token> inputs, boolean format) {
-        Token parameter = this.parameter.compute(inputs, format);
+    public Token compute(Map<String, Token> inputs, ComputeMode mode) {
+        Token parameter = this.parameter.compute(inputs, mode);
         Token expression;
         String variable;
 
@@ -83,11 +84,11 @@ public class Function extends Token {
         }
 
         // Return computed expression
-        return expression.compute(values, format);
+        return expression.compute(values, mode);
     }
 
-    public Token apply(Operation operation, Token right, Map<String, Token> inputs, boolean format) {
-        return defaultApply(operation, right, inputs, format);
+    public Token apply(Operation operation, Token right, Map<String, Token> inputs, ComputeMode mode) {
+        return defaultApply(operation, right, inputs, mode);
     }
 
     public boolean needBrackets(Operation operation) {

@@ -8,6 +8,7 @@ import java.util.List;
 
 import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
@@ -30,7 +31,7 @@ public class PrintAction implements Action {
         // Print it (add it to output)
         Double asDouble = null;
         if (approximated) {
-            asDouble = value.compute(process.variables, false).asDouble();
+            asDouble = value.compute(process.variables, ComputeMode.simplify).asDouble();
         }
         if (approximated && asDouble != null) {
             if (Math.floor(asDouble) == asDouble) {
@@ -39,7 +40,7 @@ public class PrintAction implements Action {
                 process.outputs.add(identifier + " = " + asDouble);
             }
         } else {
-            process.outputs.add(identifier + " = " + value.compute(process.variables, true).toString());
+            process.outputs.add(identifier + " = " + value.compute(process.variables, ComputeMode.formatted).toString());
         }
     }
 

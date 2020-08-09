@@ -10,6 +10,7 @@ import fr.zabricraft.delta.R;
 import fr.zabricraft.delta.extensions.ArrayExtension;
 import fr.zabricraft.delta.extensions.StringExtension;
 import fr.zabricraft.delta.tokens.Token;
+import fr.zabricraft.delta.utils.ComputeMode;
 import fr.zabricraft.delta.utils.EditorLine;
 import fr.zabricraft.delta.utils.EditorLineCategory;
 import fr.zabricraft.delta.utils.Process;
@@ -44,7 +45,7 @@ public class ForAction implements ActionBlock {
         }
 
         // Get computed token
-        Token token = new TokenParser(this.token, process).execute().compute(process.variables, false);
+        Token token = new TokenParser(this.token, process).execute().compute(process.variables, ComputeMode.simplify);
 
         // Get list
         if (token instanceof fr.zabricraft.delta.tokens.List) {
