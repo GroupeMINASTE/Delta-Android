@@ -27,7 +27,7 @@ public class ActionSelectionFragment extends Fragment implements ActionSelectorS
 
         // Initialize sections
         SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
-        for (EditorLineCategory category : EditorLineCategory.list) {
+        for (EditorLineCategory category : EditorLineCategory.values) {
             // Add section
             sectionAdapter.addSection(new ActionSelectorSection(this, category));
         }

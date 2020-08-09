@@ -35,9 +35,23 @@ public class Process {
         this.cancelled = false;
     }
 
+    public Token get(String identifier) {
+        String trimmed = identifier.trim();
+        Matcher f = Pattern.compile("([" + TokenParser.variables + "])\\( *([" + TokenParser.variables + "]) *\\)").matcher(trimmed);
+
+        if (f.find()) {
+            // Take it as a function
+            return variables.get(f.group(1));
+        } else {
+            // Return it as a variable
+            return variables.get(trimmed);
+        }
+    }
+
     public void set(String identifier, Token value) {
         String trimmed = identifier.trim();
         Matcher f = Pattern.compile("([" + TokenParser.variables + "])\\( *([" + TokenParser.variables + "]) *\\)").matcher(trimmed);
+
         if (f.find()) {
             // Take it as a function
             variables.put(f.group(1), new FunctionDeclaration(f.group(2), value));
@@ -50,6 +64,7 @@ public class Process {
     public void unset(String identifier) {
         String trimmed = identifier.trim();
         Matcher f = Pattern.compile("([" + TokenParser.variables + "])\\( *([" + TokenParser.variables + "]) *\\)").matcher(trimmed);
+
         if (f.find()) {
             // Take it as a function
             variables.remove(f.group(1));

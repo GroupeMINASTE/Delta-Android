@@ -198,12 +198,32 @@ public class AlgorithmParser {
             String first = keywords.remove(0);
 
             // Keyword list
-            Keyword[] alone = {Keyword.If, Keyword.Else, Keyword.Print, Keyword.PrintApproximated, Keyword.PrintText, Keyword.Unset, Keyword.While, Keyword.QuizInit, Keyword.QuizAdd, Keyword.QuizShow};
+            Keyword[] alone = {
+                    Keyword.If,
+                    Keyword.Else,
+                    Keyword.Print,
+                    Keyword.PrintApproximated,
+                    Keyword.PrintText,
+                    Keyword.Unset,
+                    Keyword.While,
+                    Keyword.QuizInit,
+                    Keyword.QuizAdd,
+                    Keyword.QuizShow
+            };
             HashMap<Keyword, Keyword[]> grouped = new HashMap<>();
-            grouped.put(Keyword.Default, new Keyword[]{Keyword.Input});
-            grouped.put(Keyword.In, new Keyword[]{Keyword.For});
-            grouped.put(Keyword.To, new Keyword[]{Keyword.Set});
-            grouped.put(Keyword.Correct, new Keyword[]{Keyword.QuizAdd});
+            grouped.put(Keyword.Default, new Keyword[]{
+                    Keyword.Input
+            });
+            grouped.put(Keyword.In, new Keyword[]{
+                    Keyword.For
+            });
+            grouped.put(Keyword.To, new Keyword[]{
+                    Keyword.Set,
+                    Keyword.ListAdd
+            });
+            grouped.put(Keyword.Correct, new Keyword[]{
+                    Keyword.QuizAdd
+            });
 
             // Iterate values
             for (Keyword key : grouped.keySet()) {
@@ -234,6 +254,11 @@ public class AlgorithmParser {
                                     String token = tokens.remove(0);
                                     String identifier = tokens.remove(0);
                                     return new SetAction(identifier, token);
+                                } else if (value == Keyword.ListAdd && tokens.size() >= 2) {
+                                    // Add "token" to "identifier"
+                                    String identifier = tokens.remove(0);
+                                    String token = tokens.remove(0);
+                                    return new SetAction(token, identifier);
                                 } else if (value == Keyword.QuizAdd && tokens.size() >= 2) {
                                     // Add input "text" with "correct" as correct answer
                                     String correct = tokens.remove(0);

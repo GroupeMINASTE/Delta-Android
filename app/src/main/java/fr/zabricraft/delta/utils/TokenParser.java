@@ -2,6 +2,7 @@ package fr.zabricraft.delta.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -241,6 +242,20 @@ public class TokenParser {
 
                 // Closing brace
                 else if (current == '}') {
+                    // Check for an empty set
+                    if (!ops.isEmpty() && ops.get(0).equals("{")) {
+                        // Check for a possible value
+                        if (!values.isEmpty()) {
+                            Token value = getFirstTokenAndRemove();
+
+                            // Create a set with this value
+                            insertValue(new fr.zabricraft.delta.tokens.List(Collections.singletonList(value)));
+                        } else {
+                            // Create an empty set
+                            insertValue(new fr.zabricraft.delta.tokens.List(new ArrayList<>()));
+                        }
+                    }
+
                     // Create the token
                     while (!ops.isEmpty() && !ops.get(0).equals("{")) {
                         // Create a token
@@ -347,9 +362,9 @@ public class TokenParser {
         Operation op = getFirstOperationAndRemove();
         if (op != null) {
             if (op == Operation.root) {
-                return op.join(right, left, ops, process != null ? process.variables : new HashMap<String, Token>());
+                return op.join(right, left, ops, process != null ? process.variables : new HashMap<>());
             } else {
-                return op.join(left, right, ops, process != null ? process.variables : new HashMap<String, Token>());
+                return op.join(left, right, ops, process != null ? process.variables : new HashMap<>());
             }
         }
 
