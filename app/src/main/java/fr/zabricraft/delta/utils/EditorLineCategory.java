@@ -7,6 +7,7 @@ import fr.zabricraft.delta.actions.ForAction;
 import fr.zabricraft.delta.actions.IfAction;
 import fr.zabricraft.delta.actions.InputAction;
 import fr.zabricraft.delta.actions.ListAddAction;
+import fr.zabricraft.delta.actions.ListRemoveAction;
 import fr.zabricraft.delta.actions.PrintAction;
 import fr.zabricraft.delta.actions.PrintTextAction;
 import fr.zabricraft.delta.actions.QuizAddAction;
@@ -63,7 +64,8 @@ public enum EditorLineCategory {
                 };
             case list:
                 return new Action[]{
-                        new ListAddAction("x", "l")
+                        new ListAddAction("x", "l"),
+                        new ListRemoveAction("x", "l")
                 };
             case quiz:
                 return new Action[]{
