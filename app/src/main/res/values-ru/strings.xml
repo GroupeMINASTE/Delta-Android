@@ -126,4 +126,7 @@
     <string name="delete_account">Удалить мой аккаунт</string>
     <string name="status_originDown">Похоже, что наш сервер сейчас выключен. Пожалуйста, попробуйте еще раз позже!</string>
     <string name="category_list">Список</string>
+    <string name="action_list_create">Создать список %s</string>
+    <string name="action_list_remove">Убрать %s из %s</string>
+    <string name="action_list_add">Добавить %s в %s</string>
 </resources>
