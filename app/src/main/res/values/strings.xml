@@ -96,6 +96,7 @@
     <string name="action_for">For %s in %s</string>
     <string name="action_list_add">Add %s to %s</string>
     <string name="action_list_remove">Remove %s from %s</string>
+    <string name="action_list_create">Create list %s</string>
     <string name="action_quiz_init">Init quiz %s</string>
     <string name="action_quiz_add_question">Add input %s with %s as correct answer</string>
     <string name="action_quiz_add_paragraph">Add text %s</string>

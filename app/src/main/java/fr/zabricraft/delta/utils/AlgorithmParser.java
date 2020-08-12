@@ -13,6 +13,7 @@ import fr.zabricraft.delta.actions.ForAction;
 import fr.zabricraft.delta.actions.IfAction;
 import fr.zabricraft.delta.actions.InputAction;
 import fr.zabricraft.delta.actions.ListAddAction;
+import fr.zabricraft.delta.actions.ListCreateAction;
 import fr.zabricraft.delta.actions.ListRemoveAction;
 import fr.zabricraft.delta.actions.PrintAction;
 import fr.zabricraft.delta.actions.PrintTextAction;
@@ -208,6 +209,7 @@ public class AlgorithmParser {
                     Keyword.PrintText,
                     Keyword.Unset,
                     Keyword.While,
+                    Keyword.ListCreate,
                     Keyword.QuizInit,
                     Keyword.QuizAdd,
                     Keyword.QuizShow
@@ -313,6 +315,10 @@ public class AlgorithmParser {
                         // While "condition"
                         String condition = tokens.remove(0);
                         return new WhileAction(condition);
+                    } else if (value == Keyword.ListCreate && tokens.size() >= 1) {
+                        // Create list "identifier"
+                        String identifier = tokens.remove(0);
+                        return new ListCreateAction(identifier);
                     } else if (value == Keyword.QuizInit && tokens.size() >= 1) {
                         // Init quiz "text"
                         String text = tokens.remove(0);
