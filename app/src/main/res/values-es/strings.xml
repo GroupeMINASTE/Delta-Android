@@ -122,4 +122,7 @@
     <string name="delete_account_success">¡Tu cuenta ha sido suprimido!</string>
     <string name="status_originDown">Parece que nuestro servidor no está disponible. ¡Intenta de nuevo más tarde!</string>
     <string name="category_list">Lista</string>
+    <string name="action_list_create">Crear la lista %s</string>
+    <string name="action_list_remove">Quitar %s de %s</string>
+    <string name="action_list_add">Añadir %s a %s</string>
 </resources>
