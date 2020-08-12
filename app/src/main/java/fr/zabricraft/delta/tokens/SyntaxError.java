@@ -36,7 +36,7 @@ public class SyntaxError extends Token {
     }
 
     public boolean equals(Token right) {
-        return defaultEquals(right);
+        return false;
     }
 
     public Double asDouble() {
