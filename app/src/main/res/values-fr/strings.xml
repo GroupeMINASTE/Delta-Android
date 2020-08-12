@@ -122,4 +122,7 @@
     <string name="more">Plus…</string>
     <string name="status_originDown">Il semblerait que notre serveur soit hors ligne. Réessayez plus tard !</string>
     <string name="category_list">Liste</string>
+    <string name="action_list_create">Créer une liste %s</string>
+    <string name="action_list_remove">Enlever %s de %s</string>
+    <string name="action_list_add">Ajouter %s à %s</string>
 </resources>
