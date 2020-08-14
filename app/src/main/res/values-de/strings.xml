@@ -126,4 +126,7 @@
     <string name="delete_account">Mein Konto löschen</string>
     <string name="category_list">Liste</string>
     <string name="status_originDown">Es scheint unser server ist Offline. Bitte probieren Sie erneut Später!</string>
+    <string name="action_list_create">Liste Machen %s</string>
+    <string name="action_list_remove">%s von %s löschen</string>
+    <string name="action_list_add">%s zu %s hinzufügen</string>
 </resources>
