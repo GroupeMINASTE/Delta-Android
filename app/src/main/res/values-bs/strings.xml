@@ -124,4 +124,6 @@
     <string name="delete_account_success">Vaš nalog je izbrisan!</string>
     <string name="delete_account_description">Dali ste sigurni da želite da izbrišate vaš nalog\? Ovo je nepovratan!</string>
     <string name="delete_account">Obriši moj nalog</string>
+    <string name="category_list">Lista</string>
+    <string name="status_originDown">Izgleda da je naš server isključeno. Probajte kansnije!</string>
 </resources>
