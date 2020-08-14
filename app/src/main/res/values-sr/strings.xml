@@ -126,4 +126,7 @@
     <string name="delete_account">Обриши мој налог</string>
     <string name="category_list">Листа</string>
     <string name="status_originDown">Изгледа да је наш сервер искљућен. Пробајте касније!</string>
+    <string name="action_list_create">Направи листу %s</string>
+    <string name="action_list_remove">Укидај %s од %s</string>
+    <string name="action_list_add">Додај %s на %s</string>
 </resources>
