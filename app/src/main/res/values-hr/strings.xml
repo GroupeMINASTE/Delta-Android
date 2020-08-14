@@ -126,4 +126,7 @@
     <string name="delete_account">Obriši moj nalog</string>
     <string name="category_list">Lista</string>
     <string name="status_originDown">Izgleda da je naš server isključeno. Probajte kansnije!</string>
+    <string name="action_list_create">Napravi listu %s</string>
+    <string name="action_list_remove">Izbriši %s od %s</string>
+    <string name="action_list_add">Dodaj %s na %s</string>
 </resources>
