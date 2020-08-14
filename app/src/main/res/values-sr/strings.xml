@@ -124,4 +124,6 @@
     <string name="delete_account_success">Ваш налог је избрисан!</string>
     <string name="delete_account_description">Дали сте сигурни да желите да избришате ваш налог\? Ово је неповратна!</string>
     <string name="delete_account">Обриши мој налог</string>
+    <string name="category_list">Листа</string>
+    <string name="status_originDown">Изгледа да је наш сервер искљућен. Пробајте касније!</string>
 </resources>
