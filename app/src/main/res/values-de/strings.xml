@@ -124,4 +124,6 @@
     <string name="delete_account_success">Ihren Konto ist gelöscht!</string>
     <string name="delete_account_description">Sind Sie sicher, dass sie ihren Konto löschen wollen\? Das ist unumkehrbar!</string>
     <string name="delete_account">Mein Konto löschen</string>
+    <string name="category_list">Liste</string>
+    <string name="status_originDown">Es scheint unser server ist Offline. Bitte probieren Sie erneut Später!</string>
 </resources>
