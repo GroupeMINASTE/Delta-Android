@@ -55,7 +55,7 @@
     <string name="new_algorithm">Neues Algorithmus</string>
     <string name="downloads">Heruntergeladen</string>
     <string name="myalgorithms">Meine Algorithmen</string>
-    <string name="name">Delta: Mathe Hilfe</string>
+    <string name="name">Delta: Algorithms</string>
     <string name="settings_name">Name: %s</string>
     <string name="action_quiz_add_paragraph">Text hinzufügen: %s</string>
     <string name="action_quiz_add_question">%s als Eintrag setzen mit %s als richtige Antwort</string>
@@ -78,7 +78,7 @@
     <string name="welcome_header2">Ein Algorithmus einstellen</string>
     <string name="donate_title">Spenden</string>
     <string name="welcome_button">Los get\'s!</string>
-    <string name="welcome_title">Willkommen auf Delta: Math helper!</string>
+    <string name="welcome_title">Willkommen auf Delta: Algorithms!</string>
     <string name="welcome_header4">Bereit ihren ersten Algorithmus zu einstellen\?</string>
     <string name="welcome_paragraph3">Herrunterladen fertiggestellt Algorithmen aus Delta Cloud oder teilen Sie dem Sie grade eingestellt haben.</string>
     <string name="welcome_header3">Oder herunterladen Sie ein aus dem Cloud</string>

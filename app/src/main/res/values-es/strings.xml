@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="name">Delta: Math helper</string>
+    <string name="name">Delta: Algorithms</string>
     <string name="myalgorithms">Mis algoritmos</string>
     <string name="downloads">Descargas</string>
     <string name="new_algorithm">Nuevo algoritmo</string>
@@ -73,7 +73,7 @@
     <string name="welcome_header4">¿Listo para crear su primero algoritmo\?</string>
     <string name="welcome_button">¡Empezar!</string>
     <string name="welcome_header3">O descarga uno desde el nube</string>
-    <string name="welcome_title">¡Bienvenido en Delta: Math helper!</string>
+    <string name="welcome_title">¡Bienvenido en Delta: Algorithms!</string>
     <string name="welcome_header1">¿Cómo funciona\?</string>
     <string name="welcome_paragraph1">Delta funciona con algoritmos. Cada algoritmo resolve un problema. (ej: resolver una ecuación)</string>
     <string name="welcome_header2">Crear un algoritmo</string>

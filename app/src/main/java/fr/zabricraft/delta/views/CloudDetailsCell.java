@@ -194,7 +194,7 @@ public class CloudDetailsCell extends LinearLayout {
     public void shareClicked() {
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_TEXT, "https://www.delta-math-helper.com/algorithm/" + algorithm.id);
+        share.putExtra(Intent.EXTRA_TEXT, "https://www.delta-algorithms.com/algorithm/" + algorithm.id);
         delegate.getActivity().startActivity(Intent.createChooser(share, delegate.getActivity().getString(R.string.share)));
     }
 

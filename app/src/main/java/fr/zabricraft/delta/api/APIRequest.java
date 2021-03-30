@@ -64,7 +64,7 @@ public class APIRequest extends AsyncTask<Void, Void, Object> {
     public URL getURL() {
         try {
             String protocol = "https";
-            String host = "api.delta-math-helper.com";
+            String host = "api.delta-algorithms.com";
 
             URI uri = new URI(protocol, null, host, 443, path, getQuery(), null);
 

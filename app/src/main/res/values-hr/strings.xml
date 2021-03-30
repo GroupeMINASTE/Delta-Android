@@ -79,7 +79,7 @@
     <string name="welcome_paragraph1">Delta radi s algoritmi. Svaku algoritmu reši jednu problem. (npr.: jednačine rešenje)</string>
     <string name="welcome_header3">Ili preuzmite jednu iz Clouda</string>
     <string name="welcome_header2">Napravi algoritmu</string>
-    <string name="welcome_title">Dobro došli na Delta: Math helper!</string>
+    <string name="welcome_title">Dobro došli na Delta: Algorithms!</string>
     <string name="donate_title">Dajte donaciju</string>
     <string name="welcome_button">Ajdemo!</string>
     <string name="logged_as">Povezan kao %s (%s)</string>

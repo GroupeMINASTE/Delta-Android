@@ -49,11 +49,11 @@ public class AboutSection extends Section {
                     new AlertDialog.Builder(itemHolder.itemView.getContext()).setTitle(R.string.about).setMessage(R.string.about_text).show();
                 } else if (position == 1) {
                     // Help and documentation
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.delta-math-helper.com/documentation"));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.delta-algorithms.com/documentation"));
                     itemHolder.itemView.getContext().startActivity(browserIntent);
                 } else {
                     // Follow us on Twitter
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/DeltaMathHelper"));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/DeltaAlgorithms"));
                     itemHolder.itemView.getContext().startActivity(browserIntent);
                 }
             });

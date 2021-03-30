@@ -17,7 +17,7 @@ import java.util.List;
 public class Database extends SQLiteOpenHelper {
 
     // Properties
-    private static final String database = "DeltaMathHelper";
+    private static final String database = "DeltaAlgorithms";
     private static final String algorithms = "algorithms";
     private static final String local_id = "local_id";
     private static final String remote_id = "remote_id";

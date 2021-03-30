@@ -25,7 +25,7 @@
 
                 <data
                     android:scheme="https"
-                    android:host="delta-math-helper.com"
+                    android:host="delta-algorithms.com"
                     android:pathPrefix="/algorithm/" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
@@ -36,7 +36,7 @@
 
                 <data
                     android:scheme="https"
-                    android:host="www.delta-math-helper.com"
+                    android:host="www.delta-algorithms.com"
                     android:pathPrefix="/algorithm/" />
             </intent-filter>
         </activity>
