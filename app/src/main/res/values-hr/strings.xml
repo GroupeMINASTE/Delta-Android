@@ -2,7 +2,7 @@
 <resources>
     <string name="instructions">Instrukciji</string>
     <string name="category_quiz">Kviz</string>
-    <string name="name">Delta: Matematički Pomoćnik</string>
+    <string name="name">Delta: Algoritmi</string>
     <string name="myalgorithms">Moj algoritmi</string>
     <string name="downloads">Preuzimanja</string>
     <string name="new_algorithm">Novu algoritmu</string>
@@ -79,7 +79,7 @@
     <string name="welcome_paragraph1">Delta radi s algoritmi. Svaku algoritmu reši jednu problem. (npr.: jednačine rešenje)</string>
     <string name="welcome_header3">Ili preuzmite jednu iz Clouda</string>
     <string name="welcome_header2">Napravi algoritmu</string>
-    <string name="welcome_title">Dobro došli na Delta: Algorithms!</string>
+    <string name="welcome_title">Dobro došli na Delta: Algoritmi!</string>
     <string name="donate_title">Dajte donaciju</string>
     <string name="welcome_button">Ajdemo!</string>
     <string name="logged_as">Povezan kao %s (%s)</string>
