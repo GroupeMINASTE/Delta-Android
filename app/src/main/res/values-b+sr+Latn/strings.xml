@@ -13,7 +13,7 @@
     <string name="about">O nama</string>
     <string name="help">Pomoć i dokumentacija</string>
     <string name="follow_twitter">Pratite nam na Twitteru</string>
-    <string name="name">Delta: Matematički Pomoćnik</string>
+    <string name="name">Delta: Algoritmi</string>
     <string name="about_text">Aplikacija napraveno od Nathan Fallet
 \n
 \nOva aplikacija je developirana od nezavisne developere, i je dostupna besplatna bez nikakvu garanciju.
@@ -75,7 +75,7 @@
     <string name="welcome_paragraph2">Izaberite \"Novi algoritmu\" na početna strana da otvorite urednik. Pa dodajte neke aktcije da rešite problem, i sačuvajte vaš algoritmu.</string>
     <string name="welcome_header3">Ili preuzmite jednu iz Clouda</string>
     <string name="welcome_header1">Kako radi\?</string>
-    <string name="welcome_title">Dobro došli na Delta: Algorithms!</string>
+    <string name="welcome_title">Dobro došli na Delta: Algoritmi!</string>
     <string name="welcome_paragraph1">Delta radi sa algoritmi. Svaku algoritmu reši jednu problem. (npr.: jednačine rešenje)</string>
     <string name="welcome_paragraph3">Preuzmite več napraveni algoritmi iz Delta Cloud ili objavite ovaj što ste sam napravili.</string>
     <string name="welcome_header2">Napravi algoritmu</string>
