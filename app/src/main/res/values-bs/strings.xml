@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="instructions">Instrukciji</string>
-    <string name="name">Delta: Matematički Pomoćnik</string>
+    <string name="name">Delta: Algoritmi</string>
     <string name="myalgorithms">Moj algoritmi</string>
     <string name="downloads">Preuzimanja</string>
     <string name="new_algorithm">Novu algoritmu</string>
