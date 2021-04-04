@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="instructions">Инструкцији</string>
-    <string name="name">Делта: Математички Помоћник</string>
+    <string name="name">Делта: Алгоритми</string>
     <string name="myalgorithms">Мој алгоритми</string>
     <string name="downloads">Преузимања</string>
     <string name="cloud_algorithms">Алгоритми на Клауду</string>
@@ -79,7 +79,7 @@
     <string name="welcome_button">Ајдемо!</string>
     <string name="donate_title">Дајте донацију</string>
     <string name="welcome_header1">Како ради\?</string>
-    <string name="welcome_title">Добро дошли на Делта: Математички помоћник!</string>
+    <string name="welcome_title">Добро дошли на Делта: Алгоритми!</string>
     <string name="welcome_header3">Или преузмите једну од Клауда</string>
     <string name="welcome_header2">Направи једну алгоритму</string>
     <string name="logged_as">Повезан као %s (%s)</string>
