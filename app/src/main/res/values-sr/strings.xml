@@ -56,7 +56,7 @@
     <string name="new_algorithm">Нову алгоритму</string>
     <string name="downloads">Преузимања</string>
     <string name="myalgorithms">Мој алгоритми</string>
-    <string name="name">Делта: Математички Помоћник</string>
+    <string name="name">Делта: Алгоритми</string>
     <string name="action_for">За %s у %s</string>
     <string name="action_quiz_init">Нови Квиз %s</string>
     <string name="action_quiz_add_question">Додај улазак %s са добра одговор %s</string>
@@ -74,7 +74,7 @@
     <string name="action_while">Док %s</string>
     <string name="welcome_paragraph2">Изаберите \"Нову алгоритму\" на почетна страна да отворите уредник. Па додајте неке актције да решите проблем, и сачувајте своју алгоритму.</string>
     <string name="welcome_header4">Спремно да направите ваш прву алгоритму\?</string>
-    <string name="welcome_title">Добро дошли на Делта: Математички помоћник!</string>
+    <string name="welcome_title">Добро дошли на Делта: Алгоритми!</string>
     <string name="welcome_header3">Или преузмите једну од Клауда</string>
     <string name="welcome_button">Ајдемо!</string>
     <string name="welcome_header1">Како ради\?</string>
